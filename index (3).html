@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e8a94">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Cebu Escape 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --sea:#0e8a94; --sea-deep:#0b5563; --lagoon:#6fd3d0; --foam:#e3f7f5;
+  --sand:#fbf3e4; --sand-2:#f3e3c3; --coral:#ff7a59; --coral-soft:#ffe3d9;
+  --sun:#ffc24b; --palm:#2f8f5b; --palm-soft:#dff1e5;
+  --ink:#15333b; --muted:#5d7a80; --card:#fffdf8; --line:#ecdcbc;
+  --shadow:0 6px 22px rgba(14,90,100,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--sand);color:var(--ink);
+  -webkit-tap-highlight-color:transparent;padding-bottom:calc(96px + env(safe-area-inset-bottom));min-height:100vh}
+body.noscroll{overflow:hidden}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0;line-height:1.15}
+h2{font-size:22px} h3{font-size:17px}
+a{color:var(--sea)}
+button{cursor:pointer;font:inherit}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(180deg,#ffd9a0 0%,#ffb27d 20%,#63cdc9 58%,#0e8a94 100%);
+  padding:calc(18px + env(safe-area-inset-top)) 0 70px}
+.hero .sun{position:absolute;width:150px;height:150px;border-radius:50%;top:-30px;right:8%;
+  background:radial-gradient(circle,#fff6d2 0%,#ffd36b 45%,rgba(255,194,75,0) 70%)}
+.hero .palm{position:absolute;left:-18px;bottom:26px;width:150px;opacity:.9}
+.hero .palm2{position:absolute;right:-30px;bottom:18px;width:120px;opacity:.55;transform:scaleX(-1)}
+.hero .wrap{position:relative;z-index:2}
+.hero .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(11,85,99,.35);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.35);padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;color:#fff}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--sun)}
+.pill.ok .dot{background:#7cf0a5}
+.hero h1{font-size:clamp(34px,8vw,58px);font-weight:800;margin:18px 0 4px;text-shadow:0 2px 14px rgba(0,60,70,.25);letter-spacing:-.5px}
+.hero .sub{font-size:15px;opacity:.95;text-shadow:0 1px 6px rgba(0,60,70,.3)}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:60px;z-index:1}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+main{position:relative;margin-top:-34px;z-index:3}
+
+/* ---------- basics ---------- */
+.card{background:var(--card);border-radius:22px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.stack>*+*{margin-top:14px}
+.grid{display:grid;gap:14px}
+@media(min-width:760px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}.places{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.places{grid-template-columns:repeat(3,1fr)}}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.wrapf{flex-wrap:wrap}
+.mt{margin-top:14px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.kicker{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.big{font-family:'Fraunces',serif;font-size:40px;font-weight:800;line-height:1}
+.sec-title{display:flex;justify-content:space-between;align-items:end;margin:22px 2px 10px}
+.sec-title h2{color:var(--sea-deep)}
+.empty{text-align:center;color:var(--muted);padding:26px 10px;font-size:14px}
+
+.btn{background:var(--sea);color:#fff;border:0;border-radius:14px;padding:11px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:6px;justify-content:center;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.coral{background:var(--coral)}
+.btn.sun{background:var(--sun);color:var(--sea-deep)}
+.btn.ghost{background:transparent;color:var(--sea);border:1.5px solid var(--sea)}
+.btn.danger{color:#c43d2b;border-color:#e7a79c}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:11px}
+.btn.block{width:100%}
+.linkbtn{background:none;border:0;color:var(--sea);font-weight:700;font-size:14px;padding:4px}
+.icon-btn{background:#fff;border:1px solid var(--line);border-radius:12px;width:38px;height:38px;display:inline-grid;place-items:center;font-size:16px;flex:none;color:var(--ink)}
+
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 10px;margin:0 -2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.chip.on{background:var(--sea);color:#fff;border-color:var(--sea)}
+.chip.sunny{background:var(--sun);border-color:var(--sun);color:var(--sea-deep);font-weight:700}
+
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--coral-soft);color:#b8452a}
+.stars{color:#f0a500;font-size:13px;letter-spacing:1px}
+
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--lagoon);box-shadow:0 0 0 3px rgba(111,211,208,.3)}
+textarea{resize:vertical;min-height:70px}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin:12px 0 5px;text-transform:uppercase;letter-spacing:.06em}
+.search{position:relative}
+.search input{padding-left:40px;border-radius:16px;box-shadow:var(--shadow)}
+.search span{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
+
+/* ---------- tab bar ---------- */
+.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));
+  width:min(560px,calc(100% - 20px));display:flex;gap:2px;background:rgba(11,85,99,.93);backdrop-filter:blur(12px);
+  border-radius:26px;padding:6px;z-index:40;box-shadow:0 10px 30px rgba(8,50,60,.35)}
+.tabbar button{flex:1;background:none;border:0;color:#cdeeed;font-size:11px;padding:7px 0;border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.tabbar .i{font-size:20px;line-height:1.2}
+.tabbar button.on{background:var(--sun);color:var(--sea-deep);font-weight:700}
+
+/* ---------- today ---------- */
+.countdown{background:linear-gradient(135deg,var(--sea) 0%,var(--sea-deep) 100%);color:#fff;border:0;position:relative;overflow:hidden}
+.countdown .kicker{color:#bfeeed}
+.countdown .big{font-size:64px;color:var(--sun)}
+.countdown::after{content:'🌴';position:absolute;right:14px;bottom:-8px;font-size:84px;opacity:.25}
+.stay{border-radius:20px;padding:14px;color:#fff;border:0;text-align:left;width:100%;cursor:pointer}
+.stay b{font-family:'Fraunces',serif;font-size:19px;display:block}
+.stay small{opacity:.9}
+.stay.carcar{background:linear-gradient(135deg,#3aa56c,#23704a)}
+.stay.moalboal{background:linear-gradient(135deg,#19a4ad,#0b5f6d)}
+.stay.mactan{background:linear-gradient(135deg,#ff9166,#e0593c)}
+.progress{height:10px;background:var(--sand-2);border-radius:99px;overflow:hidden}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--lagoon),var(--sea));border-radius:99px;transition:width .3s}
+.progress.warn>div{background:linear-gradient(90deg,var(--sun),var(--coral))}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qa button{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 4px;font-size:12px;font-weight:700;color:var(--sea-deep);display:flex;flex-direction:column;align-items:center;gap:4px}
+.qa .e{font-size:22px}
+.checkrow{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px dashed var(--line);cursor:pointer}
+.checkrow:last-child{border-bottom:0}
+.checkrow .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--lagoon);display:grid;place-items:center;flex:none;font-size:13px;color:#fff}
+.checkrow.on .box{background:var(--sea);border-color:var(--sea)}
+.checkrow.on .t{text-decoration:line-through;color:var(--muted)}
+.checkrow .t{flex:1}
+.weather{background:linear-gradient(135deg,#eaf6ff,#e3f7f5);border-color:#cfe8ea}
+
+/* ---------- days ---------- */
+.day-card{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;cursor:pointer;padding:12px}
+.datebox{border-radius:16px;text-align:center;color:#fff;padding:8px 0;line-height:1.1}
+.datebox .dow{font-size:11px;font-weight:700;text-transform:uppercase;opacity:.9}
+.datebox .dnum{font-family:'Fraunces',serif;font-size:26px;font-weight:800;display:block}
+.datebox .mon{font-size:11px;text-transform:uppercase;opacity:.9}
+.carcar .datebox,.bg-carcar{background:var(--palm)}
+.moalboal .datebox,.bg-moalboal{background:var(--sea)}
+.mactan .datebox,.bg-mactan{background:var(--coral)}
+.day-card h3{font-size:17px;margin:2px 0}
+.day-card p{margin:2px 0 0;font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.day-card .meta{font-size:12px;color:var(--muted);margin-top:5px}
+.day-card.today{outline:3px solid var(--sun)}
+.day-card.done{opacity:.72}
+.tick{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:16px;color:transparent;display:grid;place-items:center}
+.tick.on{background:var(--palm);border-color:var(--palm);color:#fff}
+.flex-tag{display:inline-block;background:var(--sun);color:var(--sea-deep);font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.blocks{border-left:3px solid var(--lagoon);margin-left:6px;padding-left:14px}
+.block{position:relative;padding:6px 0}
+.block::before{content:'';position:absolute;left:-21px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--sun);border:2px solid #fff;box-shadow:0 0 0 1px var(--lagoon)}
+.block .tm{font-size:12px;font-weight:700;color:var(--sea);text-transform:uppercase;letter-spacing:.04em}
+
+/* ---------- places ---------- */
+.place{overflow:hidden;padding:0;cursor:pointer;display:flex;flex-direction:column}
+.place .ph{height:96px;display:grid;place-items:center;font-size:40px;background:linear-gradient(135deg,var(--foam),#fdf0d8);background-size:cover;background-position:center;position:relative}
+.place .ph .area{position:absolute;left:10px;bottom:8px;background:rgba(255,255,255,.9);color:var(--sea-deep);font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px}
+.place .ph .flags{position:absolute;right:10px;top:8px;font-size:16px}
+.place .pb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+.place h3{font-size:16px}
+.place .tip{font-size:13px;color:var(--muted);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.pactions .chip{padding:6px 10px;font-size:12px}
+
+/* ---------- photos ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.pgrid .ph{aspect-ratio:1;border-radius:14px;background:var(--sand-2) center/cover no-repeat;cursor:pointer;border:0;position:relative;overflow:hidden}
+.pgrid .ph span{position:absolute;left:0;right:0;bottom:0;font-size:11px;color:#fff;padding:14px 6px 5px;background:linear-gradient(transparent,rgba(0,0,0,.55));text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgrid .add{display:grid;place-items:center;background:var(--foam);border:2px dashed var(--lagoon);color:var(--sea);font-weight:700;font-size:13px}
+.lightbox img{width:100%;max-height:62vh;object-fit:contain;border-radius:16px;background:#0b2f36}
+
+/* ---------- lists ---------- */
+.lrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.lrow:last-child{border-bottom:0}
+.lmain{flex:1;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0}
+.lmain b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lmain small{display:block;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lic{width:38px;height:38px;border-radius:12px;background:var(--foam);display:grid;place-items:center;font-size:18px;flex:none}
+.bar{display:grid;grid-template-columns:110px 1fr 90px;gap:8px;align-items:center;font-size:13px;margin:7px 0}
+.bar .progress{height:8px}
+.bar b{text-align:right}
+.guide h3{margin:4px 0 6px;color:var(--sea-deep)}
+.guide ul{margin:6px 0 0;padding-left:20px}
+.guide li{margin:3px 0}
+
+/* ---------- sheet ---------- */
+.sheet{position:fixed;inset:0;z-index:60;display:none}
+.sheet.open{display:block}
+.backdrop{position:absolute;inset:0;background:rgba(8,40,48,.5);animation:fade .2s}
+.panel{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--sand);
+  border-radius:26px 26px 0 0;padding:10px 16px calc(28px + env(safe-area-inset-bottom));animation:up .25s ease-out}
+.grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:2px auto 10px}
+.sheet-x{position:sticky;top:0;float:right;z-index:3}
+@media(min-width:760px){.panel{left:50%;right:auto;top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(700px,92vw);border-radius:26px;max-height:88vh;animation:fade .2s}.grab{display:none}}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet-hero{border-radius:20px;padding:16px;color:#fff;margin-bottom:12px}
+.sheet-hero .kicker{color:rgba(255,255,255,.85)}
+.title-in{background:transparent;border:0;color:#fff;font-family:'Fraunces',serif;font-size:26px;font-weight:800;padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.5);border-radius:0}
+.title-in:focus{box-shadow:none;border-color:#fff}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.planb{background:#eef7ff;border-color:#cfe3f3}
+
+#toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--sea-deep);color:#fff;padding:10px 16px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sun"></div>
+  <svg class="palm" viewBox="0 0 200 220" aria-hidden="true"><g fill="#0b4f4c"><path d="M92 220c6-60 14-110 30-150l8 3c-15 40-22 88-27 147z"/><path d="M126 70c-30-24-70-30-110-16 36-2 70 8 102 26z"/><path d="M126 70c-10-30-40-52-80-58 30 14 56 34 72 62z"/><path d="M126 70c16-28 46-44 82-44-30 8-56 26-72 50z"/><path d="M126 70c30-6 58 6 74 34-24-18-50-24-76-22z"/><path d="M126 70c-26 2-54 20-66 50 18-22 42-38 70-44z"/></g></svg>
+  <svg class="palm2" viewBox="0 0 200 220" aria-hidden="true"><g fill="#0b4f4c"><path d="M92 220c6-60 14-110 30-150l8 3c-15 40-22 88-27 147z"/><path d="M126 70c-30-24-70-30-110-16 36-2 70 8 102 26z"/><path d="M126 70c-10-30-40-52-80-58 30 14 56 34 72 62z"/><path d="M126 70c16-28 46-44 82-44-30 8-56 26-72 50z"/><path d="M126 70c30-6 58 6 74 34-24-18-50-24-76-22z"/></g></svg>
+  <div class="wrap">
+    <div class="top"><span class="pill" id="syncPill"><span class="dot"></span><span id="syncText">Loading…</span></span><span class="pill">🇵🇭 Oct 9–27</span></div>
+    <h1>Cebu Escape</h1>
+    <div class="sub">Carcar &amp; Barili · Moalboal · Mactan</div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path fill="#fbf3e4" d="M0 32c120-22 240-22 360 0s240 22 360 0 240-22 360 0 240 22 360 0v28H0z"/><path fill="#fbf3e4" opacity=".5" d="M0 22c160 18 320 18 480 0s320-18 480 0 320 18 480 0v38H0z"/></svg>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<nav class="tabbar" id="tabbar"></nav>
+
+<div class="sheet" id="sheet"><div class="backdrop" data-act="closeSheet"></div><div class="panel" id="panel"><div class="grab"></div><button class="icon-btn sheet-x" data-act="closeSheet" aria-label="Close">✕</button><div id="sheetBody"></div></div></div>
+<input type="file" id="filePick" accept="image/*" multiple hidden>
+<input type="file" id="importPick" accept="application/json" hidden>
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   1. SUPABASE SETTINGS — paste your project values here.
+   Leave blank to run in "this device only" mode.
+   Supabase → Project Settings → API
+   ========================================================= */
+const CONFIG = {
+  SUPABASE_URL: '',        // e.g. 'https://abcdefgh.supabase.co'
+  SUPABASE_ANON_KEY: '',   // the public "anon" key
+  BUCKET: 'trip-photos'
+};
+
+/* ========================================================= */
+const TRIP = { start: '2026-10-09', end: '2026-10-27' };
+const LS = 'cebu-trip-v1', LS_PENDING = 'cebu-trip-pending';
+const KINDS = ['days','places','photos','expenses','packing','bucket','links','contacts','notes','meta'];
+const AREAS = ['Carcar / Barili','Moalboal','South Cebu','Mactan','Cebu City'];
+const CATS = ['Waterfall','Nature','Ocean','Diving','Beach','Tours','Food','Coffee','Drinks','Culture','Shopping','Wellness','Scooter','Stay'];
+const CAT_EMOJI = {Waterfall:'💦',Nature:'⛰️',Ocean:'🐟',Diving:'🤿',Beach:'🏖️',Tours:'🚤',Food:'🍽️',Coffee:'☕',Drinks:'🍷',Culture:'🏛️',Shopping:'🛍️',Wellness:'🧘',Scooter:'🛵',Stay:'🏨'};
+const EXP_CATS = ['Food','Drinks','Stay','Transport','Activities','Shopping','Tips','Other'];
+const LINK_CATS = ['Booking','Restaurant','Tickets','Info','Map','Weather','Other'];
+const LINK_ICON = {Booking:'🏨',Restaurant:'🍽️',Tickets:'🎟️',Info:'ℹ️',Map:'🗺️',Weather:'🌦️',Other:'🔗'};
+const PACK_GROUPS = ['Camera','Water','Documents','Tech','Health','Clothes','Other'];
+
+/* ---------------- seed data ---------------- */
+function seed(){
+  const B = (date, base, title, blocks, x={}) => ({ id:'d'+date.slice(8), date, base, title,
+    blocks: blocks.map(([t,txt])=>({t,x:txt})), planB:'', flex:false, done:false, notes:'', ...x });
+  const SEA_B = 'Sea rough? Skip boats. Do waterfalls (only if authorities say safe), cafés, food, massage, photography, or Bojo River.';
+  const days = [
+    B('2026-10-09','Carcar / Barili','Arrive in Carcar',[['Afternoon','Check in at Las Terrazas de Barili, explore the resort'],['Sunset','Sunset photography'],['Dinner','Local Cebuano food']],{notes:"Don't schedule anything major."}),
+    B('2026-10-10','Carcar / Barili','Carcar + Lechon',[['Morning','Carcar market, old town, photography'],['Lunch','Lechon (Carcar is famous for it)'],['Afternoon','Countryside scooter ride'],['Sunset','Coastal photography']]),
+    B('2026-10-11','Carcar / Barili','Mantayupan Falls',[['07:00','Mantayupan Falls — go early, before crowds'],['Afternoon','Barili countryside'],['Evening','Resort dinner']]),
+    B('2026-10-12','Carcar / Barili','Osmeña Peak sunrise',[['03:30–04:00','Leave'],['Sunrise','Osmeña Peak'],['Late morning','Mantalongon (breakfast)'],['Afternoon','Rest'],['Evening','Sunset / photography']],{planB:'Cloudy or rainy? Views disappear — swap with a café + food day and try another morning.'}),
+    B('2026-10-13','Carcar / Barili','Bojo River / Flex day',[['Good weather','Bojo River mangrove eco-tour'],['Bad weather','Carcar cafés + food + photography']],{flex:true}),
+    B('2026-10-14','Moalboal','Move to Moalboal',[['Morning','Check out, drive to Moalboal'],['After check-in','Sardine Run — first snorkel'],['Evening','Sunset dinner']]),
+    B('2026-10-15','Moalboal','Freediving course',[['Morning','Beginner freediving lesson'],['Afternoon','Rest'],['Late afternoon','Easy sardine snorkel']]),
+    B('2026-10-16','Moalboal','Freediving + Sardines',[['Morning','Freediving practice'],['Afternoon','Turtles / beach'],['Sunset','Underwater or surface photography']]),
+    B('2026-10-17','Moalboal','Pescador Island',[['Morning','Private boat: Pescador → snorkeling → turtles → sardines'],['Afternoon','Return'],['Dinner',"Lola Tanciang's Sutukil"]],{planB:SEA_B}),
+    B('2026-10-18','Moalboal','Kawasan canyoneering',[['Early','Canyoneering → Kawasan Falls'],['Afternoon','Return to Moalboal'],['Night','No nightlife. Sleep.']],{planB:'Heavy rain can suspend canyoneering (river rises fast). Swap with Oct 19 if needed.'}),
+    B('2026-10-19','Moalboal','Flex day',[['Weather perfect','White Beach + snorkeling + scooter'],['Weather poor','Cafés + food + massage + relaxed day']],{flex:true}),
+    B('2026-10-20','Moalboal','Oslob / South Cebu mega-day',[['04:30','Leave Moalboal'],['06:30','Whale shark activity (registration ends ~11 AM)'],['09:30','Tumalog Falls'],['11:30','Lunch'],['12:30','Sumilon if sea conditions permit'],['16:00','Return']],{planB:'Skip Sumilon if the sea is rough. Private vehicle recommended.'}),
+    B('2026-10-21','Mactan','Move to Mactan',[['Morning','Travel to Mactan'],['Afternoon','Check in at Bluewater Maribago'],['Rest','Pool, beach, massage, sunset — do almost nothing']]),
+    B('2026-10-22','Mactan','Resort day',[['Morning','Beach, snorkeling, pool'],['Afternoon','Spa'],['Evening',"🍷 MJ's Weinkeller"]]),
+    B('2026-10-23','Mactan','Mactan island hopping',[['Day','Private boat → reef snorkeling → islands → photography'],['Sunset','At the resort']],{planB:SEA_B.replace('Bojo River','Cebu City day (swap with Oct 25)')}),
+    B('2026-10-24','Mactan','Fine dining night',[['Option A','Enye by Chele Gonzalez'],['Option B','Shangri-La Cowrie Cove'],['Option C','Shangri-La Acqua']],{notes:'Wine-focused? Lean Acqua / Cowrie Cove / Tea of Spring.'}),
+    B('2026-10-25','Mactan','Cebu City day',[['Morning',"Magellan's Cross → Basilica → Fort San Pedro → Carbon Market"],['Afternoon','National Museum, heritage district, coffee, shopping'],['Evening','Sunset/rooftop drinks + dinner']]),
+    B('2026-10-26','Mactan','Final luxury day',[['Morning','Sleep late, breakfast, beach'],['Afternoon','Spa'],['Sunset','Cocktails'],['Dinner','Plantation Bay Palermo or Cowrie Cove']],{flex:true}),
+    B('2026-10-27','Mactan','Departure',[['Morning','Breakfast, last swim'],['Then','Airport']])
+  ];
+
+  const P = (id,name,area,cat,prio,x={}) => ({id,name,area,cat,prio,phone:'',web:'',addr:'',hours:'',tip:'',status:'',fav:false,visited:false,notes:'',dayIds:[],...x});
+  const places = [
+    P('las-terrazas','Las Terrazas de Barili','Carcar / Barili','Stay',0,{tip:'Your base Oct 9–14.',dayIds:['d09','d10','d11','d12','d13']}),
+    P('mantayupan','Mantayupan Falls','Carcar / Barili','Waterfall',4,{hours:'Approx. 7 AM–5 PM',tip:'Go early — waterfall + greenery before the crowds. Swimming, long exposures, jungle shots. Drone only if permitted.',dayIds:['d11']}),
+    P('osmena','Osmeña Peak','Carcar / Barili','Nature',5,{tip:"Cebu's highest point (~1,013 m). Leave 3:30–4:00 AM → hike → sunrise → breakfast. Limestone pinnacles, clouds, farms, panoramas.",dayIds:['d12']}),
+    P('countryside','Barili countryside scooter loop','Carcar / Barili','Scooter',4,{tip:'Interior roads around Barili/Dalaguete: farms, coconut plantations, roadside churches, mountain villages, viewpoints. Ask permission before close portraits, especially of children.',dayIds:['d10','d11']}),
+    P('carcar-market','Carcar market & old town','Carcar / Barili','Culture',3,{tip:'Morning photo walk, then lechon.',dayIds:['d10']}),
+    P('bojo','Bojo River','Carcar / Barili','Nature',4,{tip:'Community-based mangrove river eco-tour. Birds, reflections, limestone cliffs. Great bad-weather alternative to a sea day.',dayIds:['d13']}),
+    P('buhi','BUHI Eco-Farm','Carcar / Barili','Nature',2,{addr:'Tagaytay, Barili, 6036 Cebu',phone:'+639178287805',status:'Listed as temporarily closed — backup only'}),
+    P('dianne',"Dianne's Seafood House",'Carcar / Barili','Food',3,{addr:'General Luna St., Carcar, 6019 Cebu',phone:'+639175300949',web:'https://diannesseafoodhouse.com/',tip:'Seafood.'}),
+    P('pabukid','Pabukid Resto Drink & Dine','Carcar / Barili','Food',3,{addr:'Diversion Road, Poblacion III, Carcar, 6019 Cebu',phone:'+639976538061',tip:'Casual option.'}),
+    P('acacia','Acacia Grill & Restaurant','Carcar / Barili','Food',3,{addr:'Acacia Grounds, Natalio B. Bacalso S National Hwy, Carcar',phone:'+63324879157'}),
+    P('oakleaf','Oakleaf Coffee','Carcar / Barili','Coffee',3,{addr:'Awayan, Poblacion 3, Carcar, 6019 Cebu',phone:'+639097813789'}),
+    P('beanrocks','Bean Rocks Cafe','Carcar / Barili','Coffee',3,{addr:'Dapdap, Pob 3, Carcar, 6019 Cebu',phone:'+639562285309'}),
+    P('scooter-carcar','Motorcycle Rental – Carcar','Carcar / Barili','Scooter',3,{addr:'M. Mercado Street, Poblacion III, Carcar, 6019 Cebu',phone:'+639473608276',tip:'Rent 2–3 days, not the whole stay. Bring licence/permit + a proper helmet. Skip it for Oslob days, bad-weather mountain roads and late-night rides.',dayIds:['d10']}),
+
+    P('sardine','Sardine Run – Panagsama','Moalboal','Ocean',5,{tip:"Close to shore — no boat needed. Do it several times: snorkel, freedive, photo session, late-afternoon session. The ball changes constantly.",dayIds:['d14','d15','d16','d17']}),
+    P('turtles','Turtle spot – Panagsama / Basdiot','Moalboal','Ocean',5,{tip:"Don't touch, chase, block or dive onto turtles; don't grab coral. Descend calmly and let them come to you.",dayIds:['d16']}),
+    P('fd-planet','Freediving Planet Moalboal','Moalboal','Diving',4,{addr:'Brgy Tuble Rd, Moalboal, 6032 Cebu',phone:'+639395241269',web:'http://www.freediving-planet.com/',tip:'Tell the instructor you want to do underwater photography BEFORE the lesson.',dayIds:['d15','d16']}),
+    P('fd-moalboal','Moalboal Freediving','Moalboal','Diving',4,{addr:'Panagsama Beach, Moalboal, Cebu',phone:'+639562841844'}),
+    P('savedra','Savedra Dive Center','Moalboal','Diving',4,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639173211475',web:'http://savedra.com/'}),
+    P('pescador','Pescador Island','Moalboal','Ocean',5,{tip:'Coral, reef fish, turtles, walls, sometimes sardines. Private boat if possible; ask for more underwater time rather than rushing islands.',dayIds:['d17']}),
+    P('mb-hopping','Moalboal Island Hopping','Moalboal','Tours',4,{addr:'Dr JP Rizal St, Moalboal, 6032 Cebu',phone:'+639430112963',tip:'Ask for a private boat.',dayIds:['d17']}),
+    P('mb-tours','Moalboal Snorkeling/Scuba Travel and Tours','Moalboal','Tours',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639530942240'}),
+    P('kawasan','Kawasan Falls + Canyoneering','Moalboal','Waterfall',5,{tip:'Guided, safety gear supplied. Jumps, natural slides, turquoise pools through the Kanlaob River canyon. Can be suspended after heavy rain. Not right after a hard freediving day.',dayIds:['d18']}),
+    P('white-beach','White Beach (Basdaku)','Moalboal','Beach',3,{tip:'Slower afternoon. Morning activity → afternoon beach → sunset photos → dinner.',dayIds:['d19']}),
+    P('sapori','Ristorante Sapori Di Napoli','Moalboal','Food',3,{addr:'Commercial Haven Bldg, Sitio Cogon, Panagsama Rd, Basdiot, Moalboal',phone:'+639175053609',web:'https://www.facebook.com/saporidinapolicebuph/',tip:'Italian.'}),
+    P('kugita','Kugita Seafood & Charcoal Grill','Moalboal','Food',3,{addr:'Panagsama Rd, Moalboal, 6032 Cebu',phone:'+63324740037',web:'https://www.facebook.com/kugitamoalboal',tip:'Seafood.'}),
+    P('lola',"Lola Tanciang's Sutukil Seafood Paluto",'Moalboal','Food',4,{addr:'Panagsama Road, Panagsama Beach, Moalboal',phone:'+639171292180',tip:'Filipino seafood.',dayIds:['d17']}),
+    P('kraken','Kraken Restaurant and Bar','Moalboal','Food',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639452832241',tip:'Dinner / drinks.'}),
+    P('seoul','Seoul Kitchen','Moalboal','Food',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639959769404',tip:'Korean.'}),
+    P('ram','Ram Coffee House','Moalboal','Coffee',3,{addr:'Calumpang Street, Poblacion West, Moalboal',phone:'+639981568956'}),
+    P('beer-garden','Moalboal Beer Garden','Moalboal','Drinks',2,{addr:'Panagsama Rd, Basdiot, Moalboal'}),
+    P('haze','Haze Bar','Moalboal','Drinks',2,{addr:'Panagsama Rd, Moalboal'}),
+    P('need4speed','Need4Speed Motorbike Rental','Moalboal','Scooter',3,{addr:'National Hwy, Poblacion East, Moalboal, 6032 Cebu',web:'https://www.facebook.com/profile.php?id=61563793768217',tip:'Rent 4–5 days: Moalboal → White Beach → Basdaku → Badian → countryside → waterfalls.'}),
+
+    P('oslob','Oslob Whale Shark Watching','South Cebu','Ocean',4,{tip:'Mornings; registration ends ~11 AM. The sharks are fed — that is the main conservation/animal-welfare criticism. Follow the rules, no touching or chasing.',dayIds:['d20']}),
+    P('tumalog','Tumalog Falls','South Cebu','Waterfall',3,{tip:'Easy to combine with Oslob.',dayIds:['d20']}),
+    P('sumilon','Sumilon Island & sandbar','South Cebu','Beach',4,{tip:'Snorkeling + sandbar — only if sea conditions permit.',dayIds:['d20']}),
+    P('dao','Dao Falls','South Cebu','Waterfall',3,{tip:'Quieter waterfall day alternative.'}),
+    P('kabutongan','Kabutongan Falls','South Cebu','Waterfall',3,{tip:'Ginatilan–Malabuyoc. Cave behind the cascade; trekking, swimming, climbing. Adventure + nature photography.'}),
+
+    P('bluewater','Bluewater Maribago Beach Resort','Mactan','Stay',0,{tip:'Your base Oct 21–27. Build in resort days.',dayIds:['d21','d22','d23','d24','d25','d26','d27']}),
+    P('spa','Spa day (Bluewater / Chi Spa / Crimson / Plantation Bay)','Mactan','Wellness',4,{tip:'After two weeks of scooters, hiking and diving — book it.',dayIds:['d22','d26']}),
+    P('mjs',"MJ's Weinkeller German Wine Bar & Lounge",'Mactan','Drinks',4,{addr:'LG, Garden Walk, Lapu-Lapu, 6015 Cebu',phone:'+639695009875',tip:'German wines, European-style food, relaxed evening.',dayIds:['d22']}),
+    P('cowrie','Cowrie Cove – Shangri-La','Mactan','Food',4,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/cowrie-cove/',tip:'Oceanfront seafood + steak (Wagyu, tuna kinilaw, octopus, seafood platter) with a dedicated bar. Book for sunset.',dayIds:['d24','d26']}),
+    P('acqua','Acqua – Shangri-La','Mactan','Food',4,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/acqua/',tip:'Contemporary Italian — Italian + wine + romantic dinner.',dayIds:['d24']}),
+    P('tea-spring','Tea of Spring – Shangri-La','Mactan','Food',3,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/tea-of-spring/',tip:'Cantonese; extensive wine list incl. Chinese wines.'}),
+    P('tides','Tides – Shangri-La','Mactan','Food',3,{web:'https://www.shangri-la.com/cebu/mactanresort/dining/restaurants/tides/',tip:'International buffet incl. Cebu lechon.'}),
+    P('enye','Enye by Chele Gonzalez – Crimson','Mactan','Food',4,{web:'https://www.crimsonhotel.com/mactan/dining/enye-by-chele-gonzalez',tip:'Spanish; Crimson lists it as Michelin Selected. Special dinner — pair with wine.',dayIds:['d24']}),
+    P('azure','Azure Beach Club – Crimson','Mactan','Drinks',3,{web:'https://www.crimsonhotel.com/mactan/dining/azure-beach-club-1',tip:'Cocktails + sunset + beach + music.'}),
+    P('palermo','Palermo – Plantation Bay','Mactan','Food',4,{web:'https://plantationbay.com/dining/restaurants/',tip:'Spanish tapas, Italian pasta, steaks.',dayIds:['d26']}),
+    P('cebu-hopping','Cebu Island Hopping Tour','Mactan','Tours',4,{addr:'Baybayon, Maribago, Lapu-Lapu, 6015 Cebu',phone:'+639562784936',web:'http://www.cebuislandhoppingtour.com/',tip:'Ask for a PRIVATE boat: snorkeling + marine photography + enough time in the water, no rushing. Hilutungan, Nalusuan, Caohagan, Olango.',dayIds:['d23']}),
+    P('sanctuary','Mactan marine sanctuary snorkel','Mactan','Ocean',3,{tip:"Shangri-La's activity schedule includes marine sanctuary snorkeling (160+ species)."}),
+    P('gaisano','Gaisano Mactan Island Mall','Mactan','Shopping',2,{addr:'M.L. Quezon National Highway, Lapu-Lapu',phone:'+639153783680',web:'http://gaisanocapital.com/',tip:'Groceries, SIM/electronics, toiletries, local snacks.'}),
+
+    P('basilica','Basilica Minore del Santo Niño','Cebu City','Culture',3,{dayIds:['d25']}),
+    P('magellan',"Magellan's Cross",'Cebu City','Culture',3,{dayIds:['d25']}),
+    P('fort','Fort San Pedro','Cebu City','Culture',3,{dayIds:['d25']}),
+    P('carbon','Carbon Market','Cebu City','Culture',3,{dayIds:['d25']}),
+    P('museum','National Museum of the Philippines – Cebu','Cebu City','Culture',3,{addr:'A. Pigafetta Street, Cebu City',phone:'+639190779877',web:'https://www.nationalmuseum.gov.ph/',hours:'9 AM–5 PM',dayIds:['d25']}),
+    P('sm-seaside','SM Seaside City Cebu','Cebu City','Shopping',2,{tip:'Huge modern mall experience.'}),
+    P('sm-city','SM City Cebu','Cebu City','Shopping',2),
+    P('ayala','Ayala Center Cebu','Cebu City','Shopping',2)
+  ];
+  places.forEach((p,i)=>p.o=i);
+
+  const bucket = [['🐟 Moalboal Sardine Run',5],['🤿 Freediving lesson',5],['🐢 Moalboal turtles',5],['🏝️ Pescador Island',5],['💦 Kawasan canyoneering',5],['⛰️ Osmeña Peak sunrise',5],['🌊 Mantayupan Falls',4],['🐋 Oslob whale sharks',4],['🏝️ Mactan island hopping',4],['🍷 Mactan wine night',4],['🥩 Cowrie Cove',4],['🇪🇸 Enye',4],['🌿 Bojo River',4],['🥾 Dao / Kabutongan Falls',3],['🏙️ Cebu City',3],['🛍️ Cebu malls',2]]
+    .map(([t,p],i)=>({id:'b'+(i+1),t,prio:p,done:false,o:i}));
+
+  const packing = [
+    ['Camera','Wide-angle (sardines, turtles, reefs)'],['Camera','Macro (nudibranchs, shrimp, crabs)'],['Camera','Red/magenta filter'],['Camera','Wrist strap'],['Camera','Anti-fog inserts'],['Camera','Spare batteries'],['Camera','Spare SD cards'],['Camera','Microfiber cloth'],['Camera','Dry bag'],
+    ['Water','Mask & snorkel'],['Water','Freediving fins'],['Water','Rash guard'],['Water','Water shoes (canyoneering)'],['Water','Reef-safe sunscreen'],
+    ['Documents','ID / passport'],['Documents','Motorcycle licence / permit'],['Documents','Booking confirmations'],['Documents','Cash in small bills'],
+    ['Tech','Power bank'],['Tech','Waterproof phone pouch'],['Tech','Chargers & cables'],
+    ['Health','Personal medicines'],['Health','Insect repellent'],['Health','Basic first-aid kit'],['Health','Motion-sickness tablets (boats)'],
+    ['Clothes','Rain jacket'],['Clothes','Warm layer for Osmeña sunrise'],['Clothes','Smart outfit for fine dining'],['Clothes','Hat & sunglasses']
+  ].map(([g,t],i)=>({id:'k'+(i+1),g,t,done:false,o:i}));
+
+  const links = [
+    {id:'l1',title:'Shangri-La Mactan — all dining',url:'https://www.shangri-la.com/cebu/mactanresort/dining/',cat:'Restaurant',dayId:'d24',placeId:''},
+    {id:'l2',title:'Plantation Bay restaurants',url:'https://plantationbay.com/dining/restaurants/',cat:'Restaurant',dayId:'d26',placeId:'palermo'},
+    {id:'l3',title:'PAGASA weather (Philippines)',url:'https://www.pagasa.dost.gov.ph/',cat:'Weather',dayId:'',placeId:''}
+  ].map((l,i)=>({...l,ts:i}));
+
+  const contacts = [
+    {id:'c1',name:'Philippines emergency hotline',phone:'911',note:'Police / fire / ambulance'},
+    {id:'c2',name:'Las Terrazas de Barili',phone:'',note:'Oct 9–14 · add number from booking'},
+    {id:'c3',name:'Bluewater Maribago',phone:'',note:'Oct 21–27 · add number from booking'},
+    {id:'c4',name:'Moalboal stay',phone:'',note:'Oct 14–21 · add name + number'}
+  ];
+
+  return { days, places, photos:[], expenses:[], packing, bucket, links, contacts, notes:[], meta:[{id:'meta',budget:0}] };
+}
+
+/* ---------------- helpers ---------------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = p => p + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const pad = n => String(n).padStart(2,'0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayISO = () => iso(new Date());
+const toDate = s => new Date(s + 'T00:00:00');
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt = s => { if(!s) return ''; const d = toDate(s); return `${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`; };
+const daysBetween = (a,b) => Math.round((toDate(b) - toDate(a)) / 864e5);
+const peso = n => '₱' + Number(n||0).toLocaleString('en-PH',{maximumFractionDigits:2});
+const sum = arr => arr.reduce((a,x)=>a + (Number(x.amount)||0), 0);
+const baseCls = b => (b||'').startsWith('Carcar') ? 'carcar' : b === 'Moalboal' ? 'moalboal' : 'mactan';
+const mapUrl = p => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.name + ', ' + (p.addr || (p.area + ', Cebu, Philippines')));
+const telHref = ph => 'tel:' + String(ph).replace(/[^+\d]/g,'');
+const host = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch { return u; } };
+const stars = n => n ? '<span class="stars">' + '★'.repeat(n) + '</span>' : '';
+const photoSrc = p => p.src || p._url || '';
+const dayById = id => S.days.find(d=>d.id===id);
+const placeById = id => S.places.find(p=>p.id===id);
+const dayOfToday = () => S.days.find(d=>d.date===todayISO());
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2600); }
+
+/* ---------------- state + storage ---------------- */
+let S = emptyState();
+function emptyState(){ const o={}; KINDS.forEach(k=>o[k]=[]); return o; }
+function sortState(){
+  S.days.sort((a,b)=>a.date.localeCompare(b.date));
+  S.places.sort((a,b)=>(a.o??999)-(b.o??999) || (a.ts||0)-(b.ts||0));
+  S.photos.sort((a,b)=>(a.ts||0)-(b.ts||0));
+  S.bucket.sort((a,b)=>(a.o??999)-(b.o??999));
+  S.packing.sort((a,b)=>(a.o??999)-(b.o??999));
+}
+function saveLocal(){
+  try { localStorage.setItem(LS, JSON.stringify(S, (k,v)=> k==='_url' ? undefined : v)); return true; }
+  catch(e){ toast('Device storage is full — connect Supabase or export a backup.'); return false; }
+}
+function loadLocal(){
+  let data = null;
+  try { data = JSON.parse(localStorage.getItem(LS) || 'null'); } catch {}
+  S = data || seed();
+  KINDS.forEach(k=>{ if(!Array.isArray(S[k])) S[k]=[]; });
+  sortState();
+}
+const getMeta = () => { let m = S.meta.find(x=>x.id==='meta'); if(!m){ m={id:'meta',budget:0}; S.meta.push(m); } return m; };
+const clean = o => { const c={...o}; delete c._url; delete c.src; return c; };
+
+const store = {
+  sb:null, user:null, pending:{}, busy:false, lastPull:0,
+  async init(){
+    try { this.pending = JSON.parse(localStorage.getItem(LS_PENDING)||'{}'); } catch { this.pending={}; }
+    if(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && window.supabase){
+      this.sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+      const { data:{ session } } = await this.sb.auth.getSession();
+      this.user = session?.user ?? null;
+      this.sb.auth.onAuthStateChange((_e, s) => {
+        const was = this.user?.id; this.user = s?.user ?? null;
+        if(this.user && this.user.id !== was) this.pull();
+        if(!this.user) this.setStatus('Sign in to sync');
+        renderMain();
+      });
+      if(this.user) await this.pull(); else this.setStatus('Sign in to sync');
+    } else {
+      this.setStatus('Saved on this device');
+    }
+  },
+  setStatus(t, ok){ $('#syncText').textContent=t; $('#syncPill').classList.toggle('ok', !!ok); },
+  savePending(){ try{ localStorage.setItem(LS_PENDING, JSON.stringify(this.pending)); }catch{} },
+  put(kind, obj){
+    const arr = S[kind]; const i = arr.findIndex(x=>x.id===obj.id);
+    if(i>=0) arr[i]=obj; else arr.push(obj);
+    saveLocal();
+    if(this.sb){ this.pending[obj.id]={kind}; this.savePending(); this.flushSoon(); }
+  },
+  del(kind, id){
+    const o = S[kind].find(x=>x.id===id);
+    S[kind] = S[kind].filter(x=>x.id!==id);
+    saveLocal();
+    if(this.sb){
+      if(kind==='photos' && o?.path && this.user) this.sb.storage.from(CONFIG.BUCKET).remove([o.path]).catch(()=>{});
+      this.pending[id]={kind,del:true}; this.savePending(); this.flushSoon();
+    }
+  },
+  flushSoon(){ clearTimeout(this._ft); this._ft = setTimeout(()=>this.flush(), 700); },
+  async flush(){
+    if(!this.sb || !this.user || this.busy) return;
+    this.busy = true;
+    try {
+      // upload photos that only exist locally
+      for(const p of S.photos){
+        if(p.src && !p.path){
+          const blob = await (await fetch(p.src)).blob();
+          const path = `${this.user.id}/${p.id}.jpg`;
+          const { error } = await this.sb.storage.from(CONFIG.BUCKET).upload(path, blob, {contentType:'image/jpeg', upsert:true});
+          if(error) throw error;
+          p.path = path; p._url = p.src; delete p.src;
+          this.pending[p.id] = {kind:'photos'};
+        }
+      }
+      const ids = Object.keys(this.pending);
+      if(ids.length){
+        this.setStatus('Syncing…');
+        const ups=[], dels=[];
+        ids.forEach(id=>{ const q=this.pending[id]; if(q.del) dels.push(id); else { const o=S[q.kind]?.find(x=>x.id===id); if(o) ups.push({user_id:this.user.id, id, kind:q.kind, data:clean(o)}); } });
+        for(let i=0;i<ups.length;i+=200){
+          const { error } = await this.sb.from('trip_data').upsert(ups.slice(i,i+200), {onConflict:'user_id,id'});
+          if(error) throw error;
+        }
+        if(dels.length){ const { error } = await this.sb.from('trip_data').delete().in('id', dels); if(error) throw error; }
+        ids.forEach(id=>delete this.pending[id]);
+        this.savePending(); saveLocal();
+      }
+      this.setStatus('Synced ☁️', true);
+    } catch(e){
+      console.warn(e); this.savePending(); saveLocal();
+      this.setStatus(navigator.onLine ? 'Sync error — will retry' : 'Offline — saved on phone');
+    } finally { this.busy = false; }
+  },
+  async pull(){
+    if(!this.sb || !this.user) return;
+    this.lastPull = Date.now();
+    await this.flush();
+    this.setStatus('Syncing…');
+    const { data, error } = await this.sb.from('trip_data').select('id,kind,data');
+    if(error){ console.warn(error); this.setStatus(navigator.onLine ? 'Sync error' : 'Offline — saved on phone'); return; }
+    if(!data.length){
+      // first time: push everything on this device up
+      KINDS.forEach(k=>S[k].forEach(o=>this.pending[o.id]={kind:k}));
+      this.savePending(); await this.flush();
+    } else {
+      const local = Object.fromEntries(S.photos.map(p=>[p.id,p]));
+      const fresh = emptyState();
+      data.forEach(r=>{ if(fresh[r.kind]) fresh[r.kind].push(r.data); });
+      Object.entries(this.pending).forEach(([id,q])=>{
+        if(!fresh[q.kind]) return;
+        fresh[q.kind] = fresh[q.kind].filter(x=>x.id!==id);
+        if(!q.del){ const o=S[q.kind]?.find(x=>x.id===id); if(o) fresh[q.kind].push(o); }
+      });
+      fresh.photos.forEach(p=>{ const lp=local[p.id]; if(lp){ if(lp.src && !p.path) p.src=lp.src; if(lp._url) p._url=lp._url; } });
+      S = fresh; sortState();
+    }
+    await this.refreshPhotoUrls();
+    saveLocal();
+    this.setStatus('Synced ☁️', true);
+    renderMain(); refreshSheet();
+  },
+  async refreshPhotoUrls(){
+    const ps = S.photos.filter(p=>p.path && !p.src);
+    if(!ps.length) return;
+    const { data } = await this.sb.storage.from(CONFIG.BUCKET).createSignedUrls(ps.map(p=>p.path), 60*60*24*7);
+    const byPath = {}; (data||[]).forEach(r=>{ if(r.signedUrl) byPath[r.path]=r.signedUrl; });
+    ps.forEach(p=>{ if(byPath[p.path]) p._url = byPath[p.path]; });
+  }
+};
+window.addEventListener('online', ()=>store.pull());
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && Date.now()-store.lastPull > 60000) store.pull(); });
+
+/* ---------------- UI state ---------------- */
+let tab = 'today', dayFilter = 'All', placeArea = 'All', placeCat = 'All', placeQ = '', photoDay = 'All', moreTab = 'budget';
+let sheetCtx = null, photoCtx = {};
+
+const TABS = [['today','🌅','Today'],['days','🗓️','Days'],['places','📍','Places'],['photos','📷','Photos'],['more','🥥','More']];
+function renderTabs(){
+  $('#tabbar').innerHTML = TABS.map(([k,i,l])=>`<button class="${tab===k?'on':''}" data-act="tab" data-k="${k}"><span class="i">${i}</span>${l}</button>`).join('');
+}
+function renderMain(){
+  const v = { today:viewToday, days:viewDays, places:viewPlaces, photos:viewPhotos, more:viewMore }[tab];
+  $('#view').innerHTML = v();
+}
+function renderAll(){ renderTabs(); renderMain(); }
+
+/* ---------------- views ---------------- */
+function dayCard(d){
+  const n = S.photos.filter(p=>p.dayId===d.id).length;
+  const pl = S.places.filter(p=>p.dayIds?.includes(d.id) && p.cat!=='Stay').length;
+  const dt = toDate(d.date);
+  const prev = d.blocks.slice(0,2).map(b=>b.x).join(' · ');
+  return `<article class="card day-card ${baseCls(d.base)} ${d.date===todayISO()?'today':''} ${d.done?'done':''}" data-act="openDay" data-id="${d.id}">
+    <div class="datebox"><span class="dow">${DOW[dt.getDay()]}</span><span class="dnum">${dt.getDate()}</span><span class="mon">${MON[dt.getMonth()]}</span></div>
+    <div><div class="kicker">Day ${daysBetween(TRIP.start,d.date)+1} · ${esc(d.base)}</div>
+      <h3>${esc(d.title)}${d.flex?'<span class="flex-tag">FLEX</span>':''}</h3><p>${esc(prev)}</p>
+      <div class="meta">📍 ${pl} places · 📷 ${n}${d.notes?' · 📝':''}</div></div>
+    <button class="tick ${d.done?'on':''}" data-act="toggleDay" data-id="${d.id}" aria-label="Mark done">✓</button>
+  </article>`;
+}
+function blocksHtml(d){
+  if(!d.blocks.length) return '<div class="muted small">No plan yet.</div>';
+  return `<div class="blocks">${d.blocks.map(b=>`<div class="block"><div class="tm">${esc(b.t)}</div><div>${esc(b.x)}</div></div>`).join('')}</div>`;
+}
+
+function viewToday(){
+  const t = todayISO(); let hero = '';
+  if(t < TRIP.start){
+    const n = daysBetween(t, TRIP.start);
+    hero = `<div class="card countdown"><div class="kicker">Countdown</div><div class="row" style="align-items:end;gap:12px"><div class="big">${n}</div><div style="padding-bottom:8px;font-weight:700">day${n===1?'':'s'} until Cebu 🌴</div></div><div class="small" style="opacity:.9;margin-top:6px">First up: ${fmt(TRIP.start)} — ${esc(S.days[0]?.title||'')}</div></div>`;
+  } else if(t <= TRIP.end){
+    const d = dayOfToday();
+    hero = d ? `<div class="card"><div class="row between"><div><div class="kicker">Today · Day ${daysBetween(TRIP.start,d.date)+1} of 19 · ${esc(d.base)}</div><h2 style="margin-top:4px">${esc(d.title)}</h2></div><button class="btn sm" data-act="openDay" data-id="${d.id}">Open</button></div><div class="mt">${blocksHtml(d)}</div>${d.planB?`<div class="sec planb small"><b>🌧️ Plan B:</b> ${esc(d.planB)}</div>`:''}</div>` : '';
+  } else {
+    hero = `<div class="card countdown"><div class="kicker">Salamat, Cebu</div><h2 style="color:#fff;margin-top:6px">Trip complete 🌺</h2><div class="small" style="opacity:.9;margin-top:6px">${S.photos.length} photos saved. Relive it in the Photos tab.</div></div>`;
+  }
+  const done = S.bucket.filter(b=>b.done).length;
+  const upcoming = S.days.filter(d=>d.date >= t && d.date !== t).slice(0,3);
+  const STAYS = [['Carcar / Barili','Oct 9–14','Waterfalls · mountains · countryside · lechon','carcar','🌿'],['Moalboal','Oct 14–21','Freediving · sardines · turtles · canyoneering','moalboal','🐟'],['Mactan','Oct 21–27','Wine · fine dining · island hopping · spa','mactan','🍷']];
+  return `<div class="stack">
+    ${hero}
+    <div class="qa">
+      <button data-act="addPhoto"><span class="e">📷</span>Photo</button>
+      <button data-act="addExpense"><span class="e">💸</span>Expense</button>
+      <button data-act="addLink"><span class="e">🔗</span>Link</button>
+      <button data-act="addNote"><span class="e">📝</span>Note</button>
+    </div>
+    <div class="grid three">${STAYS.map(([b,dt,s,c,e])=>`<button class="stay ${c}" data-act="goBase" data-base="${b}"><small>${dt}</small><b>${e} ${b}</b><small>${s}</small></button>`).join('')}</div>
+    <div class="grid two">
+      <div class="card"><div class="row between"><h3>⭐ Don't-miss list</h3><span class="small muted">${done}/${S.bucket.length}</span></div>
+        <div class="progress mt"><div style="width:${S.bucket.length?done/S.bucket.length*100:0}%"></div></div>
+        <div class="mt">${S.bucket.map(b=>`<div class="checkrow ${b.done?'on':''}" data-act="toggleBucket" data-id="${b.id}"><span class="box">✓</span><span class="t">${esc(b.t)}</span>${stars(b.prio)}</div>`).join('')}</div>
+        <button class="linkbtn mt" data-act="addBucket">+ Add to list</button>
+      </div>
+      <div class="stack">
+        <div class="card weather"><h3>🌧️ October weather rule</h3>
+          <p class="small" style="margin:8px 0">October is in Cebu's wetter / typhoon season. Don't lock every boat day. Flex days: <b>Oct 13, 19, 26</b>.</p>
+          <p class="small" style="margin:6px 0"><b>Sea bad → skip:</b> Pescador, island hopping, Sumilon, long boat trips.</p>
+          <p class="small" style="margin:6px 0"><b>Do instead:</b> waterfalls (if authorities say safe), museums, food, cafés, shopping, spa, Cebu City, resort day.</p>
+          <div class="row wrapf mt"><a class="chip" href="https://www.pagasa.dost.gov.ph/" target="_blank" rel="noopener">🌦️ PAGASA</a><a class="chip" href="https://www.google.com/search?q=${encodeURIComponent((dayOfToday()?.base==='Moalboal'?'Moalboal':dayOfToday()?.base==='Mactan'?'Lapu-Lapu':'Barili')+' Cebu weather')}" target="_blank" rel="noopener">☀️ Local forecast</a></div>
+        </div>
+        ${upcoming.length?`<div><div class="sec-title" style="margin-top:4px"><h2>Coming up</h2></div><div class="stack">${upcoming.map(dayCard).join('')}</div></div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function viewDays(){
+  const opts = ['All','Carcar / Barili','Moalboal','Mactan'];
+  const list = S.days.filter(d=>dayFilter==='All' || d.base===dayFilter);
+  const done = S.days.filter(d=>d.done).length;
+  return `<div class="card"><div class="row between"><div><div class="kicker">Itinerary</div><h2>19 days in Cebu</h2></div><div class="small muted">${done} done</div></div></div>
+    <div class="chips mt">${opts.map(o=>`<button class="chip ${dayFilter===o?'on':''}" data-act="dayFilter" data-k="${o}">${o}</button>`).join('')}</div>
+    <div class="grid two">${list.map(dayCard).join('')}</div>`;
+}
+
+function placeCard(p){
+  const ph = S.photos.find(x=>x.placeId===p.id && photoSrc(x));
+  const bg = ph ? `style="background-image:url('${esc(photoSrc(ph))}')"` : '';
+  return `<article class="card place" data-act="openPlace" data-id="${p.id}">
+    <div class="ph" ${bg}>${ph?'':(CAT_EMOJI[p.cat]||'📍')}<span class="area">${esc(p.area)}</span><span class="flags">${p.fav?'❤️':''}${p.visited?'✅':''}</span></div>
+    <div class="pb"><div class="kicker">${esc(p.cat)}</div><h3>${esc(p.name)}</h3>
+      <div>${stars(p.prio)} ${p.status?`<span class="badge">${esc(p.status.split('—')[0].trim())}</span>`:''}</div>
+      ${p.tip?`<p class="tip">${esc(p.tip)}</p>`:''}
+      <div class="pactions">
+        ${p.phone?`<a class="chip" href="${telHref(p.phone)}">📞 Call</a>`:''}
+        <a class="chip" href="${mapUrl(p)}" target="_blank" rel="noopener">🗺️ Map</a>
+        ${p.web?`<a class="chip" href="${esc(p.web)}" target="_blank" rel="noopener">🌐 Web</a>`:''}
+        <button class="chip" data-act="toggleFav" data-id="${p.id}">${p.fav?'❤️':'🤍'}</button>
+        <button class="chip ${p.visited?'on':''}" data-act="toggleVisited" data-id="${p.id}">${p.visited?'✓ Been':'Been?'}</button>
+      </div></div></article>`;
+}
+function filteredPlaces(){
+  const q = placeQ.trim().toLowerCase();
+  return S.places.filter(p=>
+    (placeArea==='All' || (placeArea==='❤️ Saved' ? p.fav : p.area===placeArea)) &&
+    (placeCat==='All' || p.cat===placeCat) &&
+    (!q || [p.name,p.tip,p.addr,p.cat,p.area,p.notes].join(' ').toLowerCase().includes(q)));
+}
+function placesList(){
+  const list = filteredPlaces();
+  return `<div class="small muted" style="margin:0 2px 10px">${list.length} place${list.length===1?'':'s'}</div>
+    ${list.length?`<div class="grid places">${list.map(placeCard).join('')}</div>`:'<div class="card empty">Nothing here yet. Try another filter.</div>'}`;
+}
+function viewPlaces(){
+  const cats = ['All', ...CATS.filter(c=>S.places.some(p=>p.cat===c))];
+  return `<div class="row"><div class="search" style="flex:1"><span>🔎</span><input id="placeQ" placeholder="Search places, food, falls…" value="${esc(placeQ)}"></div><button class="btn coral" data-act="addPlace">＋</button></div>
+    <div class="chips mt">${['All','❤️ Saved',...AREAS].map(o=>`<button class="chip ${placeArea===o?'on':''}" data-act="placeArea" data-k="${o}">${o}</button>`).join('')}</div>
+    <div class="chips">${cats.map(o=>`<button class="chip ${placeCat===o?'sunny':''}" data-act="placeCat" data-k="${o}">${o==='All'?'All types':(CAT_EMOJI[o]+' '+o)}</button>`).join('')}</div>
+    <div id="placeList">${placesList()}</div>`;
+}
+
+function photoGrid(list, ctx={}){
+  return `<div class="pgrid">
+    <button class="ph add" data-act="addPhoto" ${ctx.day?`data-day="${ctx.day}"`:''} ${ctx.place?`data-place="${ctx.place}"`:''}>＋ Add</button>
+    ${list.slice().reverse().map(p=>{ const s=photoSrc(p); return `<button class="ph" data-act="openPhoto" data-id="${p.id}" style="${s?`background-image:url('${esc(s)}')`:''}">${p.caption?`<span>${esc(p.caption)}</span>`:''}</button>`; }).join('')}
+  </div>`;
+}
+function viewPhotos(){
+  const list = S.photos.filter(p=>photoDay==='All' || p.dayId===photoDay);
+  return `<div class="card"><div class="row between wrapf"><div><div class="kicker">Gallery</div><h2>${S.photos.length} photo${S.photos.length===1?'':'s'}</h2></div>
+    <select id="photoDaySel" style="width:auto;max-width:100%"><option value="All">All days</option>${S.days.map(d=>`<option value="${d.id}" ${photoDay===d.id?'selected':''}>${fmt(d.date)} · ${esc(d.title)}</option>`).join('')}</select></div>
+    ${!store.user?`<p class="small muted" style="margin:10px 0 0">📱 Photos are shrunk and kept on this device. Connect Supabase (More → Sync) to back them up and see them on every device.</p>`:''}
+  </div>
+  <div class="mt">${photoGrid(list, {day: photoDay!=='All'?photoDay:''})}</div>`;
+}
+
+const MORE = [['budget','💸 Budget'],['packing','🎒 Packing'],['links','🔗 Links'],['contacts','📞 Contacts'],['journal','📝 Journal'],['guide','🧭 Guide'],['sync','☁️ Sync']];
+function viewMore(){
+  const v = {budget:viewBudget,packing:viewPacking,links:viewLinks,contacts:viewContacts,journal:viewJournal,guide:viewGuide,sync:viewSync}[moreTab];
+  return `<div class="chips">${MORE.map(([k,l])=>`<button class="chip ${moreTab===k?'on':''}" data-act="moreTab" data-k="${k}">${l}</button>`).join('')}</div>${v()}`;
+}
+function viewBudget(){
+  const m = getMeta(), total = sum(S.expenses), budget = Number(m.budget)||0;
+  const pct = budget ? Math.min(100, total/budget*100) : 0;
+  const byCat = {}; S.expenses.forEach(e=>byCat[e.cat||'Other']=(byCat[e.cat||'Other']||0)+(Number(e.amount)||0));
+  const byBase = {'Carcar / Barili':0,'Moalboal':0,'Mactan':0,'Other':0};
+  S.expenses.forEach(e=>{ const d=S.days.find(x=>x.date===e.date); byBase[d?d.base:'Other'] += Number(e.amount)||0; });
+  const max = Math.max(1,...Object.values(byCat));
+  const list = S.expenses.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.ts||0)-(a.ts||0));
+  return `<div class="grid two">
+    <div class="card"><div class="kicker">Spent so far</div><div class="big" style="margin:6px 0">${peso(total)}</div>
+      <div class="progress ${pct>90?'warn':''}"><div style="width:${pct}%"></div></div>
+      <div class="field"><label>Trip budget (₱)</label><input type="number" inputmode="decimal" data-kind="meta" data-id="meta" data-field="budget" value="${budget||''}" placeholder="e.g. 150000"></div>
+      ${budget?`<div class="small muted mt">${total<=budget?`${peso(budget-total)} left`:`${peso(total-budget)} over budget`}</div>`:''}
+      <button class="btn block mt" data-act="addExpense">＋ Add expense</button>
+    </div>
+    <div class="card"><h3>By category</h3>
+      ${Object.keys(byCat).length?Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([c,v])=>`<div class="bar"><span>${esc(c)}</span><div class="progress"><div style="width:${v/max*100}%"></div></div><b>${peso(v)}</b></div>`).join(''):'<div class="empty">No expenses yet.</div>'}
+      <h3 class="mt">By base</h3>
+      ${Object.entries(byBase).filter(([k,v])=>v||k!=='Other').map(([k,v])=>`<div class="row between small" style="padding:4px 0"><span>${k}</span><b>${peso(v)}</b></div>`).join('')}
+    </div>
+  </div>
+  <div class="card mt"><h3>All expenses</h3>
+    ${list.length?list.map(e=>`<div class="lrow" data-act="editExpense" data-id="${e.id}" style="cursor:pointer"><span class="lic">💸</span><div class="lmain"><span><b>${esc(e.desc||e.cat)}</b><small>${fmt(e.date)} · ${esc(e.cat)}</small></span></div><b>${peso(e.amount)}</b></div>`).join(''):'<div class="empty">Tap “Add expense” after every meal, ride and tour.</div>'}
+  </div>`;
+}
+function viewPacking(){
+  const done = S.packing.filter(p=>p.done).length;
+  const groups = PACK_GROUPS.filter(g=>S.packing.some(p=>p.g===g));
+  return `<div class="card"><div class="row between"><h3>🎒 Packing list</h3><span class="small muted">${done}/${S.packing.length}</span></div>
+    <div class="progress mt"><div style="width:${S.packing.length?done/S.packing.length*100:0}%"></div></div>
+    <div class="row mt"><button class="btn sm" data-act="addPack">＋ Add item</button><button class="btn sm ghost" data-act="resetPack">Uncheck all</button></div></div>
+  <div class="grid two mt">${groups.map(g=>`<div class="card"><h3>${esc(g)}</h3>${S.packing.filter(p=>p.g===g).map(p=>`<div class="checkrow ${p.done?'on':''}" data-act="togglePack" data-id="${p.id}"><span class="box">✓</span><span class="t">${esc(p.t)}</span><button class="linkbtn" data-act="delPack" data-id="${p.id}" aria-label="Remove">✕</button></div>`).join('')}</div>`).join('')}</div>`;
+}
+function linkRow(l){
+  const where = [l.dayId&&dayById(l.dayId)?fmt(dayById(l.dayId).date):'', l.placeId&&placeById(l.placeId)?placeById(l.placeId).name:''].filter(Boolean).join(' · ');
+  return `<div class="lrow"><a class="lmain" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="lic">${LINK_ICON[l.cat]||'🔗'}</span><span style="min-width:0"><b>${esc(l.title||host(l.url))}</b><small>${esc(host(l.url))}${where?' · '+esc(where):''}</small></span></a><button class="icon-btn" data-act="editLink" data-id="${l.id}" aria-label="Edit">✎</button></div>`;
+}
+function viewLinks(){
+  const cats = LINK_CATS.filter(c=>S.links.some(l=>l.cat===c));
+  return `<div class="card"><div class="row between"><div><h3>🔗 Links & bookings</h3><div class="small muted">Booking confirmations, menus, tickets, maps, Facebook pages…</div></div><button class="btn sm" data-act="addLink">＋ Add</button></div></div>
+    ${cats.length?`<div class="grid two mt">${cats.map(c=>`<div class="card"><h3>${LINK_ICON[c]} ${c}</h3>${S.links.filter(l=>l.cat===c).map(linkRow).join('')}</div>`).join('')}</div>`:'<div class="card empty mt">No links yet.</div>'}`;
+}
+function viewContacts(){
+  const withPhones = S.places.filter(p=>p.phone);
+  return `<div class="card"><div class="row between"><h3>📞 Key contacts</h3><button class="btn sm" data-act="addContact">＋ Add</button></div>
+    ${S.contacts.map(c=>`<div class="lrow">${c.phone?`<a class="lmain" href="${telHref(c.phone)}">`:'<div class="lmain">'}<span class="lic">${c.phone==='911'?'🚨':'📞'}</span><span style="min-width:0"><b>${esc(c.name)}</b><small>${esc(c.phone||'no number yet')}${c.note?' · '+esc(c.note):''}</small></span>${c.phone?'</a>':'</div>'}<button class="icon-btn" data-act="editContact" data-id="${c.id}">✎</button></div>`).join('')}
+  </div>
+  <div class="card mt"><h3>All place phone numbers</h3>
+    ${AREAS.map(a=>{ const ps=withPhones.filter(p=>p.area===a); return ps.length?`<div class="kicker mt">${a}</div>${ps.map(p=>`<div class="lrow"><a class="lmain" href="${telHref(p.phone)}"><span class="lic">${CAT_EMOJI[p.cat]||'📍'}</span><span style="min-width:0"><b>${esc(p.name)}</b><small>${esc(p.phone)}</small></span></a></div>`).join('')}`:''; }).join('')}
+  </div>`;
+}
+function viewJournal(){
+  const list = S.notes.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.ts||0)-(a.ts||0));
+  return `<div class="card"><div class="row between"><h3>📝 Travel journal</h3><button class="btn sm" data-act="addNote">＋ Write</button></div></div>
+    ${list.length?`<div class="stack mt">${list.map(n=>`<div class="card" data-act="editNote" data-id="${n.id}" style="cursor:pointer"><div class="kicker">${fmt(n.date)}</div><div style="white-space:pre-wrap;margin-top:6px">${esc(n.text)}</div></div>`).join('')}</div>`:'<div class="card empty mt">Nothing written yet. A few lines each night make great memories.</div>'}`;
+}
+function viewGuide(){
+  return `<div class="grid two guide">
+    <div class="card"><h3>🗓️ Daily rhythm</h3><ul><li><b>Morning:</b> activity</li><li><b>Afternoon:</b> beach</li><li><b>Sunset:</b> photography</li><li><b>Evening:</b> dinner</li></ul><p class="small muted">Don't make every day an expedition.</p></div>
+    <div class="card"><h3>🌧️ Bad-weather swap</h3><ul><li>Skip: Pescador, island hopping, Sumilon, long boat trips</li><li>Do: waterfalls (if authorities say safe), museums, food, cafés, shopping, spa, Cebu City, resort day</li><li>Kawasan canyoneering can be suspended after heavy rain</li></ul></div>
+    <div class="card"><h3>🐢 Turtle etiquette</h3><ul><li>Don't touch, chase or block them</li><li>Don't dive directly onto them</li><li>Don't grab coral for stability</li><li>Descend calmly; let the turtle come to you</li></ul></div>
+    <div class="card"><h3>🤿 Freediving basics to learn</h3><ul><li>Duck dive, relaxation, equalization</li><li>Neutral buoyancy, finning, body position</li><li>Breath control, safe buddy procedures</li><li>Tell the instructor you want underwater photography</li><li><b>Never</b> go to depth solo on your first sessions</li></ul></div>
+    <div class="card"><h3>🛵 Scooter rules</h3><ul><li>Carcar: rent 2–3 days · Moalboal: 4–5 days</li><li>Licence/permit + proper helmet</li><li>Not for Oslob days, bad-weather mountain roads, late nights or canyoneering days</li><li>Mactan: use Grab / hotel car / taxi — traffic is urban</li></ul></div>
+    <div class="card"><h3>📸 Photography</h3><ul><li>Landscape: Osmeña sunrise, Kawasan, Barili countryside, Bojo, Sumilon, Mactan sunset</li><li>Underwater: sardines, Pescador, turtles, Mactan reefs</li><li>Ask permission before close portraits, especially of children</li><li>Don't sacrifice diving safety for a photo</li></ul></div>
+    <div class="card"><h3>🐋 Oslob, honestly</h3><p class="small">An amazing wildlife encounter, but the sharks are fed to guarantee sightings — that's the main conservation/animal-welfare criticism. If you go, follow all local rules and don't touch or chase them.</p></div>
+    <div class="card"><h3>🍷 Mactan wine plan</h3><ul><li>MJ's Weinkeller — German wines, relaxed</li><li>Acqua — Italian + wine, romantic</li><li>Cowrie Cove — book for sunset</li><li>Tea of Spring — wide list incl. Chinese wines</li><li>Enye — special Spanish dinner</li></ul></div>
+  </div>`;
+}
+function viewSync(){
+  const configured = !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY);
+  let top;
+  if(!configured){
+    top = `<div class="card"><h3>📱 Device-only mode</h3><p class="small">Everything saves on this device right now. To sync your phone and laptop and back up photos, add your Supabase URL + anon key at the top of <code>index.html</code> (see the setup notes).</p></div>`;
+  } else if(!store.user){
+    top = `<div class="card"><h3>☁️ Sign in to sync</h3><p class="small muted">Use the account you created in Supabase → Authentication → Users.</p>
+      <div class="field"><label>Email</label><input id="sEmail" type="email" autocomplete="email"></div>
+      <div class="field"><label>Password</label><input id="sPass" type="password" autocomplete="current-password"></div>
+      <button class="btn block mt" data-act="signIn">Sign in</button></div>`;
+  } else {
+    const pend = Object.keys(store.pending).length;
+    top = `<div class="card"><h3>☁️ Synced with Supabase</h3><p class="small">Signed in as <b>${esc(store.user.email)}</b>.<br>${pend?`${pend} change(s) waiting to upload.`:'Everything is uploaded.'}</p>
+      <div class="row wrapf"><button class="btn sm" data-act="syncNow">🔄 Sync now</button><button class="btn sm ghost" data-act="signOut">Sign out</button></div></div>`;
+  }
+  return `<div class="grid two">${top}
+    <div class="card"><h3>💾 Backup</h3><p class="small muted">Download everything (itinerary, places, notes, expenses${store.user?'':', photos'}) as a file, or restore one.</p>
+      <div class="row wrapf"><button class="btn sm" data-act="exportJSON">⬇️ Export backup</button><button class="btn sm ghost" data-act="importJSON">⬆️ Import</button></div>
+      <p class="small muted mt">Tip: on your phone, use “Add to Home Screen” so this opens like an app.</p></div></div>`;
+}
+
+/* ---------------- sheets ---------------- */
+function openSheet(html){ $('#sheetBody').innerHTML = html; $('#sheet').classList.add('open'); document.body.classList.add('noscroll'); }
+function closeSheet(){ $('#sheet').classList.remove('open'); document.body.classList.remove('noscroll'); sheetCtx=null; renderMain(); }
+function keepScroll(fn){ const p=$('#panel'); const st=p.scrollTop; fn(); p.scrollTop=st; }
+function refreshSheet(){
+  if(!sheetCtx || !$('#sheet').classList.contains('open')) return;
+  const c = sheetCtx;
+  keepScroll(()=>{ if(c.type==='day') daySheet(c.id); else if(c.type==='place') placeSheet(c.id); else if(c.type==='photo') photoSheet(c.id); });
+}
+function goBack(b){ if(!b) return closeSheet(); if(b.type==='day') daySheet(b.id); else if(b.type==='place') placeSheet(b.id); else closeSheet(); renderMain(); }
+
+function daySheet(id){
+  const d = dayById(id); if(!d) return closeSheet();
+  sheetCtx = {type:'day', id};
+  const places = S.places.filter(p=>p.dayIds?.includes(id));
+  const photos = S.photos.filter(p=>p.dayId===id);
+  const links = S.links.filter(l=>l.dayId===id);
+  const spent = sum(S.expenses.filter(x=>x.date===d.date));
+  openSheet(`
+    <div class="sheet-hero bg-${baseCls(d.base)}"><div class="kicker">Day ${daysBetween(TRIP.start,d.date)+1} · ${fmt(d.date)} · ${esc(d.base)}</div>
+      <input class="title-in" data-kind="days" data-id="${id}" data-field="title" value="${esc(d.title)}">
+      <div class="row mt"><button class="btn sm sun" data-act="toggleDay" data-id="${id}">${d.done?'✅ Day done':'Mark day done'}</button>${d.flex?'<span class="flex-tag">FLEX DAY</span>':''}</div></div>
+    <div class="sec"><div class="sec-h"><h3>🗺️ Plan</h3><button class="linkbtn" data-act="editBlocks" data-id="${id}">Edit</button></div><div id="blocksBox">${blocksHtml(d)}</div></div>
+    <div class="sec planb"><h3>🌧️ Weather plan B</h3><textarea class="mt" rows="2" data-kind="days" data-id="${id}" data-field="planB" placeholder="If the weather turns…">${esc(d.planB)}</textarea></div>
+    <div class="sec"><div class="sec-h"><h3>📍 Places</h3><button class="linkbtn" data-act="pickPlaces" data-id="${id}">+ Link places</button></div>
+      <div class="row wrapf">${places.map(p=>`<button class="chip" data-act="openPlace" data-id="${p.id}">${CAT_EMOJI[p.cat]||'📍'} ${esc(p.name)}</button>`).join('') || '<span class="small muted">No places linked.</span>'}</div></div>
+    <div class="sec"><h3>📷 Photos</h3><div class="mt">${photoGrid(photos,{day:id})}</div></div>
+    <div class="sec"><div class="sec-h"><h3>🔗 Links</h3><button class="linkbtn" data-act="addLink" data-day="${id}">+ Add link</button></div>${links.map(linkRow).join('') || '<span class="small muted">Booking confirmations, menus, tour pages…</span>'}</div>
+    <div class="sec"><h3>📝 Notes</h3><textarea class="mt" rows="3" data-kind="days" data-id="${id}" data-field="notes" placeholder="Reminders, what to bring, who to call…">${esc(d.notes)}</textarea></div>
+    <div class="sec row between"><span>💸 Spent this day: <b>${peso(spent)}</b></span><button class="btn sm" data-act="addExpense" data-date="${d.date}">＋ Expense</button></div>
+  `);
+}
+function pickSheet(dayId){
+  const d = dayById(dayId); sheetCtx = {type:'pick', id:dayId};
+  openSheet(`<button class="linkbtn" data-act="openDay" data-id="${dayId}">← Back to ${esc(d.title)}</button><h2 class="mt">Link places to ${fmt(d.date)}</h2>
+    ${AREAS.map(a=>`<div class="kicker mt">${a}</div><div class="row wrapf" style="margin-top:6px">${S.places.filter(p=>p.area===a).map(p=>`<button class="chip ${p.dayIds?.includes(dayId)?'on':''}" data-act="togglePlaceDay" data-id="${p.id}" data-day="${dayId}">${CAT_EMOJI[p.cat]||'📍'} ${esc(p.name)}</button>`).join('')}</div>`).join('')}`);
+}
+function placeSheet(id){
+  const p = placeById(id); if(!p) return closeSheet();
+  sheetCtx = {type:'place', id};
+  const photos = S.photos.filter(x=>x.placeId===id);
+  const links = S.links.filter(l=>l.placeId===id);
+  openSheet(`
+    <div class="sheet-hero" style="background:linear-gradient(135deg,var(--sea),var(--sea-deep))"><div class="kicker">${esc(p.area)} · ${CAT_EMOJI[p.cat]||''} ${esc(p.cat)}</div><h2 style="color:#fff;font-size:26px;margin-top:4px">${esc(p.name)}</h2>
+      <div class="mt">${stars(p.prio)} ${p.status?`<span class="badge">${esc(p.status)}</span>`:''}</div></div>
+    <div class="row wrapf">
+      ${p.phone?`<a class="btn sm" href="${telHref(p.phone)}">📞 ${esc(p.phone)}</a>`:''}
+      <a class="btn sm" href="${mapUrl(p)}" target="_blank" rel="noopener">🗺️ Directions</a>
+      ${p.web?`<a class="btn sm ghost" href="${esc(p.web)}" target="_blank" rel="noopener">🌐 Website</a>`:''}
+      <button class="btn sm ghost" data-act="toggleFav" data-id="${id}">${p.fav?'❤️ Saved':'🤍 Save'}</button>
+      <button class="btn sm ${p.visited?'':'ghost'}" data-act="toggleVisited" data-id="${id}">${p.visited?'✅ Been here':'Mark been here'}</button>
+    </div>
+    ${p.tip||p.hours||p.addr?`<div class="sec">${p.tip?`<p style="margin:0 0 8px">💡 ${esc(p.tip)}</p>`:''}${p.hours?`<div class="small">🕒 ${esc(p.hours)}</div>`:''}${p.addr?`<div class="small muted" style="margin-top:4px">📍 ${esc(p.addr)}</div>`:''}</div>`:''}
+    <div class="sec"><h3>🗓️ Planned for</h3><div class="chips" style="margin-top:8px">${S.days.map(d=>`<button class="chip ${p.dayIds?.includes(d.id)?'on':''}" data-act="togglePlaceDay" data-id="${id}" data-day="${d.id}">${MON[toDate(d.date).getMonth()]} ${toDate(d.date).getDate()}</button>`).join('')}</div></div>
+    <div class="sec"><h3>📝 My notes</h3><textarea class="mt" rows="3" data-kind="places" data-id="${id}" data-field="notes" placeholder="What to order, prices, booking ref…">${esc(p.notes)}</textarea></div>
+    <div class="sec"><h3>📷 Photos</h3><div class="mt">${photoGrid(photos,{place:id})}</div></div>
+    <div class="sec"><div class="sec-h"><h3>🔗 Links</h3><button class="linkbtn" data-act="addLink" data-place="${id}">+ Add link</button></div>${links.map(linkRow).join('') || '<span class="small muted">Menus, FB pages, booking confirmations…</span>'}</div>
+    <div class="row mt"><button class="btn sm ghost" data-act="editPlace" data-id="${id}">✎ Edit details</button></div>
+  `);
+}
+function photoSheet(id){
+  const p = S.photos.find(x=>x.id===id); if(!p) return closeSheet();
+  sheetCtx = {type:'photo', id};
+  const s = photoSrc(p);
+  openSheet(`<div class="lightbox">${s?`<img src="${esc(s)}" alt="">`:'<div class="empty">Loading photo…</div>'}</div>
+    <div class="field"><label>Caption</label><input data-kind="photos" data-id="${id}" data-field="caption" value="${esc(p.caption)}" placeholder="Sardine ball at 8 m…"></div>
+    <div class="field"><label>Day</label><select data-kind="photos" data-id="${id}" data-field="dayId"><option value="">—</option>${S.days.map(d=>`<option value="${d.id}" ${p.dayId===d.id?'selected':''}>${fmt(d.date)} · ${esc(d.title)}</option>`).join('')}</select></div>
+    <div class="field"><label>Place</label><select data-kind="photos" data-id="${id}" data-field="placeId"><option value="">—</option>${S.places.map(x=>`<option value="${x.id}" ${p.placeId===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
+    <div class="row mt wrapf">${s?`<a class="btn sm" href="${esc(s)}" target="_blank" rel="noopener" download="cebu-${id}.jpg">⬇️ Open / save</a>`:''}<button class="btn sm ghost danger" data-act="deletePhoto" data-id="${id}">🗑️ Delete</button></div>`);
+}
+
+/* generic form sheet */
+function fieldHtml(f, v){
+  const val = v ?? f.def ?? '';
+  const lab = `<label>${esc(f.label)}</label>`;
+  if(f.type==='select') return `<div class="field">${lab}<select name="${f.k}">${f.options.map(o=>{ const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${esc(ov)}" ${String(ov)===String(val)?'selected':''}>${esc(ol)}</option>`; }).join('')}</select></div>`;
+  if(f.type==='textarea') return `<div class="field">${lab}<textarea name="${f.k}" rows="${f.rows||4}" placeholder="${esc(f.ph||'')}">${esc(val)}</textarea></div>`;
+  return `<div class="field">${lab}<input name="${f.k}" type="${f.type||'text'}" ${f.type==='number'?'inputmode="decimal" step="any"':''} value="${esc(val)}" placeholder="${esc(f.ph||'')}"></div>`;
+}
+function formSheet({title, fields, values={}, onSave, onDelete}){
+  const back = sheetCtx && ['day','place'].includes(sheetCtx.type) ? {...sheetCtx} : null;
+  sheetCtx = {type:'form', onSave, onDelete, back};
+  openSheet(`${back?`<button class="linkbtn" data-act="formBack">← Back</button>`:''}<h2 class="mt">${esc(title)}</h2>
+    <form id="frm" onsubmit="return false">${fields.map(f=>fieldHtml(f, values[f.k])).join('')}
+    <div class="row mt"><button class="btn" data-act="formSave">Save</button>${onDelete?'<button class="btn ghost danger" data-act="formDelete">Delete</button>':''}</div></form>`);
+  setTimeout(()=>{ const first=$('#frm [name]'); if(first && first.tagName!=='SELECT' && window.innerWidth>760) first.focus(); }, 50);
+}
+const dayOpts = () => [['','— none —'], ...S.days.map(d=>[d.id, `${fmt(d.date)} · ${d.title}`])];
+const placeOpts = () => [['','— none —'], ...S.places.map(p=>[p.id, p.name])];
+const defaultDate = () => { const t=todayISO(); return (t>=TRIP.start && t<=TRIP.end) ? t : TRIP.start; };
+
+function expenseForm(e){
+  formSheet({ title: e ? 'Edit expense' : 'New expense',
+    fields:[{k:'desc',label:'What for',ph:'Lechon lunch, boat, Grab…'},{k:'amount',label:'Amount (₱)',type:'number'},{k:'cat',label:'Category',type:'select',options:EXP_CATS,def:'Food'},{k:'date',label:'Date',type:'date',def:photoCtx.date||defaultDate()}],
+    values: e || {},
+    onSave: v => { if(!v.amount){ toast('Enter an amount'); return false; } store.put('expenses', {...(e||{id:uid('ex'),ts:Date.now()}), ...v}); toast('Expense saved'); },
+    onDelete: e ? () => store.del('expenses', e.id) : null });
+}
+function linkForm(l, ctx={}){
+  formSheet({ title: l ? 'Edit link' : 'New link',
+    fields:[{k:'title',label:'Title',ph:'Hotel booking, menu, tour page…'},{k:'url',label:'Link (URL)',type:'url',ph:'https://…'},{k:'cat',label:'Type',type:'select',options:LINK_CATS,def:'Booking'},{k:'dayId',label:'Day',type:'select',options:dayOpts()},{k:'placeId',label:'Place',type:'select',options:placeOpts()}],
+    values: l || ctx,
+    onSave: v => { if(!v.url){ toast('Paste a link'); return false; } if(!/^[a-z]+:/i.test(v.url)) v.url='https://'+v.url; store.put('links', {...(l||{id:uid('ln'),ts:Date.now()}), ...v}); toast('Link saved'); },
+    onDelete: l ? () => store.del('links', l.id) : null });
+}
+function noteForm(n){
+  formSheet({ title: n ? 'Edit entry' : 'Journal entry',
+    fields:[{k:'date',label:'Date',type:'date',def:defaultDate()},{k:'text',label:'Entry',type:'textarea',rows:8,ph:'Best moment today…'}],
+    values: n || {},
+    onSave: v => { if(!v.text){ toast('Write something first'); return false; } store.put('notes', {...(n||{id:uid('nt'),ts:Date.now()}), ...v}); },
+    onDelete: n ? () => store.del('notes', n.id) : null });
+}
+function contactForm(c){
+  formSheet({ title: c ? 'Edit contact' : 'New contact',
+    fields:[{k:'name',label:'Name'},{k:'phone',label:'Phone',type:'tel',ph:'+639…'},{k:'note',label:'Note'}],
+    values: c || {},
+    onSave: v => { if(!v.name){ toast('Add a name'); return false; } store.put('contacts', {...(c||{id:uid('ct')}), ...v}); },
+    onDelete: c ? () => store.del('contacts', c.id) : null });
+}
+function placeForm(p){
+  formSheet({ title: p ? 'Edit place' : 'New place',
+    fields:[{k:'name',label:'Name'},{k:'area',label:'Area',type:'select',options:AREAS},{k:'cat',label:'Type',type:'select',options:CATS},{k:'prio',label:'Priority',type:'select',options:[['0','—'],['1','★'],['2','★★'],['3','★★★'],['4','★★★★'],['5','★★★★★']]},{k:'phone',label:'Phone',type:'tel'},{k:'web',label:'Website / FB page',type:'url'},{k:'addr',label:'Address'},{k:'hours',label:'Hours'},{k:'tip',label:'Tip / description',type:'textarea',rows:3},{k:'status',label:'Status (e.g. closed)'}],
+    values: p ? {...p, prio:String(p.prio||0)} : {area: placeArea!=='All'&&AREAS.includes(placeArea)?placeArea:'Moalboal', cat:'Food', prio:'3'},
+    onSave: v => { if(!v.name){ toast('Add a name'); return false; } v.prio = Number(v.prio)||0; if(v.web && !/^[a-z]+:/i.test(v.web)) v.web='https://'+v.web;
+      const obj = {...(p||{id:uid('pl'),fav:false,visited:false,notes:'',dayIds:[],o:999,ts:Date.now()}), ...v}; store.put('places', obj);
+      if(!p){ sheetCtx.back = {type:'place', id:obj.id}; } },
+    onDelete: p ? () => { store.del('places', p.id); sheetCtx.back = null; } : null });
+}
+
+/* ---------------- photos ---------------- */
+async function compress(file, max, q){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=url; });
+    const s = Math.min(1, max/Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas'); c.width=Math.round(img.naturalWidth*s); c.height=Math.round(img.naturalHeight*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    return c.toDataURL('image/jpeg', q);
+  } finally { URL.revokeObjectURL(url); }
+}
+async function handleFiles(files){
+  const list = [...(files||[])]; if(!list.length) return;
+  const ctx = {...photoCtx};
+  toast(`Adding ${list.length} photo${list.length>1?'s':''}…`);
+  const cloud = !!store.user;
+  let added = 0;
+  for(const f of list){
+    try {
+      const src = await compress(f, cloud?1800:1100, cloud?.82:.7);
+      const dayId = ctx.day || (ctx.place ? '' : (dayOfToday()?.id || ''));
+      store.put('photos', {id:uid('ph'), src, caption:'', dayId, placeId:ctx.place||'', ts:Date.now()+added});
+      added++;
+    } catch(e){ console.warn(e); toast('Could not read one of the photos'); }
+  }
+  toast(`${added} photo${added===1?'':'s'} added${cloud?' — uploading…':''}`);
+  renderMain(); refreshSheet();
+}
+
+/* ---------------- actions ---------------- */
+const ACT = {
+  tab: el => { tab = el.dataset.k; renderAll(); window.scrollTo({top:0,behavior:'smooth'}); },
+  goBase: el => { tab='days'; dayFilter=el.dataset.base; renderAll(); },
+  dayFilter: el => { dayFilter = el.dataset.k; renderMain(); },
+  placeArea: el => { placeArea = el.dataset.k; renderMain(); },
+  placeCat: el => { placeCat = el.dataset.k; renderMain(); },
+  moreTab: el => { moreTab = el.dataset.k; renderMain(); },
+  closeSheet: () => closeSheet(),
+  openDay: el => daySheet(el.dataset.id),
+  openPlace: el => placeSheet(el.dataset.id),
+  openPhoto: el => photoSheet(el.dataset.id),
+  pickPlaces: el => pickSheet(el.dataset.id),
+  toggleDay: el => { const d=dayById(el.dataset.id); d.done=!d.done; store.put('days',d); renderMain(); refreshSheet(); },
+  editBlocks: el => { const d=dayById(el.dataset.id);
+    $('#blocksBox').innerHTML = `<p class="small muted" style="margin:0 0 6px">One line per step: <b>time | what</b></p><textarea id="blocksTa" rows="${Math.max(4,d.blocks.length+1)}">${esc(d.blocks.map(b=>`${b.t} | ${b.x}`).join('\n'))}</textarea><button class="btn sm mt" data-act="saveBlocks" data-id="${d.id}">Save plan</button>`; },
+  saveBlocks: el => { const d=dayById(el.dataset.id);
+    d.blocks = $('#blocksTa').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf('|'); return i<0?{t:'',x:l}:{t:l.slice(0,i).trim(),x:l.slice(i+1).trim()}; });
+    store.put('days',d); refreshSheet(); renderMain(); },
+  togglePlaceDay: el => { const p=placeById(el.dataset.id); const day=el.dataset.day; p.dayIds=p.dayIds||[];
+    p.dayIds = p.dayIds.includes(day) ? p.dayIds.filter(x=>x!==day) : [...p.dayIds, day]; store.put('places',p); el.classList.toggle('on'); renderMain(); },
+  toggleFav: el => { const p=placeById(el.dataset.id); p.fav=!p.fav; store.put('places',p); renderMain(); refreshSheet(); },
+  toggleVisited: el => { const p=placeById(el.dataset.id); p.visited=!p.visited; store.put('places',p); renderMain(); refreshSheet(); if(p.visited) toast('Nice! ✅'); },
+  addPlace: () => placeForm(null),
+  editPlace: el => placeForm(placeById(el.dataset.id)),
+  addPhoto: el => { photoCtx = {day:el.dataset.day||'', place:el.dataset.place||''}; const fp=$('#filePick'); fp.value=''; fp.click(); },
+  deletePhoto: el => { if(confirm('Delete this photo?')){ store.del('photos', el.dataset.id); goBack(null); toast('Photo deleted'); } },
+  addExpense: el => { photoCtx = {date: el.dataset.date}; expenseForm(null); },
+  editExpense: el => expenseForm(S.expenses.find(x=>x.id===el.dataset.id)),
+  addLink: el => linkForm(null, {dayId:el.dataset.day||'', placeId:el.dataset.place||''}),
+  editLink: el => linkForm(S.links.find(x=>x.id===el.dataset.id)),
+  addNote: () => noteForm(null),
+  editNote: el => noteForm(S.notes.find(x=>x.id===el.dataset.id)),
+  addContact: () => contactForm(null),
+  editContact: el => contactForm(S.contacts.find(x=>x.id===el.dataset.id)),
+  toggleBucket: el => { const b=S.bucket.find(x=>x.id===el.dataset.id); b.done=!b.done; store.put('bucket',b); renderMain(); if(b.done) toast('Ticked off! 🎉'); },
+  addBucket: () => formSheet({title:"Add to don't-miss list", fields:[{k:'t',label:'Experience',ph:'🌅 Sunset at …'}], onSave:v=>{ if(!v.t) return false; store.put('bucket',{id:uid('bk'),t:v.t,prio:0,done:false,o:999}); }}),
+  togglePack: el => { const p=S.packing.find(x=>x.id===el.dataset.id); p.done=!p.done; store.put('packing',p); renderMain(); },
+  delPack: el => { store.del('packing', el.dataset.id); renderMain(); },
+  resetPack: () => { if(!confirm('Uncheck every packing item?')) return; S.packing.forEach(p=>{ if(p.done){ p.done=false; store.put('packing',p); } }); renderMain(); },
+  addPack: () => formSheet({title:'Add packing item', fields:[{k:'t',label:'Item'},{k:'g',label:'Group',type:'select',options:PACK_GROUPS,def:'Other'}], onSave:v=>{ if(!v.t) return false; store.put('packing',{id:uid('pk'),...v,done:false,o:999}); }}),
+  formSave: async () => { const v={}; $('#frm').querySelectorAll('[name]').forEach(i=>v[i.name]= i.type==='number' ? (parseFloat(i.value)||0) : i.value.trim());
+    const r = await sheetCtx.onSave(v); if(r===false) return; goBack(sheetCtx.back); },
+  formDelete: () => { if(!confirm('Delete this?')) return; sheetCtx.onDelete(); goBack(sheetCtx.back); },
+  formBack: () => goBack(sheetCtx.back),
+  signIn: async () => { const email=$('#sEmail').value.trim(), password=$('#sPass').value;
+    if(!email||!password) return toast('Enter email and password');
+    const { error } = await store.sb.auth.signInWithPassword({email,password});
+    toast(error ? error.message : 'Signed in — syncing…'); },
+  signOut: async () => { await store.sb.auth.signOut(); toast('Signed out. Data stays on this device.'); renderMain(); },
+  syncNow: async () => { await store.pull(); toast('Synced'); renderMain(); },
+  exportJSON: () => { const blob=new Blob([JSON.stringify(S,(k,v)=>k==='_url'?undefined:v,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`cebu-trip-backup-${todayISO()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); },
+  importJSON: () => { const f=$('#importPick'); f.value=''; f.click(); }
+};
+
+async function importJSON(file){
+  if(!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if(!data.days || !data.places) throw new Error('Not a trip backup');
+    if(!confirm('Replace the data on this device with this backup?')) return;
+    S = emptyState(); KINDS.forEach(k=>S[k]=Array.isArray(data[k])?data[k]:[]); sortState(); saveLocal();
+    if(store.user){ KINDS.forEach(k=>S[k].forEach(o=>store.pending[o.id]={kind:k})); store.savePending(); await store.flush(); }
+    toast('Backup restored'); renderAll();
+  } catch(e){ toast('Could not import: ' + e.message); }
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click', e => {
+  if(e.target.closest('a[href]')) return;              // real links just open
+  const el = e.target.closest('[data-act]'); if(!el) return;
+  const fn = ACT[el.dataset.act]; if(!fn) return;
+  e.preventDefault(); fn(el);
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if(el.id==='filePick') return handleFiles(el.files);
+  if(el.id==='importPick') return importJSON(el.files[0]);
+  if(el.id==='photoDaySel'){ photoDay = el.value; return renderMain(); }
+  const { kind, id, field } = el.dataset; if(!kind || !field) return;
+  const o = kind==='meta' ? getMeta() : S[kind]?.find(x=>x.id===id); if(!o) return;
+  o[field] = el.type==='number' ? (parseFloat(el.value)||0) : el.value;
+  store.put(kind, o); renderMain();
+});
+document.addEventListener('input', e => {
+  if(e.target.id==='placeQ'){ placeQ = e.target.value; $('#placeList').innerHTML = placesList(); }
+});
+document.addEventListener('keydown', e => { if(e.key==='Escape' && $('#sheet').classList.contains('open')) closeSheet(); });
+
+/* ---------------- start ---------------- */
+loadLocal();
+renderAll();
+store.init().then(()=>renderMain());
+</script>
+</body>
+</html>
