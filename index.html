@@ -1,1019 +1,2490 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0e8a94">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Cebu Escape 2026</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cebu Travel Guide · Oct 9 to 27, 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --sea:#0e8a94; --sea-deep:#0b5563; --lagoon:#6fd3d0; --foam:#e3f7f5;
-  --sand:#fbf3e4; --sand-2:#f3e3c3; --coral:#ff7a59; --coral-soft:#ffe3d9;
-  --sun:#ffc24b; --palm:#2f8f5b; --palm-soft:#dff1e5;
-  --ink:#15333b; --muted:#5d7a80; --card:#fffdf8; --line:#ecdcbc;
-  --shadow:0 6px 22px rgba(14,90,100,.10);
-}
-*{box-sizing:border-box}
-html,body{margin:0}
-body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--sand);color:var(--ink);
-  -webkit-tap-highlight-color:transparent;padding-bottom:calc(96px + env(safe-area-inset-bottom));min-height:100vh}
-body.noscroll{overflow:hidden}
-h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0;line-height:1.15}
-h2{font-size:22px} h3{font-size:17px}
-a{color:var(--sea)}
-button{cursor:pointer;font:inherit}
+  :root {
+    --ocean: #00897B;
+    --ocean-deep: #004D4A;
+    --ocean-light: #4DB6AC;
+    --ocean-glow: #80CBC4;
+    --coral: #FF6B5C;
+    --coral-light: #FFA88A;
+    --sunset: #FF9558;
+    --sunset-deep: #E67E22;
+    --sand: #FFF8F0;
+    --sand-deep: #F5E6D3;
+    --sand-card: #FFFCF7;
+    --palm: #0A3D2E;
+    --palm-light: #2D5A3D;
+    --palm-mid: #4A8B5C;
+    --gold: #F4B860;
+    --ink: #2D1810;
+    --ink-soft: #5C4033;
+    --paper: #FFFCF7;
+    --border: rgba(45, 24, 16, 0.08);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    margin: 0;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+  }
 
-/* ---------- hero ---------- */
-.hero{position:relative;overflow:hidden;color:#fff;
-  background:linear-gradient(180deg,#ffd9a0 0%,#ffb27d 20%,#63cdc9 58%,#0e8a94 100%);
-  padding:calc(18px + env(safe-area-inset-top)) 0 70px}
-.hero .sun{position:absolute;width:150px;height:150px;border-radius:50%;top:-30px;right:8%;
-  background:radial-gradient(circle,#fff6d2 0%,#ffd36b 45%,rgba(255,194,75,0) 70%)}
-.hero .palm{position:absolute;left:-18px;bottom:26px;width:150px;opacity:.9}
-.hero .palm2{position:absolute;right:-30px;bottom:18px;width:120px;opacity:.55;transform:scaleX(-1)}
-.hero .wrap{position:relative;z-index:2}
-.hero .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(11,85,99,.35);backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.35);padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;color:#fff}
-.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--sun)}
-.pill.ok .dot{background:#7cf0a5}
-.hero h1{font-size:clamp(34px,8vw,58px);font-weight:800;margin:18px 0 4px;text-shadow:0 2px 14px rgba(0,60,70,.25);letter-spacing:-.5px}
-.hero .sub{font-size:15px;opacity:.95;text-shadow:0 1px 6px rgba(0,60,70,.3)}
-.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:60px;z-index:1}
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, #FFD6A5 0%, #FFB37A 30%, #FF9558 55%, #4DB6AC 100%);
+  }
+  .sun {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFF4C2 0%, #FFD271 40%, #FFB347 70%, rgba(255,179,71,0) 100%);
+    filter: blur(2px);
+    animation: sunPulse 8s ease-in-out infinite;
+    z-index: 1;
+  }
+  @keyframes sunPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.95; }
+    50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+  }
+  .sun-rays {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(255,212,113,0.15) 10deg, transparent 20deg, rgba(255,212,113,0.1) 30deg, transparent 40deg, rgba(255,212,113,0.15) 50deg, transparent 60deg, rgba(255,212,113,0.1) 70deg, transparent 80deg, rgba(255,212,113,0.15) 90deg, transparent 100deg);
+    animation: rotate 60s linear infinite;
+    z-index: 0;
+    opacity: 0.7;
+  }
+  @keyframes rotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  
+  .clouds {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 60%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.7);
+    border-radius: 100px;
+    filter: blur(8px);
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(calc(100vw + 200px)); }
+  }
 
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-main{position:relative;margin-top:-34px;z-index:3}
+  .palm {
+    position: absolute;
+    bottom: -20px;
+    z-index: 3;
+    transform-origin: bottom center;
+    animation: sway 6s ease-in-out infinite;
+  }
+  .palm.left { left: -40px; }
+  .palm.right { right: -40px; animation-delay: -3s; transform: scaleX(-1); }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  .palm.right { animation-name: swayRight; }
+  @keyframes swayRight {
+    0%, 100% { transform: scaleX(-1) rotate(-2deg); }
+    50% { transform: scaleX(-1) rotate(2deg); }
+  }
 
-/* ---------- basics ---------- */
-.card{background:var(--card);border-radius:22px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
-.stack>*+*{margin-top:14px}
-.grid{display:grid;gap:14px}
-@media(min-width:760px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}.places{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1040px){.places{grid-template-columns:repeat(3,1fr)}}
-.row{display:flex;align-items:center;gap:10px}
-.between{justify-content:space-between}
-.wrapf{flex-wrap:wrap}
-.mt{margin-top:14px}
-.muted{color:var(--muted)}
-.small{font-size:13px}
-.kicker{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.big{font-family:'Fraunces',serif;font-size:40px;font-weight:800;line-height:1}
-.sec-title{display:flex;justify-content:space-between;align-items:end;margin:22px 2px 10px}
-.sec-title h2{color:var(--sea-deep)}
-.empty{text-align:center;color:var(--muted);padding:26px 10px;font-size:14px}
+  .waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    line-height: 0;
+  }
+  .wave {
+    display: block;
+    width: 200%;
+    height: 80px;
+    animation: waveMove 12s linear infinite;
+  }
+  .wave:nth-child(2) { animation-duration: 18s; opacity: 0.6; height: 100px; }
+  .wave:nth-child(3) { animation-duration: 24s; opacity: 0.4; height: 120px; }
+  @keyframes waveMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 
-.btn{background:var(--sea);color:#fff;border:0;border-radius:14px;padding:11px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:6px;justify-content:center;text-decoration:none}
-.btn:active{transform:scale(.98)}
-.btn.coral{background:var(--coral)}
-.btn.sun{background:var(--sun);color:var(--sea-deep)}
-.btn.ghost{background:transparent;color:var(--sea);border:1.5px solid var(--sea)}
-.btn.danger{color:#c43d2b;border-color:#e7a79c}
-.btn.sm{padding:7px 12px;font-size:13px;border-radius:11px}
-.btn.block{width:100%}
-.linkbtn{background:none;border:0;color:var(--sea);font-weight:700;font-size:14px;padding:4px}
-.icon-btn{background:#fff;border:1px solid var(--line);border-radius:12px;width:38px;height:38px;display:inline-grid;place-items:center;font-size:16px;flex:none;color:var(--ink)}
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 4rem 1.5rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 999px;
+    color: var(--palm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--palm);
+    text-shadow: 0 4px 30px rgba(255, 255, 255, 0.3);
+    margin: 0;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--coral);
+  }
+  .hero-dates {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: var(--palm);
+    color: var(--sand);
+    border-radius: 999px;
+    font-weight: 500;
+    box-shadow: 0 20px 40px -10px rgba(10, 61, 46, 0.4);
+  }
+  .hero-bases {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .base-pill {
+    padding: 0.6rem 1.2rem;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 999px;
+    color: var(--palm);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.6);
+    transition: all 0.3s;
+  }
+  .base-pill:hover { transform: translateY(-3px); background: white; }
+  .scroll-cue {
+    position: absolute;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--palm);
+    z-index: 10;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+  }
 
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 10px;margin:0 -2px}
-.chips::-webkit-scrollbar{display:none}
-.chip{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-.chip.on{background:var(--sea);color:#fff;border-color:var(--sea)}
-.chip.sunny{background:var(--sun);border-color:var(--sun);color:var(--sea-deep);font-weight:700}
+  /* NAVIGATION */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 248, 240, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--palm);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+  .nav-brand i { color: var(--coral); }
+  .nav-tabs {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 0.5rem 0.9rem;
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .nav-tab:hover { background: rgba(0, 137, 123, 0.08); color: var(--ocean-deep); }
+  .nav-tab.active { background: var(--palm); color: var(--sand); }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    white-space: nowrap;
+  }
+  .sync-status {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    padding: 0.3rem 0.6rem;
+    background: var(--sand-deep);
+    border-radius: 999px;
+  }
+  .sync-status i { font-size: 0.7rem; }
+  .sync-status.syncing i { color: var(--gold); animation: spin 1s linear infinite; }
+  .sync-status.synced i { color: var(--palm-mid); }
+  .sync-status.error i { color: var(--coral); }
+  .sync-status.offline i { color: #999; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .progress-bar {
+    width: 80px;
+    height: 6px;
+    background: var(--sand-deep);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--coral), var(--sunset));
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 999px;
+  }
 
-.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--coral-soft);color:#b8452a}
-.stars{color:#f0a500;font-size:13px;letter-spacing:1px}
+  /* SECTIONS */
+  .section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 3rem;
+  }
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  .section-eyebrow {
+    color: var(--coral);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background: var(--coral);
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--palm);
+    margin: 0;
+  }
+  .section-title em { font-style: italic; color: var(--coral); font-weight: 400; }
+  .section-desc {
+    color: var(--ink-soft);
+    margin-top: 1rem;
+    max-width: 600px;
+    font-size: 1.05rem;
+  }
 
-input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--lagoon);box-shadow:0 0 0 3px rgba(111,211,208,.3)}
-textarea{resize:vertical;min-height:70px}
-.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin:12px 0 5px;text-transform:uppercase;letter-spacing:.06em}
-.search{position:relative}
-.search input{padding-left:40px;border-radius:16px;box-shadow:var(--shadow)}
-.search span{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
+  /* OVERVIEW */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(45,24,16,0.15); }
+  .stat-card i { color: var(--coral); font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .stat-card .num { font-family: 'Fraunces', serif; font-weight: 800; font-size: 2.5rem; color: var(--palm); line-height: 1; }
+  .stat-card .label { color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.25rem; }
 
-/* ---------- tab bar ---------- */
-.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));
-  width:min(560px,calc(100% - 20px));display:flex;gap:2px;background:rgba(11,85,99,.93);backdrop-filter:blur(12px);
-  border-radius:26px;padding:6px;z-index:40;box-shadow:0 10px 30px rgba(8,50,60,.35)}
-.tabbar button{flex:1;background:none;border:0;color:#cdeeed;font-size:11px;padding:7px 0;border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:1px}
-.tabbar .i{font-size:20px;line-height:1.2}
-.tabbar button.on{background:var(--sun);color:var(--sea-deep);font-weight:700}
+  .base-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .base-card {
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    width: 100%;
+    color: inherit;
+  }
+  .base-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--base-color, var(--coral));
+  }
+  .base-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -20px rgba(45,24,16,0.2); }
+  .base-card .icon-circle {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: var(--base-bg, rgba(255, 107, 92, 0.1));
+    color: var(--base-color, var(--coral));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .base-card h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--palm); margin: 0 0 0.25rem; font-weight: 700; }
+  .base-card .dates { color: var(--base-color, var(--coral)); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.75rem; }
+  .base-card .character { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.5; }
+  
+  .weather-banner {
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    border: 1px solid #FFCC80;
+    border-radius: 24px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+  .weather-banner i { color: var(--sunset-deep); font-size: 2rem; flex-shrink: 0; }
+  .weather-banner h4 { font-family: 'Fraunces', serif; color: var(--palm); margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 700; }
+  .weather-banner p { color: var(--ink-soft); margin: 0; font-size: 0.9rem; line-height: 1.6; }
 
-/* ---------- today ---------- */
-.countdown{background:linear-gradient(135deg,var(--sea) 0%,var(--sea-deep) 100%);color:#fff;border:0;position:relative;overflow:hidden}
-.countdown .kicker{color:#bfeeed}
-.countdown .big{font-size:64px;color:var(--sun)}
-.countdown::after{content:'🌴';position:absolute;right:14px;bottom:-8px;font-size:84px;opacity:.25}
-.stay{border-radius:20px;padding:14px;color:#fff;border:0;text-align:left;width:100%;cursor:pointer}
-.stay b{font-family:'Fraunces',serif;font-size:19px;display:block}
-.stay small{opacity:.9}
-.stay.carcar{background:linear-gradient(135deg,#3aa56c,#23704a)}
-.stay.moalboal{background:linear-gradient(135deg,#19a4ad,#0b5f6d)}
-.stay.mactan{background:linear-gradient(135deg,#ff9166,#e0593c)}
-.progress{height:10px;background:var(--sand-2);border-radius:99px;overflow:hidden}
-.progress>div{height:100%;background:linear-gradient(90deg,var(--lagoon),var(--sea));border-radius:99px;transition:width .3s}
-.progress.warn>div{background:linear-gradient(90deg,var(--sun),var(--coral))}
-.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.qa button{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 4px;font-size:12px;font-weight:700;color:var(--sea-deep);display:flex;flex-direction:column;align-items:center;gap:4px}
-.qa .e{font-size:22px}
-.checkrow{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px dashed var(--line);cursor:pointer}
-.checkrow:last-child{border-bottom:0}
-.checkrow .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--lagoon);display:grid;place-items:center;flex:none;font-size:13px;color:#fff}
-.checkrow.on .box{background:var(--sea);border-color:var(--sea)}
-.checkrow.on .t{text-decoration:line-through;color:var(--muted)}
-.checkrow .t{flex:1}
-.weather{background:linear-gradient(135deg,#eaf6ff,#e3f7f5);border-color:#cfe8ea}
+  .priority-list {
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 1.5rem;
+  }
+  .priority-list h4 {
+    font-family: 'Fraunces', serif;
+    color: var(--palm);
+    margin: 0 0 1.25rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .priority-list h4 i { color: var(--gold); }
+  .priority-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.95rem;
+  }
+  .priority-item:last-child { border-bottom: none; }
+  .priority-item .name { color: var(--ink); font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+  .priority-item .name i { color: var(--coral); font-size: 0.85rem; }
+  .priority-stars { color: var(--gold); letter-spacing: 1px; font-size: 0.85rem; }
 
-/* ---------- days ---------- */
-.day-card{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;cursor:pointer;padding:12px}
-.datebox{border-radius:16px;text-align:center;color:#fff;padding:8px 0;line-height:1.1}
-.datebox .dow{font-size:11px;font-weight:700;text-transform:uppercase;opacity:.9}
-.datebox .dnum{font-family:'Fraunces',serif;font-size:26px;font-weight:800;display:block}
-.datebox .mon{font-size:11px;text-transform:uppercase;opacity:.9}
-.carcar .datebox,.bg-carcar{background:var(--palm)}
-.moalboal .datebox,.bg-moalboal{background:var(--sea)}
-.mactan .datebox,.bg-mactan{background:var(--coral)}
-.day-card h3{font-size:17px;margin:2px 0}
-.day-card p{margin:2px 0 0;font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.day-card .meta{font-size:12px;color:var(--muted);margin-top:5px}
-.day-card.today{outline:3px solid var(--sun)}
-.day-card.done{opacity:.72}
-.tick{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:16px;color:transparent;display:grid;place-items:center}
-.tick.on{background:var(--palm);border-color:var(--palm);color:#fff}
-.flex-tag{display:inline-block;background:var(--sun);color:var(--sea-deep);font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:6px;vertical-align:middle}
-.blocks{border-left:3px solid var(--lagoon);margin-left:6px;padding-left:14px}
-.block{position:relative;padding:6px 0}
-.block::before{content:'';position:absolute;left:-21px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--sun);border:2px solid #fff;box-shadow:0 0 0 1px var(--lagoon)}
-.block .tm{font-size:12px;font-weight:700;color:var(--sea);text-transform:uppercase;letter-spacing:.04em}
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 1rem;
+    bottom: 1rem;
+    width: 2px;
+    background: linear-gradient(180deg, var(--coral), var(--sunset), var(--ocean), var(--palm));
+  }
+  .day-card {
+    position: relative;
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.3s;
+  }
+  .day-card::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 1.75rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--sand-card);
+    border: 3px solid var(--coral);
+    box-shadow: 0 0 0 4px rgba(255, 107, 92, 0.15);
+  }
+  .day-card:hover { box-shadow: 0 20px 40px -15px rgba(45,24,16,0.12); }
+  .day-card.move::before { border-color: var(--sunset); box-shadow: 0 0 0 4px rgba(255, 149, 88, 0.15); }
+  .day-card.mactan::before { border-color: var(--ocean); box-shadow: 0 0 0 4px rgba(0, 137, 123, 0.15); }
+  .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .day-date {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--palm);
+    line-height: 1;
+    margin: 0;
+  }
+  .day-title { color: var(--ink); font-weight: 600; font-size: 1.05rem; margin: 0.25rem 0 0; }
+  .day-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    background: var(--sand-deep);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .day-tag i { font-size: 0.7rem; }
+  .day-tag.carcar { background: rgba(255, 107, 92, 0.12); color: var(--coral); }
+  .day-tag.moalboal { background: rgba(0, 137, 123, 0.12); color: var(--ocean); }
+  .day-tag.mactan { background: rgba(244, 184, 96, 0.2); color: var(--sunset-deep); }
+  .day-schedule {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .schedule-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--sand);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    align-items: flex-start;
+  }
+  .schedule-time {
+    font-weight: 700;
+    color: var(--coral);
+    min-width: 70px;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .schedule-text { color: var(--ink); flex: 1; }
+  .schedule-text strong { color: var(--palm); }
+  .day-notes-input {
+    margin-top: 1rem;
+    width: 100%;
+    background: var(--sand);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 38px;
+  }
+  .day-notes-input:focus { outline: none; border-color: var(--coral); background: white; }
+  .day-notes-input::placeholder { color: #B0A89F; font-style: italic; }
 
-/* ---------- places ---------- */
-.place{overflow:hidden;padding:0;cursor:pointer;display:flex;flex-direction:column}
-.place .ph{height:96px;display:grid;place-items:center;font-size:40px;background:linear-gradient(135deg,var(--foam),#fdf0d8);background-size:cover;background-position:center;position:relative}
-.place .ph .area{position:absolute;left:10px;bottom:8px;background:rgba(255,255,255,.9);color:var(--sea-deep);font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px}
-.place .ph .flags{position:absolute;right:10px;top:8px;font-size:16px}
-.place .pb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
-.place h3{font-size:16px}
-.place .tip{font-size:13px;color:var(--muted);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
-.pactions .chip{padding:6px 10px;font-size:12px}
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .filter-chip {
+    padding: 0.5rem 1rem;
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .filter-chip:hover { border-color: var(--coral); color: var(--coral); }
+  .filter-chip.active { background: var(--palm); color: var(--sand); border-color: var(--palm); }
+  .filter-chip .count { font-size: 0.7rem; opacity: 0.7; }
 
-/* ---------- photos ---------- */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
-.pgrid .ph{aspect-ratio:1;border-radius:14px;background:var(--sand-2) center/cover no-repeat;cursor:pointer;border:0;position:relative;overflow:hidden}
-.pgrid .ph span{position:absolute;left:0;right:0;bottom:0;font-size:11px;color:#fff;padding:14px 6px 5px;background:linear-gradient(transparent,rgba(0,0,0,.55));text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pgrid .add{display:grid;place-items:center;background:var(--foam);border:2px dashed var(--lagoon);color:var(--sea);font-weight:700;font-size:13px}
-.lightbox img{width:100%;max-height:62vh;object-fit:contain;border-radius:16px;background:#0b2f36}
+  .search-box {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a89b8e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.3-4.3'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+  }
+  .search-box:focus { outline: none; border-color: var(--coral); }
 
-/* ---------- lists ---------- */
-.lrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
-.lrow:last-child{border-bottom:0}
-.lmain{flex:1;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0}
-.lmain b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lmain small{display:block;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lic{width:38px;height:38px;border-radius:12px;background:var(--foam);display:grid;place-items:center;font-size:18px;flex:none}
-.bar{display:grid;grid-template-columns:110px 1fr 90px;gap:8px;align-items:center;font-size:13px;margin:7px 0}
-.bar .progress{height:8px}
-.bar b{text-align:right}
-.guide h3{margin:4px 0 6px;color:var(--sea-deep)}
-.guide ul{margin:6px 0 0;padding-left:20px}
-.guide li{margin:3px 0}
+  /* ACTIVITY GRID */
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+  .activity-card {
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .activity-card:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -15px rgba(45,24,16,0.15); }
+  .activity-card.completed { opacity: 0.7; }
+  .activity-card.completed::after {
+    content: 'Done';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--palm-mid);
+    color: white;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  .activity-banner {
+    height: 6px;
+    background: var(--cat-color, var(--coral));
+  }
+  .activity-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .activity-cat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .activity-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--cat-color, var(--coral));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .priority-badge {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .activity-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--palm);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+  .activity-location {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .activity-location i { color: var(--coral); }
+  .activity-desc { color: var(--ink-soft); font-size: 0.85rem; line-height: 1.55; margin-bottom: 0.75rem; flex: 1; }
+  .activity-tips {
+    background: var(--sand);
+    border-radius: 12px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .activity-tips-title { font-size: 0.7rem; font-weight: 600; color: var(--palm); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.35rem; }
+  .activity-tips ul { margin: 0; padding-left: 1rem; font-size: 0.8rem; color: var(--ink-soft); }
+  .activity-tips li { margin-bottom: 0.2rem; }
+  .activity-contact {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+  .activity-contact a { color: var(--ocean); text-decoration: none; word-break: break-all; }
+  .activity-contact a:hover { color: var(--ocean-deep); text-decoration: underline; }
+  .activity-contact-row { display: flex; gap: 0.4rem; align-items: center; margin-bottom: 0.15rem; }
+  .activity-contact-row i { color: var(--coral); width: 14px; }
+  .activity-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .activity-photo {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: var(--sand-deep);
+  }
+  .activity-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-remove {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 18px; height: 18px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .activity-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+  .activity-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    background: var(--sand);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--ocean);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .activity-link:hover { background: rgba(0, 137, 123, 0.08); }
+  .activity-link i { color: var(--coral); flex-shrink: 0; }
+  .activity-link .remove-link { margin-left: auto; color: #999; opacity: 0; transition: opacity 0.2s; background: none; border: none; cursor: pointer; font-size: 0.7rem; }
+  .activity-link:hover .remove-link { opacity: 1; }
+  .activity-actions {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border);
+    flex-wrap: wrap;
+  }
+  .activity-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 0.5rem 0.6rem;
+    background: var(--sand);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+  .activity-btn:hover { background: var(--coral); color: white; border-color: var(--coral); }
+  .activity-btn.complete-btn.active { background: var(--palm); color: white; border-color: var(--palm); }
+  .activity-btn.complete-btn.active i { color: var(--gold); }
 
-/* ---------- sheet ---------- */
-.sheet{position:fixed;inset:0;z-index:60;display:none}
-.sheet.open{display:block}
-.backdrop{position:absolute;inset:0;background:rgba(8,40,48,.5);animation:fade .2s}
-.panel{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--sand);
-  border-radius:26px 26px 0 0;padding:10px 16px calc(28px + env(safe-area-inset-bottom));animation:up .25s ease-out}
-.grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:2px auto 10px}
-.sheet-x{position:sticky;top:0;float:right;z-index:3}
-@media(min-width:760px){.panel{left:50%;right:auto;top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(700px,92vw);border-radius:26px;max-height:88vh;animation:fade .2s}.grab{display:none}}
-@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet-hero{border-radius:20px;padding:16px;color:#fff;margin-bottom:12px}
-.sheet-hero .kicker{color:rgba(255,255,255,.85)}
-.title-in{background:transparent;border:0;color:#fff;font-family:'Fraunces',serif;font-size:26px;font-weight:800;padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.5);border-radius:0}
-.title-in:focus{box-shadow:none;border-color:#fff}
-.sec{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}
-.sec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.planb{background:#eef7ff;border-color:#cfe3f3}
+  /* FOOD */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .food-card {
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    transition: all 0.3s;
+  }
+  .food-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -10px rgba(45,24,16,0.12); }
+  .food-cuisine {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    background: rgba(255, 107, 92, 0.1);
+    color: var(--coral);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .food-name { font-family: 'Fraunces', serif; font-weight: 700; color: var(--palm); margin: 0 0 0.5rem; font-size: 1.1rem; line-height: 1.2; }
+  .food-area { color: var(--ink-soft); font-size: 0.8rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem; }
+  .food-area i { color: var(--coral); }
+  .food-contact { font-size: 0.8rem; color: var(--ink-soft); }
+  .food-contact a { color: var(--ocean); text-decoration: none; }
+  .food-contact a:hover { text-decoration: underline; }
 
-#toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--sea-deep);color:#fff;padding:10px 16px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:90vw;text-align:center}
-#toast.show{opacity:1;transform:translateX(-50%)}
+  /* STAYS */
+  .stays-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .stay-card {
+    background: linear-gradient(135deg, var(--palm) 0%, var(--palm-light) 100%);
+    color: var(--sand);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stay-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(244, 184, 96, 0.15), transparent);
+    border-radius: 50%;
+  }
+  .stay-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .stay-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.5rem; margin: 0 0 0.5rem; line-height: 1.2; }
+  .stay-area { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 1rem; }
+  .stay-vibe { color: rgba(255,255,255,0.85); font-size: 0.85rem; line-height: 1.6; }
+  
+  .stay-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 1rem 0 0.5rem;
+  }
+  .stay-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    overflow: hidden;
+  }
+  .stay-link:hover { background: rgba(255,255,255,0.2); }
+  .stay-link i.fa-map-location-dot { color: var(--gold); flex-shrink: 0; }
+  .stay-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .stay-link .remove-link { margin-left: auto; color: rgba(255,255,255,0.6); opacity: 0; transition: opacity 0.2s; background: none; border: none; cursor: pointer; font-size: 0.7rem; flex-shrink: 0; }
+  .stay-link:hover .remove-link { opacity: 1; }
+  .stay-link .remove-link:hover { color: white; }
+
+  .stay-add-link {
+    margin-top: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px dashed rgba(255,255,255,0.4);
+    border-radius: 10px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .stay-add-link:hover { background: rgba(255,255,255,0.2); border-style: solid; }
+
+  /* GALLERY */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+  .gallery-item {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--sand-deep);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .gallery-item:hover { transform: scale(1.02); box-shadow: 0 15px 30px -10px rgba(45,24,16,0.2); }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-item .gallery-remove {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 24px; height: 24px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 0.7rem;
+  }
+  .gallery-item:hover .gallery-remove { opacity: 1; }
+  .gallery-add {
+    aspect-ratio: 1;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .gallery-add:hover { border-color: var(--coral); color: var(--coral); background: rgba(255,107,92,0.04); }
+  .gallery-add i { font-size: 1.5rem; }
+
+  /* NOTES */
+  .notes-area {
+    width: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    background: var(--sand-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    resize: vertical;
+    line-height: 1.6;
+  }
+  .notes-area:focus { outline: none; border-color: var(--coral); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 61, 46, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: var(--sand-card);
+    border-radius: 24px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal h3 { font-family: 'Fraunces', serif; color: var(--palm); margin: 0 0 1.5rem; font-size: 1.5rem; font-weight: 700; }
+  .modal label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--palm); margin-bottom: 0.4rem; }
+  .modal input, .modal textarea, .modal select {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--sand);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .modal input:focus, .modal textarea:focus, .modal select:focus { outline: none; border-color: var(--coral); }
+  .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+  .btn {
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-primary { background: var(--coral); color: white; }
+  .btn-primary:hover { background: var(--sunset); transform: translateY(-2px); box-shadow: 0 8px 20px -5px rgba(255,107,92,0.5); }
+  .btn-secondary { background: var(--sand-deep); color: var(--ink); }
+  .btn-secondary:hover { background: var(--border); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--palm);
+    color: var(--sand);
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 200;
+    opacity: 0;
+    transition: all 0.3s;
+    box-shadow: 0 15px 30px -10px rgba(10,61,46,0.4);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast i { color: var(--gold); }
+
+  /* FAB */
+  .fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: white;
+    border: none;
+    box-shadow: 0 10px 25px -5px rgba(255,107,92,0.5);
+    cursor: pointer;
+    z-index: 40;
+    font-size: 1.25rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fab:hover { transform: scale(1.1) rotate(90deg); background: var(--sunset); }
+
+  /* FOOTER */
+  footer {
+    background: var(--palm);
+    color: var(--sand);
+    padding: 3rem 1.5rem 2rem;
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, var(--sand) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem; }
+  .footer-tag { color: rgba(255,255,255,0.7); margin-bottom: 2rem; }
+  .footer-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .footer-btn {
+    padding: 0.6rem 1.2rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .footer-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-inner { flex-wrap: wrap; gap: 0.5rem; }
+    .nav-brand { font-size: 0.9rem; }
+    .nav-right { width: 100%; justify-content: space-between; }
+    .progress-wrap { font-size: 0.75rem; }
+    .progress-bar { width: 60px; }
+  }
+  @media (max-width: 640px) {
+    .section { padding: 3rem 1rem 2rem; }
+    .nav-inner { padding: 0.5rem 1rem; }
+    .nav-brand { font-size: 0.85rem; }
+    .nav-right { gap: 0.4rem; }
+    .sync-status { font-size: 0.7rem; padding: 0.25rem 0.5rem; }
+    .progress-wrap { display: none; }
+    .hero-content { padding: 3rem 1rem 6rem; }
+    .day-card { padding: 1.25rem; }
+    .day-card::before { left: -1.5rem; }
+    .timeline { padding-left: 1.5rem; }
+    .schedule-time { min-width: 60px; font-size: 0.75rem; }
+    .fab { bottom: 1rem; right: 1rem; }
+    .footer-title { font-size: 1.5rem; }
+  }
+  
+  .hidden-section { display: none; }
+  
+  /* Loading overlay */
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--sand);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: opacity 0.5s ease;
+  }
+  .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+  .loading-overlay .sun-mini {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD271, #FFB347);
+    animation: sunPulse 1.5s ease-in-out infinite;
+  }
+  .loading-overlay p {
+    color: var(--palm);
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="sun-mini"></div>
+  <p>Loading your trip...</p>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sun-rays"></div>
   <div class="sun"></div>
-  <svg class="palm" viewBox="0 0 200 220" aria-hidden="true"><g fill="#0b4f4c"><path d="M92 220c6-60 14-110 30-150l8 3c-15 40-22 88-27 147z"/><path d="M126 70c-30-24-70-30-110-16 36-2 70 8 102 26z"/><path d="M126 70c-10-30-40-52-80-58 30 14 56 34 72 62z"/><path d="M126 70c16-28 46-44 82-44-30 8-56 26-72 50z"/><path d="M126 70c30-6 58 6 74 34-24-18-50-24-76-22z"/><path d="M126 70c-26 2-54 20-66 50 18-22 42-38 70-44z"/></g></svg>
-  <svg class="palm2" viewBox="0 0 200 220" aria-hidden="true"><g fill="#0b4f4c"><path d="M92 220c6-60 14-110 30-150l8 3c-15 40-22 88-27 147z"/><path d="M126 70c-30-24-70-30-110-16 36-2 70 8 102 26z"/><path d="M126 70c-10-30-40-52-80-58 30 14 56 34 72 62z"/><path d="M126 70c16-28 46-44 82-44-30 8-56 26-72 50z"/><path d="M126 70c30-6 58 6 74 34-24-18-50-24-76-22z"/></g></svg>
-  <div class="wrap">
-    <div class="top"><span class="pill" id="syncPill"><span class="dot"></span><span id="syncText">Loading…</span></span><span class="pill">🇵🇭 Oct 9–27</span></div>
-    <h1>Cebu Escape</h1>
-    <div class="sub">Carcar &amp; Barili · Moalboal · Mactan</div>
+  <div class="clouds">
+    <div class="cloud" style="top: 15%; width: 120px; height: 30px; animation-duration: 80s; animation-delay: -20s;"></div>
+    <div class="cloud" style="top: 25%; width: 180px; height: 40px; animation-duration: 120s; animation-delay: -60s; opacity: 0.5;"></div>
+    <div class="cloud" style="top: 8%; width: 90px; height: 25px; animation-duration: 100s; animation-delay: -40s; opacity: 0.7;"></div>
   </div>
-  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path fill="#fbf3e4" d="M0 32c120-22 240-22 360 0s240 22 360 0 240-22 360 0 240 22 360 0v28H0z"/><path fill="#fbf3e4" opacity=".5" d="M0 22c160 18 320 18 480 0s320-18 480 0 320 18 480 0v38H0z"/></svg>
-</header>
+  
+  <svg class="palm left" width="200" height="300" viewBox="0 0 200 300" fill="none">
+    <path d="M100 300 L95 200 Q90 150 95 100" stroke="#0A3D2E" stroke-width="6" fill="none"/>
+    <path d="M95 100 Q60 70 30 60 Q40 80 50 95 Q70 90 95 100" fill="#0A3D2E"/>
+    <path d="M95 100 Q130 70 170 60 Q160 80 150 95 Q130 90 95 100" fill="#0A3D2E"/>
+    <path d="M95 100 Q70 60 50 30 Q80 50 95 80 Q95 90 95 100" fill="#0A3D2E"/>
+    <path d="M95 100 Q120 60 150 30 Q120 50 95 80 Q95 90 95 100" fill="#0A3D2E"/>
+    <path d="M95 100 Q85 50 70 10 Q95 40 100 80 Q100 90 95 100" fill="#0A3D2E"/>
+    <path d="M95 100 Q105 50 130 10 Q105 40 95 80 Q95 90 95 100" fill="#0A3D2E"/>
+  </svg>
+  <svg class="palm right" width="220" height="320" viewBox="0 0 200 300" fill="none">
+    <path d="M100 300 L105 200 Q110 150 105 100" stroke="#0A3D2E" stroke-width="6" fill="none"/>
+    <path d="M105 100 Q60 70 30 60 Q40 80 50 95 Q70 90 105 100" fill="#0A3D2E"/>
+    <path d="M105 100 Q130 70 170 60 Q160 80 150 95 Q130 90 105 100" fill="#0A3D2E"/>
+    <path d="M105 100 Q70 60 50 30 Q80 50 105 80 Q105 90 105 100" fill="#0A3D2E"/>
+    <path d="M105 100 Q120 60 150 30 Q120 50 105 80 Q105 90 105 100" fill="#0A3D2E"/>
+    <path d="M105 100 Q85 50 70 10 Q100 40 110 80 Q110 90 105 100" fill="#0A3D2E"/>
+    <path d="M105 100 Q105 50 130 10 Q110 40 105 80 Q105 90 105 100" fill="#0A3D2E"/>
+  </svg>
 
-<main class="wrap" id="view"></main>
+  <div class="hero-content">
+    <span class="hero-eyebrow"><i class="fas fa-plane-departure"></i> Philippine Islands · 2026</span>
+    <h1 class="hero-title">Cebu<em>escape</em></h1>
+    <div class="hero-dates">
+      <i class="fas fa-calendar"></i>
+      <span>October 9 to 27, 2026</span>
+      <span style="opacity: 0.5;">·</span>
+      <span>19 days</span>
+    </div>
+    <div class="hero-bases">
+      <span class="base-pill"><i class="fas fa-mountain"></i> Carcar / Barili</span>
+      <span class="base-pill"><i class="fas fa-fish"></i> Moalboal</span>
+      <span class="base-pill"><i class="fas fa-umbrella-beach"></i> Mactan</span>
+    </div>
+  </div>
 
-<nav class="tabbar" id="tabbar"></nav>
+  <div class="scroll-cue">
+    Scroll
+    <i class="fas fa-chevron-down"></i>
+  </div>
 
-<div class="sheet" id="sheet"><div class="backdrop" data-act="closeSheet"></div><div class="panel" id="panel"><div class="grab"></div><button class="icon-btn sheet-x" data-act="closeSheet" aria-label="Close">✕</button><div id="sheetBody"></div></div></div>
-<input type="file" id="filePick" accept="image/*" multiple hidden>
-<input type="file" id="importPick" accept="application/json" hidden>
-<div id="toast"></div>
+  <div class="waves">
+    <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,50 C300,100 600,0 900,50 C1050,75 1150,25 1200,50 L1200,100 L0,100 Z" fill="#00695C" opacity="0.4"/>
+    </svg>
+    <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C200,20 500,90 800,50 C950,30 1100,70 1200,50 L1200,100 L0,100 Z" fill="#004D4A" opacity="0.5"/>
+    </svg>
+    <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 C300,40 600,90 900,60 C1050,45 1150,70 1200,60 L1200,100 L0,100 Z" fill="#0A3D2E"/>
+    </svg>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <i class="fas fa-sun"></i>
+      Cebu Travel Guide
+    </div>
+    <nav class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" data-section="overview"><i class="fas fa-compass"></i> Overview</button>
+      <button class="nav-tab" data-section="itinerary"><i class="fas fa-route"></i> Itinerary</button>
+      <button class="nav-tab" data-section="activities"><i class="fas fa-star"></i> Activities</button>
+      <button class="nav-tab" data-section="food"><i class="fas fa-utensils"></i> Food</button>
+      <button class="nav-tab" data-section="stays"><i class="fas fa-bed"></i> Stays</button>
+      <button class="nav-tab" data-section="photos"><i class="fas fa-camera"></i> Photos</button>
+      <button class="nav-tab" data-section="notes"><i class="fas fa-pen-fancy"></i> Notes</button>
+    </nav>
+    <div class="nav-right">
+      <div class="sync-status offline" id="syncStatus">
+        <i class="fas fa-cloud"></i>
+        <span id="syncText">Local</span>
+      </div>
+      <div class="progress-wrap">
+        <span id="progressText">0/40</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-header">
+    <div class="section-eyebrow">Your Trip at a Glance</div>
+    <h2 class="section-title">Three bases, one <em>island</em></h2>
+    <p class="section-desc">A split that gives you rural waterfalls and mountains, then world-class marine life, then luxury dining and island-hopping.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><i class="fas fa-calendar-day"></i><div class="num">19</div><div class="label">Days in Cebu</div></div>
+    <div class="stat-card"><i class="fas fa-map-marker-alt"></i><div class="num">3</div><div class="label">Base camps</div></div>
+    <div class="stat-card"><i class="fas fa-water"></i><div class="num">7+</div><div class="label">Waterfalls</div></div>
+    <div class="stat-card"><i class="fas fa-fish-fins"></i><div class="num">4</div><div class="label">Marine highlights</div></div>
+    <div class="stat-card"><i class="fas fa-utensils"></i><div class="num">20+</div><div class="label">Restaurants</div></div>
+    <div class="stat-card"><i class="fas fa-camera-retro"></i><div class="num">40</div><div class="label">Photo spots</div></div>
+  </div>
+
+  <div class="weather-banner">
+    <i class="fas fa-cloud-showers-heavy"></i>
+    <div>
+      <h4>October is within Cebu's wetter season</h4>
+      <p>The sea can be perfectly beautiful for several days and then turn rough. Don't lock every boat day too tightly in advance. Days 11 (Bojo), 19 and 26 are kept flexible on purpose, use them as weather swaps.</p>
+    </div>
+  </div>
+
+  <div class="base-grid">
+    <button class="base-card" style="--base-color: var(--coral); --base-bg: rgba(255, 107, 92, 0.1);" onclick="switchSection('itinerary')">
+      <div class="icon-circle"><i class="fas fa-mountain"></i></div>
+      <h3>Carcar / Barili</h3>
+      <div class="dates">Oct 9 to 14</div>
+      <p class="character">Waterfalls, mountains, countryside, photography, food. Base at Las Terrazas de Barili.</p>
+    </button>
+    <button class="base-card" style="--base-color: var(--ocean); --base-bg: rgba(0, 137, 123, 0.1);" onclick="switchSection('itinerary')">
+      <div class="icon-circle"><i class="fas fa-fish"></i></div>
+      <h3>Moalboal</h3>
+      <div class="dates">Oct 14 to 21</div>
+      <p class="character">Freediving, sardines, turtles, Pescador Island, canyoneering at Kawasan Falls.</p>
+    </button>
+    <button class="base-card" style="--base-color: var(--gold); --base-bg: rgba(244, 184, 96, 0.15);" onclick="switchSection('itinerary')">
+      <div class="icon-circle"><i class="fas fa-umbrella-beach"></i></div>
+      <h3>Mactan</h3>
+      <div class="dates">Oct 21 to 27</div>
+      <p class="character">Luxury, wine, fine dining, beaches, island hopping, Cebu City day trip.</p>
+    </button>
+  </div>
+
+  <div class="priority-list">
+    <h4><i class="fas fa-star"></i> The Don't-Miss List</h4>
+    <div id="priorityList"></div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="section hidden-section" id="itinerary">
+  <div class="section-header">
+    <div class="section-eyebrow">Day by Day</div>
+    <h2 class="section-title">The <em>itinerary</em></h2>
+    <p class="section-desc">19 days balanced between adventure and recovery. Each card has a notes box for your own additions.</p>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="section hidden-section" id="activities">
+  <div class="section-header">
+    <div class="section-eyebrow">Activity Database</div>
+    <h2 class="section-title">Things to <em>do</em></h2>
+    <p class="section-desc">Every spot worth visiting. Add your own links, upload photos, mark them done.</p>
+  </div>
+  
+  <input type="text" class="search-box" id="activitySearch" placeholder="Search activities, locations, keywords...">
+  
+  <div class="filters" id="filters"></div>
+  <div class="activity-grid" id="activityGrid"></div>
+</section>
+
+<!-- FOOD -->
+<section class="section hidden-section" id="food">
+  <div class="section-header">
+    <div class="section-eyebrow">Food & Drink</div>
+    <h2 class="section-title">Where to <em>eat</em></h2>
+    <p class="section-desc">From Carcar lechon to Shangri-La fine dining.</p>
+  </div>
+  <div class="food-grid" id="foodGrid"></div>
+</section>
+
+<!-- STAYS -->
+<section class="section hidden-section" id="stays">
+  <div class="section-header">
+    <div class="section-eyebrow">Where You'll Sleep</div>
+    <h2 class="section-title">Your <em>stays</em></h2>
+    <p class="section-desc">Three very different accommodations, each one matched to the vibe of its base. Add Google Maps links to each.</p>
+  </div>
+  <div class="stays-grid" id="staysGrid"></div>
+</section>
+
+<!-- PHOTOS -->
+<section class="section hidden-section" id="photos">
+  <div class="section-header">
+    <div class="section-eyebrow">Your Gallery</div>
+    <h2 class="section-title">Trip <em>photos</em></h2>
+    <p class="section-desc">Upload photos from your phone or paste links. They sync to your Supabase database.</p>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<!-- NOTES -->
+<section class="section hidden-section" id="notes">
+  <div class="section-header">
+    <div class="section-eyebrow">Free Space</div>
+    <h2 class="section-title">General <em>notes</em></h2>
+    <p class="section-desc">Packing list, reminders, budget, things to follow up on.</p>
+  </div>
+  <textarea class="notes-area" id="generalNotes" placeholder="Packing list, budget notes, reminders..."></textarea>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <h3 class="footer-title">Safe travels</h3>
+    <p class="footer-tag">Your data syncs to Supabase. Local storage keeps working offline.</p>
+    <div class="footer-actions">
+      <button class="footer-btn" onclick="forceSync()"><i class="fas fa-rotate"></i> Force sync</button>
+      <button class="footer-btn" onclick="exportData()"><i class="fas fa-download"></i> Export my data</button>
+      <button class="footer-btn" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Import data</button>
+      <button class="footer-btn" onclick="resetData()" style="background: rgba(255,107,92,0.2);"><i class="fas fa-trash"></i> Reset</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+    </div>
+    <p style="margin-top: 2rem; font-size: 0.75rem; opacity: 0.5;">Built for your Cebu adventure · October 9 to 27, 2026</p>
+  </div>
+</footer>
+
+<!-- FAB -->
+<button class="fab" onclick="openAddActivityModal()" title="Add custom activity"><i class="fas fa-plus"></i></button>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="linkModal">
+  <div class="modal">
+    <h3 id="linkModalTitle">Add a link</h3>
+    <label>Link URL</label>
+    <input type="url" id="linkUrl" placeholder="https://...">
+    <label>Link label (optional)</label>
+    <input type="text" id="linkLabel" placeholder="Booking page, blog post, etc.">
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('linkModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveLink()"><i class="fas fa-save"></i> Save link</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="photoModal">
+  <div class="modal">
+    <h3>Add a photo</h3>
+    <label>Choose from device</label>
+    <input type="file" id="photoFile" accept="image/*" onchange="handlePhotoUpload(event)">
+    <p style="text-align:center; margin: 0.5rem 0; color: var(--ink-soft); font-size: 0.85rem;">or</p>
+    <label>Paste image URL</label>
+    <input type="url" id="photoUrl" placeholder="https://...image.jpg">
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('photoModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePhoto()"><i class="fas fa-image"></i> Add photo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="activityModal">
+  <div class="modal">
+    <h3>Add custom activity</h3>
+    <label>Activity name</label>
+    <input type="text" id="newActName" placeholder="e.g. Sunset at Lantawan">
+    <label>Location</label>
+    <input type="text" id="newActLocation" placeholder="e.g. Carcar">
+    <label>Category</label>
+    <select id="newActCategory">
+      <option value="custom">Custom</option>
+      <option value="waterfall">Waterfall</option>
+      <option value="marine">Marine</option>
+      <option value="adventure">Adventure</option>
+      <option value="food">Food</option>
+      <option value="photo">Photography</option>
+      <option value="relax">Relax</option>
+      <option value="shopping">Shopping</option>
+      <option value="sightseeing">Sightseeing</option>
+    </select>
+    <label>Description / notes</label>
+    <textarea id="newActDesc" rows="3" placeholder="What is it? Why do you want to go?"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('activityModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCustomActivity()"><i class="fas fa-plus"></i> Add activity</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Saved</span></div>
 
 <script>
-/* =========================================================
-   1. SUPABASE SETTINGS — paste your project values here.
-   Leave blank to run in "this device only" mode.
-   Supabase → Project Settings → API
-   ========================================================= */
-const CONFIG = {
-  SUPABASE_URL: 'https://tkzmpqspndahrmijircl.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrem1wcXNwbmRhaHJtaWppcmNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzczMDEsImV4cCI6MjEwNjMxMzMwMX0.fP1YAFuRlWO-wjcleklMVVRvm1zjxQYXGVJGbwuEX58',
-  BUCKET: 'trip-photos'
+// ============== SUPABASE CONFIG ==============
+const SUPABASE_URL = 'https://tkzmpqspndahrmijircl.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrem1wcXNwbmRhaHJtaWppcmNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzczMDEsImV4cCI6MjEwNjMxMzMwMX0.fP1YAFuRlWO-wjcleklMVVRvm1zjxQYXGVJGbwuEX58';
+
+let sb = null;
+try {
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} catch(e) {
+  console.warn('Supabase init failed, using local storage only', e);
+}
+
+// ============== DATA ==============
+const categories = {
+  waterfall: { label: 'Waterfalls', icon: 'fa-water', color: '#00897B' },
+  marine: { label: 'Marine', icon: 'fa-fish', color: '#0288D1' },
+  adventure: { label: 'Adventure', icon: 'fa-mountain-sun', color: '#E67E22' },
+  photo: { label: 'Photography', icon: 'fa-camera-retro', color: '#8E24AA' },
+  food: { label: 'Food', icon: 'fa-utensils', color: '#FF6B5C' },
+  relax: { label: 'Relax', icon: 'fa-spa', color: '#4A8B5C' },
+  sightseeing: { label: 'Sightseeing', icon: 'fa-binoculars', color: '#F4B860' },
+  shopping: { label: 'Shopping', icon: 'fa-bag-shopping', color: '#D81B60' },
+  custom: { label: 'Custom', icon: 'fa-star', color: '#5C4033' }
 };
 
-/* ========================================================= */
-const TRIP = { start: '2026-10-09', end: '2026-10-27' };
-const LS = 'cebu-trip-v1', LS_PENDING = 'cebu-trip-pending';
-const KINDS = ['days','places','photos','expenses','packing','bucket','links','contacts','notes','meta'];
-const AREAS = ['Carcar / Barili','Moalboal','South Cebu','Mactan','Cebu City'];
-const CATS = ['Waterfall','Nature','Ocean','Diving','Beach','Tours','Food','Coffee','Drinks','Culture','Shopping','Wellness','Scooter','Stay'];
-const CAT_EMOJI = {Waterfall:'💦',Nature:'⛰️',Ocean:'🐟',Diving:'🤿',Beach:'🏖️',Tours:'🚤',Food:'🍽️',Coffee:'☕',Drinks:'🍷',Culture:'🏛️',Shopping:'🛍️',Wellness:'🧘',Scooter:'🛵',Stay:'🏨'};
-const EXP_CATS = ['Food','Drinks','Stay','Transport','Activities','Shopping','Tips','Other'];
-const LINK_CATS = ['Booking','Restaurant','Tickets','Info','Map','Weather','Other'];
-const LINK_ICON = {Booking:'🏨',Restaurant:'🍽️',Tickets:'🎟️',Info:'ℹ️',Map:'🗺️',Weather:'🌦️',Other:'🔗'};
-const PACK_GROUPS = ['Camera','Water','Documents','Tech','Health','Clothes','Other'];
+const activities = [
+  { id: 'mantayupan', name: 'Mantayupan Falls', base: 'carcar', category: 'waterfall', priority: 5, location: 'Barili, Cebu', hours: '7 AM to 5 PM', 
+    description: 'One of the easiest major waterfall excursions from your accommodation. The waterfall is in Barili itself.',
+    tips: ['Waterfall photography', 'Long-exposure shots', 'Jungle photography', 'Drone photography if permitted', 'Combine with countryside scooter ride'],
+    tip: 'Go early. The waterfall and greenery is much better before crowds arrive.'
+  },
+  { id: 'osmena-peak', name: 'Osmeña Peak', base: 'carcar', category: 'photo', priority: 5, location: 'Mantalongon, Cebu', 
+    description: 'At approximately 1,013m, Cebu\'s highest point. Particularly worthwhile at sunrise for landscape photography.',
+    tips: ['Sunrise hike', 'Mountain silhouettes', 'Cloud photography', 'Vegetable farms', 'Limestone pinnacles', 'Landscape panoramas'],
+    tip: 'Leave 3:30 to 4 AM for sunrise. Five stars for photography.'
+  },
+  { id: 'barili-countryside', name: 'Barili Countryside Scooter Day', base: 'carcar', category: 'photo', priority: 4, location: 'Barili / Dalaguete interior roads',
+    description: 'Rent a scooter and get lost on interior roads. Excellent for documentary photography.',
+    tips: ['Farmers', 'Motorcycles', 'Fishing boats', 'Rural architecture', 'Coconut harvesting', 'Roadside food stalls', 'Mountain farms', 'Sunset over the coast'],
+    tip: 'Always ask permission before photographing people closely, particularly children.'
+  },
+  { id: 'buhi-eco', name: 'Buhi Eco-Farm', base: 'carcar', category: 'sightseeing', priority: 2, location: 'Tagaytay, Barili, 6036 Cebu', phone: '+639178287805',
+    description: 'Local eco-farm listing. Currently temporarily closed, treat as backup, not a primary plan.'
+  },
+  { id: 'carcar-lechon', name: 'Carcar Lechon Mission', base: 'carcar', category: 'food', priority: 4, location: 'Carcar Public Market',
+    description: 'Carcar is famous for lechon. Make an afternoon of eating your way around town.',
+    tip: 'Pair with the old town and market photography.'
+  },
+  { id: 'motorcycle-carcar', name: 'Motorcycle Rental in Carcar', base: 'carcar', category: 'adventure', priority: 3, location: 'M. Mercado Street, Poblacion III, Carcar', phone: '+639473608276',
+    description: 'Rent for 2 to 3 days, not the entire stay. Use for Barili, Carcar, coastal roads, Mantayupan, viewpoints.',
+    tips: ['Good for: Barili, Carcar, Mantayupan, countryside', 'Don\'t use: long Oslob days, bad-weather mountain roads, late-night long-distance riding'],
+    tip: 'Make sure you have the appropriate motorcycle licence/permit and wear a proper helmet.'
+  },
+  { id: 'sardine-run', name: 'Moalboal Sardine Run', base: 'moalboal', category: 'marine', priority: 5, location: 'Panagsama Beach, Moalboal',
+    description: 'You don\'t need a boat. The sardines are close to shore. The formation changes constantly, so repeated visits are worthwhile.',
+    tips: ['Day 1: snorkel it', 'Day 2/3: freedive it', 'Day 5: underwater photography session', 'Day 6: sunset/late afternoon session'],
+    tip: 'Five stars. One of your absolute priorities.'
+  },
+  { id: 'freediving-planet', name: 'Freediving Planet Moalboal', base: 'moalboal', category: 'adventure', priority: 5, location: 'Brgy Tuble Rd, Moalboal', phone: '+639395241269', website: 'http://www.freediving-planet.com/',
+    description: 'Best place in your itinerary to learn freediving. Tell the instructor you want underwater photography before the lesson.',
+    tips: ['Day 1: introductory lesson', 'Day 2: technique / breath-hold / equalization', 'Day 3: guided sardine freedive', 'Day 4+: practice'],
+    learnList: ['Duck dive', 'Relaxation', 'Equalization', 'Neutral buoyancy', 'Finning', 'Body position', 'Breath control', 'Safe buddy procedures'],
+    tip: 'Don\'t make your first freediving session a solo attempt at depth.'
+  },
+  { id: 'moalboal-freediving', name: 'Moalboal Freediving', base: 'moalboal', category: 'adventure', priority: 4, location: 'Panagsama Beach, Moalboal', phone: '+639562841844' },
+  { id: 'savedra', name: 'Savedra Dive Center', base: 'moalboal', category: 'marine', priority: 4, location: '6032 Panagsama Beach, Moalboal', phone: '+639173211475', website: 'http://savedra.com/' },
+  { id: 'turtles', name: 'Sea Turtle Photography', base: 'moalboal', category: 'marine', priority: 5, location: 'Panagsama / Basdiot marine area',
+    description: 'Encounter turtles while snorkeling or diving. Moalboal is excellent for this.',
+    tips: ['Don\'t touch turtles', 'Don\'t chase them', 'Don\'t block their path', 'Don\'t grab coral for stability', 'Descend calmly and let the turtle come toward you'],
+    tip: 'Five stars. Priority experience.'
+  },
+  { id: 'pescador', name: 'Pescador Island', base: 'moalboal', category: 'marine', priority: 5, location: 'Boat trip from Moalboal',
+    description: 'Your main boat-trip option from Moalboal. Coral, reef fish, turtles, underwater walls, sardines depending on conditions.',
+    tips: ['Coral', 'Reef fish', 'Turtles', 'Underwater walls', 'Excellent underwater photography'],
+    tip: 'Combine: Pescador + Sardine Run + Turtle snorkeling. Ask operator to emphasise underwater time over rushing between islands.'
+  },
+  { id: 'moalboal-island-hopping', name: 'Moalboal Island Hopping', base: 'moalboal', category: 'marine', priority: 3, location: 'W9PR+MVX, Dr JP Rizal St, Moalboal', phone: '+639430112963' },
+  { id: 'moalboal-snorkel-tours', name: 'Moalboal Snorkeling/Scuba Travel and Tours', base: 'moalboal', category: 'marine', priority: 3, location: 'Panagsama Beach, Moalboal', phone: '+639530942240' },
+  { id: 'kawasan', name: 'Kawasan Falls + Canyoneering', base: 'moalboal', category: 'adventure', priority: 5, location: 'Badian, Cebu',
+    description: 'Standard canyoneering route through Kanlaob River canyon: jumps, natural slides, swimming, canyon walls, waterfalls, turquoise pools.',
+    tips: ['Guided; safety equipment supplied', 'Conditions can change rapidly after heavy rain', 'Don\'t put immediately after exhausting freediving day'],
+    tip: 'Pattern: Early morning canyoneering, then Kawasan Falls, then late lunch, then Moalboal sunset.'
+  },
+  { id: 'dao-falls', name: 'Dao Falls', base: 'moalboal', category: 'waterfall', priority: 3, location: 'South Cebu',
+    description: 'Quieter alternative to the big tourist attractions.'
+  },
+  { id: 'kabutongan', name: 'Kabutongan Falls', base: 'moalboal', category: 'adventure', priority: 3, location: 'Ginatilan-Malabuyoc, Cebu',
+    description: 'Hidden waterfall with a cave behind the cascade. Trekking, swimming, climbing opportunities. Great for nature photography and adventure.'
+  },
+  { id: 'osmena-from-moalboal', name: 'Osmeña Peak from Moalboal', base: 'moalboal', category: 'photo', priority: 4, location: 'Mantalongon',
+    description: 'Can also do Osmeña Peak from Moalboal side. Pattern: Sunrise hike, then breakfast, then return to Moalboal, then sardine run.'
+  },
+  { id: 'bojo-river', name: 'Bojo River Eco-Tour', base: 'moalboal', category: 'relax', priority: 4, location: 'Alegria, Cebu',
+    description: 'Community-based eco-tourism river experience through mangroves. Completely different from your other activities, and excellent as a bad-weather alternative to a sea day.',
+    tips: ['Mangroves', 'Birds', 'Reflections', 'Limestone cliffs', 'River landscapes', 'Local boats', 'Environmental photography'],
+    tip: 'Useful as a bad-weather alternative to a sea day.'
+  },
+  { id: 'white-beach', name: 'White Beach / Basdaku', base: 'moalboal', category: 'relax', priority: 3, location: 'Basdaku, Moalboal',
+    description: 'Slower afternoon. Pattern: Morning activity, then afternoon beach, then sunset photography, then dinner. Don\'t make every day an expedition.'
+  },
+  { id: 'need4speed', name: 'Need4Speed Motorbike Rental', base: 'moalboal', category: 'adventure', priority: 3, location: 'National Hwy, Poblacion East, Moalboal', website: 'https://www.facebook.com/profile.php?id=61563793768217',
+    description: 'Rent for 4 to 5 days. Use for Moalboal, White Beach, Basdaku, Badian, countryside, waterfalls.'
+  },
+  { id: 'oslob-whale-sharks', name: 'Oslob Whale Sharks', base: 'moalboal', category: 'marine', priority: 4, location: 'Oslob, Cebu',
+    description: 'Whale-shark encounters operate year-round, concentrated in the morning, with registration ending around 11 AM. The animals are fed, which is why sightings are so reliable. That is also the central conservation criticism.',
+    tips: ['Follow all local rules', 'Do not touch or chase the animals', 'Amazing wildlife encounter plus legitimate conservation debate'],
+    tip: 'Oslob mega-day: 4:30 leave Moalboal, 6:00 to 9:00 whale sharks, breakfast, 10:30 Tumalog, 12:00 lunch, 13:00 Sumilon if sea permits, 16:00 home.'
+  },
+  { id: 'sumilon', name: 'Sumilon Island', base: 'moalboal', category: 'marine', priority: 4, location: 'Bangcogon, Oslob',
+    description: 'Combine with Oslob if the sea is good. Sandbar and snorkeling.',
+    tip: 'Only if sea conditions permit.'
+  },
+  { id: 'tumalog', name: 'Tumalog Falls', base: 'moalboal', category: 'waterfall', priority: 3, location: 'Oslob, Cebu',
+    description: 'Very easy to combine with Oslob whale sharks.'
+  },
+  { id: 'mjs-weinkeller', name: "MJ's Weinkeller German Wine Bar", base: 'mactan', category: 'food', priority: 4, location: 'LG, Garden Walk, Lapu-Lapu', phone: '+69695009875',
+    description: 'Exactly the type of place for a wine-focused evening in Mactan. German wines, European-style food, relaxed evening.'
+  },
+  { id: 'cowrie-cove', name: 'Shangri-La Cowrie Cove', base: 'mactan', category: 'food', priority: 4, location: 'Shangri-La Mactan Resort', website: 'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/cowrie-cove/',
+    description: 'Seafood, steak, oceanfront dining. Wagyu, tuna kinilaw, octopus, seafood platter, steaks. Book for sunset.',
+    tip: 'Special-occasion dinner.'
+  },
+  { id: 'acqua', name: 'Shangri-La Acqua', base: 'mactan', category: 'food', priority: 4, location: 'Shangri-La Mactan Resort', website: 'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/acqua/',
+    description: 'Contemporary Italian. Italian, wine, romantic dinner.'
+  },
+  { id: 'tea-of-spring', name: 'Shangri-La Tea of Spring', base: 'mactan', category: 'food', priority: 3, location: 'Shangri-La Mactan Resort', website: 'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/tea-of-spring/',
+    description: 'Cantonese / Chinese. Extensive wine selection including Chinese wines.'
+  },
+  { id: 'tides', name: 'Shangri-La Tides', base: 'mactan', category: 'food', priority: 3, location: 'Shangri-La Mactan Resort', website: 'https://www.shangri-la.com/cebu/mactanresort/dining/restaurants/tides/',
+    description: 'International buffet. Filipino, Asian, international, including Cebu lechon.'
+  },
+  { id: 'enye', name: 'Enye by Chele Gonzalez (Crimson)', base: 'mactan', category: 'food', priority: 4, location: 'Crimson Hotel, Mactan', website: 'https://www.crimsonhotel.com/mactan/dining/enye-by-chele-gonzalez',
+    description: 'Spanish cuisine. Michelin Selected. Special dinner, pair with wine.'
+  },
+  { id: 'azure', name: 'Azure Beach Club', base: 'mactan', category: 'relax', priority: 3, location: 'Crimson Hotel, Mactan', website: 'https://www.crimsonhotel.com/mactan/dining/azure-beach-club-1',
+    description: 'Cocktails, sunset, beach, music. Not serious gastronomy, more of a vibe.'
+  },
+  { id: 'plantation-bay', name: 'Plantation Bay Restaurants', base: 'mactan', category: 'food', priority: 3, location: 'Plantation Bay Resort', website: 'https://plantationbay.com/dining/restaurants/',
+    description: 'Filipino, Japanese, Korean, Italian, Spanish, seafood, steaks, tapas. Palermo is interesting for Spanish tapas, Italian pasta, steaks.'
+  },
+  { id: 'mactan-island-hopping', name: 'Cebu Island Hopping Tour', base: 'mactan', category: 'marine', priority: 4, location: 'Baybayon, Maribago, Lapu-Lapu', phone: '+639562784936', website: 'http://www.cebuislandhoppingtour.com/',
+    description: 'Weather permitting. Hilutungan, Nalusuan, Caohagan, Olango, surrounding reef areas.',
+    tips: ['Request PRIVATE BOAT', 'Tell them: snorkeling + marine photography + enough time in the water + no rushing between islands'],
+    tip: 'Skip the cheapest group tour.'
+  },
+  { id: 'mactan-marine', name: 'Mactan Marine Sanctuary', base: 'mactan', category: 'marine', priority: 3, location: 'Resort area (e.g. Shangri-La)',
+    description: 'You don\'t necessarily have to leave your resort to snorkel. Shangri-La\'s marine sanctuary snorkeling describes 160+ species of marine life.'
+  },
+  { id: 'spa-day', name: 'Spa Day', base: 'mactan', category: 'relax', priority: 4, location: 'Bluewater Maribago / Shangri-La Chi / Crimson / Plantation Bay',
+    description: 'After two weeks of scooters, hiking, freediving, swimming, canyoneering, book a spa day. Make this one of your deliberately lazy days.'
+  },
+  { id: 'gaisano-mactan', name: 'Gaisano Mactan Island Mall', base: 'mactan', category: 'shopping', priority: 2, location: 'M.L. Quezon National Highway, Lapu-Lapu', phone: '+639153783680', website: 'http://gaisanocapital.com/',
+    description: 'Groceries, SIM/electronics, toiletries, clothing, local snacks, practical purchases. For serious shopping, go to Cebu City.'
+  },
+  { id: 'cebu-city-tour', name: 'Cebu City Day Trip', base: 'mactan', category: 'sightseeing', priority: 3, location: 'Cebu City',
+    description: 'From Mactan, take one full day for Cebu City.',
+    tips: ['Morning: Basilica Minore del Santo Niño, Magellan\'s Cross, Fort San Pedro, Carbon Market', 'Afternoon: National Museum of Cebu, heritage district, coffee', 'Evening: dinner, rooftop drinks, shopping']
+  },
+  { id: 'national-museum', name: 'National Museum of the Philippines in Cebu', base: 'mactan', category: 'sightseeing', priority: 2, location: 'A. Pigafetta Street, Cebu City', phone: '+639190779877', website: 'https://www.nationalmuseum.gov.ph/',
+    description: 'Open 9 AM to 5 PM.'
+  },
+  { id: 'sm-seaside', name: 'SM Seaside City Cebu', base: 'mactan', category: 'shopping', priority: 2, location: 'Cebu City',
+    description: 'Huge modern mall. Choose this if you want a serious shopping day.'
+  },
+  { id: 'sm-city', name: 'SM City Cebu', base: 'mactan', category: 'shopping', priority: 2, location: 'Cebu City' },
+  { id: 'ayala', name: 'Ayala Center Cebu', base: 'mactan', category: 'shopping', priority: 2, location: 'Cebu City' }
+];
 
-/* ---------------- seed data ---------------- */
-function seed(){
-  const B = (date, base, title, blocks, x={}) => ({ id:'d'+date.slice(8), date, base, title,
-    blocks: blocks.map(([t,txt])=>({t,x:txt})), planB:'', flex:false, done:false, notes:'', ...x });
-  const SEA_B = 'Sea rough? Skip boats. Do waterfalls (only if authorities say safe), cafés, food, massage, photography, or Bojo River.';
-  const days = [
-    B('2026-10-09','Carcar / Barili','Arrive in Carcar',[['Afternoon','Check in at Las Terrazas de Barili, explore the resort'],['Sunset','Sunset photography'],['Dinner','Local Cebuano food']],{notes:"Don't schedule anything major."}),
-    B('2026-10-10','Carcar / Barili','Carcar + Lechon',[['Morning','Carcar market, old town, photography'],['Lunch','Lechon (Carcar is famous for it)'],['Afternoon','Countryside scooter ride'],['Sunset','Coastal photography']]),
-    B('2026-10-11','Carcar / Barili','Mantayupan Falls',[['07:00','Mantayupan Falls — go early, before crowds'],['Afternoon','Barili countryside'],['Evening','Resort dinner']]),
-    B('2026-10-12','Carcar / Barili','Osmeña Peak sunrise',[['03:30–04:00','Leave'],['Sunrise','Osmeña Peak'],['Late morning','Mantalongon (breakfast)'],['Afternoon','Rest'],['Evening','Sunset / photography']],{planB:'Cloudy or rainy? Views disappear — swap with a café + food day and try another morning.'}),
-    B('2026-10-13','Carcar / Barili','Bojo River / Flex day',[['Good weather','Bojo River mangrove eco-tour'],['Bad weather','Carcar cafés + food + photography']],{flex:true}),
-    B('2026-10-14','Moalboal','Move to Moalboal',[['Morning','Check out, drive to Moalboal'],['After check-in','Sardine Run — first snorkel'],['Evening','Sunset dinner']]),
-    B('2026-10-15','Moalboal','Freediving course',[['Morning','Beginner freediving lesson'],['Afternoon','Rest'],['Late afternoon','Easy sardine snorkel']]),
-    B('2026-10-16','Moalboal','Freediving + Sardines',[['Morning','Freediving practice'],['Afternoon','Turtles / beach'],['Sunset','Underwater or surface photography']]),
-    B('2026-10-17','Moalboal','Pescador Island',[['Morning','Private boat: Pescador → snorkeling → turtles → sardines'],['Afternoon','Return'],['Dinner',"Lola Tanciang's Sutukil"]],{planB:SEA_B}),
-    B('2026-10-18','Moalboal','Kawasan canyoneering',[['Early','Canyoneering → Kawasan Falls'],['Afternoon','Return to Moalboal'],['Night','No nightlife. Sleep.']],{planB:'Heavy rain can suspend canyoneering (river rises fast). Swap with Oct 19 if needed.'}),
-    B('2026-10-19','Moalboal','Flex day',[['Weather perfect','White Beach + snorkeling + scooter'],['Weather poor','Cafés + food + massage + relaxed day']],{flex:true}),
-    B('2026-10-20','Moalboal','Oslob / South Cebu mega-day',[['04:30','Leave Moalboal'],['06:30','Whale shark activity (registration ends ~11 AM)'],['09:30','Tumalog Falls'],['11:30','Lunch'],['12:30','Sumilon if sea conditions permit'],['16:00','Return']],{planB:'Skip Sumilon if the sea is rough. Private vehicle recommended.'}),
-    B('2026-10-21','Mactan','Move to Mactan',[['Morning','Travel to Mactan'],['Afternoon','Check in at Bluewater Maribago'],['Rest','Pool, beach, massage, sunset — do almost nothing']]),
-    B('2026-10-22','Mactan','Resort day',[['Morning','Beach, snorkeling, pool'],['Afternoon','Spa'],['Evening',"🍷 MJ's Weinkeller"]]),
-    B('2026-10-23','Mactan','Mactan island hopping',[['Day','Private boat → reef snorkeling → islands → photography'],['Sunset','At the resort']],{planB:SEA_B.replace('Bojo River','Cebu City day (swap with Oct 25)')}),
-    B('2026-10-24','Mactan','Fine dining night',[['Option A','Enye by Chele Gonzalez'],['Option B','Shangri-La Cowrie Cove'],['Option C','Shangri-La Acqua']],{notes:'Wine-focused? Lean Acqua / Cowrie Cove / Tea of Spring.'}),
-    B('2026-10-25','Mactan','Cebu City day',[['Morning',"Magellan's Cross → Basilica → Fort San Pedro → Carbon Market"],['Afternoon','National Museum, heritage district, coffee, shopping'],['Evening','Sunset/rooftop drinks + dinner']]),
-    B('2026-10-26','Mactan','Final luxury day',[['Morning','Sleep late, breakfast, beach'],['Afternoon','Spa'],['Sunset','Cocktails'],['Dinner','Plantation Bay Palermo or Cowrie Cove']],{flex:true}),
-    B('2026-10-27','Mactan','Departure',[['Morning','Breakfast, last swim'],['Then','Airport']])
-  ];
+const foodSpots = [
+  { name: "Dianne's Seafood House", cuisine: 'Seafood', area: 'General Luna St., Carcar', phone: '+639175300949', website: 'https://diannesseafoodhouse.com/' },
+  { name: 'Pabukid Resto Drink & Dine', cuisine: 'Casual', area: 'Diversion Road, Poblacion III, Carcar', phone: '+639976538061' },
+  { name: 'Acacia Grill & Restaurant', cuisine: 'Filipino', area: 'Natalio B. Bacalso S National Hwy, Carcar', phone: '+63324879157' },
+  { name: 'Oakleaf Coffee', cuisine: 'Coffee', area: 'Awayan, Poblacion 3, Carcar', phone: '+639097813789' },
+  { name: 'Bean Rocks Cafe', cuisine: 'Coffee', area: 'Dapdap, Pob 3, Carcar', phone: '+639562285309' },
+  { name: 'Ristorante Sapori Di Napoli', cuisine: 'Italian', area: 'Commercial Haven Bldg, Sitio Cogon, Panagsama Rd, Basdiot, Moalboal', phone: '+639175053609', website: 'https://www.facebook.com/saporidinapolicebuph/' },
+  { name: 'Kugita Seafood & Charcoal Grill', cuisine: 'Seafood', area: 'Panagsama Rd, Moalboal', phone: '+63324740037', website: 'https://www.facebook.com/kugitamoalboal' },
+  { name: "Lola Tanciang's Sutukil Seafood Paluto", cuisine: 'Filipino Seafood', area: 'Panagsama Beach, Moalboal', phone: '+639171292180' },
+  { name: 'Kraken Restaurant and Bar', cuisine: 'Dinner / Drinks', area: 'Panagsama Beach, Moalboal', phone: '+639452832241' },
+  { name: 'Seoul Kitchen', cuisine: 'Korean', area: 'Panagsama Beach, Moalboal', phone: '+639959769404' },
+  { name: 'Ram Coffee House', cuisine: 'Coffee', area: 'Calumpang Street, Poblacion West, Moalboal', phone: '+639981568956' },
+  { name: 'Moalboal Beer Garden', cuisine: 'Drinks', area: 'Panagsama Rd, Basdiot, Moalboal' },
+  { name: 'Haze Bar', cuisine: 'Drinks', area: 'Panagsama Rd, Moalboal' }
+];
 
-  const P = (id,name,area,cat,prio,x={}) => ({id,name,area,cat,prio,phone:'',web:'',addr:'',hours:'',tip:'',status:'',fav:false,visited:false,notes:'',dayIds:[],...x});
-  const places = [
-    P('las-terrazas','Las Terrazas de Barili','Carcar / Barili','Stay',0,{tip:'Your base Oct 9–14.',dayIds:['d09','d10','d11','d12','d13']}),
-    P('mantayupan','Mantayupan Falls','Carcar / Barili','Waterfall',4,{hours:'Approx. 7 AM–5 PM',tip:'Go early — waterfall + greenery before the crowds. Swimming, long exposures, jungle shots. Drone only if permitted.',dayIds:['d11']}),
-    P('osmena','Osmeña Peak','Carcar / Barili','Nature',5,{tip:"Cebu's highest point (~1,013 m). Leave 3:30–4:00 AM → hike → sunrise → breakfast. Limestone pinnacles, clouds, farms, panoramas.",dayIds:['d12']}),
-    P('countryside','Barili countryside scooter loop','Carcar / Barili','Scooter',4,{tip:'Interior roads around Barili/Dalaguete: farms, coconut plantations, roadside churches, mountain villages, viewpoints. Ask permission before close portraits, especially of children.',dayIds:['d10','d11']}),
-    P('carcar-market','Carcar market & old town','Carcar / Barili','Culture',3,{tip:'Morning photo walk, then lechon.',dayIds:['d10']}),
-    P('bojo','Bojo River','Carcar / Barili','Nature',4,{tip:'Community-based mangrove river eco-tour. Birds, reflections, limestone cliffs. Great bad-weather alternative to a sea day.',dayIds:['d13']}),
-    P('buhi','BUHI Eco-Farm','Carcar / Barili','Nature',2,{addr:'Tagaytay, Barili, 6036 Cebu',phone:'+639178287805',status:'Listed as temporarily closed — backup only'}),
-    P('dianne',"Dianne's Seafood House",'Carcar / Barili','Food',3,{addr:'General Luna St., Carcar, 6019 Cebu',phone:'+639175300949',web:'https://diannesseafoodhouse.com/',tip:'Seafood.'}),
-    P('pabukid','Pabukid Resto Drink & Dine','Carcar / Barili','Food',3,{addr:'Diversion Road, Poblacion III, Carcar, 6019 Cebu',phone:'+639976538061',tip:'Casual option.'}),
-    P('acacia','Acacia Grill & Restaurant','Carcar / Barili','Food',3,{addr:'Acacia Grounds, Natalio B. Bacalso S National Hwy, Carcar',phone:'+63324879157'}),
-    P('oakleaf','Oakleaf Coffee','Carcar / Barili','Coffee',3,{addr:'Awayan, Poblacion 3, Carcar, 6019 Cebu',phone:'+639097813789'}),
-    P('beanrocks','Bean Rocks Cafe','Carcar / Barili','Coffee',3,{addr:'Dapdap, Pob 3, Carcar, 6019 Cebu',phone:'+639562285309'}),
-    P('scooter-carcar','Motorcycle Rental – Carcar','Carcar / Barili','Scooter',3,{addr:'M. Mercado Street, Poblacion III, Carcar, 6019 Cebu',phone:'+639473608276',tip:'Rent 2–3 days, not the whole stay. Bring licence/permit + a proper helmet. Skip it for Oslob days, bad-weather mountain roads and late-night rides.',dayIds:['d10']}),
+const stays = [
+  { name: 'Las Terrazas de Barili', area: 'Barili, Cebu', dates: 'Oct 9 to 14', vibe: 'Rural base for waterfalls, mountains, countryside and food. Less-touristy side of southern Cebu.' },
+  { name: 'Moalboal Accommodation', area: 'Panagsama / Basdiot area', dates: 'Oct 14 to 21', vibe: 'Walking distance to sardine run, turtle area, restaurants and bars. Freediving-focused base.' },
+  { name: 'Bluewater Maribago Beach Resort', area: 'Maribago, Mactan', dates: 'Oct 21 to 27', vibe: 'Luxury resort base for spa, fine dining, island hopping and Cebu City day trips.' }
+];
 
-    P('sardine','Sardine Run – Panagsama','Moalboal','Ocean',5,{tip:"Close to shore — no boat needed. Do it several times: snorkel, freedive, photo session, late-afternoon session. The ball changes constantly.",dayIds:['d14','d15','d16','d17']}),
-    P('turtles','Turtle spot – Panagsama / Basdiot','Moalboal','Ocean',5,{tip:"Don't touch, chase, block or dive onto turtles; don't grab coral. Descend calmly and let them come to you.",dayIds:['d16']}),
-    P('fd-planet','Freediving Planet Moalboal','Moalboal','Diving',4,{addr:'Brgy Tuble Rd, Moalboal, 6032 Cebu',phone:'+639395241269',web:'http://www.freediving-planet.com/',tip:'Tell the instructor you want to do underwater photography BEFORE the lesson.',dayIds:['d15','d16']}),
-    P('fd-moalboal','Moalboal Freediving','Moalboal','Diving',4,{addr:'Panagsama Beach, Moalboal, Cebu',phone:'+639562841844'}),
-    P('savedra','Savedra Dive Center','Moalboal','Diving',4,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639173211475',web:'http://savedra.com/'}),
-    P('pescador','Pescador Island','Moalboal','Ocean',5,{tip:'Coral, reef fish, turtles, walls, sometimes sardines. Private boat if possible; ask for more underwater time rather than rushing islands.',dayIds:['d17']}),
-    P('mb-hopping','Moalboal Island Hopping','Moalboal','Tours',4,{addr:'Dr JP Rizal St, Moalboal, 6032 Cebu',phone:'+639430112963',tip:'Ask for a private boat.',dayIds:['d17']}),
-    P('mb-tours','Moalboal Snorkeling/Scuba Travel and Tours','Moalboal','Tours',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639530942240'}),
-    P('kawasan','Kawasan Falls + Canyoneering','Moalboal','Waterfall',5,{tip:'Guided, safety gear supplied. Jumps, natural slides, turquoise pools through the Kanlaob River canyon. Can be suspended after heavy rain. Not right after a hard freediving day.',dayIds:['d18']}),
-    P('white-beach','White Beach (Basdaku)','Moalboal','Beach',3,{tip:'Slower afternoon. Morning activity → afternoon beach → sunset photos → dinner.',dayIds:['d19']}),
-    P('sapori','Ristorante Sapori Di Napoli','Moalboal','Food',3,{addr:'Commercial Haven Bldg, Sitio Cogon, Panagsama Rd, Basdiot, Moalboal',phone:'+639175053609',web:'https://www.facebook.com/saporidinapolicebuph/',tip:'Italian.'}),
-    P('kugita','Kugita Seafood & Charcoal Grill','Moalboal','Food',3,{addr:'Panagsama Rd, Moalboal, 6032 Cebu',phone:'+63324740037',web:'https://www.facebook.com/kugitamoalboal',tip:'Seafood.'}),
-    P('lola',"Lola Tanciang's Sutukil Seafood Paluto",'Moalboal','Food',4,{addr:'Panagsama Road, Panagsama Beach, Moalboal',phone:'+639171292180',tip:'Filipino seafood.',dayIds:['d17']}),
-    P('kraken','Kraken Restaurant and Bar','Moalboal','Food',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639452832241',tip:'Dinner / drinks.'}),
-    P('seoul','Seoul Kitchen','Moalboal','Food',3,{addr:'Panagsama Beach, Moalboal, 6032 Cebu',phone:'+639959769404',tip:'Korean.'}),
-    P('ram','Ram Coffee House','Moalboal','Coffee',3,{addr:'Calumpang Street, Poblacion West, Moalboal',phone:'+639981568956'}),
-    P('beer-garden','Moalboal Beer Garden','Moalboal','Drinks',2,{addr:'Panagsama Rd, Basdiot, Moalboal'}),
-    P('haze','Haze Bar','Moalboal','Drinks',2,{addr:'Panagsama Rd, Moalboal'}),
-    P('need4speed','Need4Speed Motorbike Rental','Moalboal','Scooter',3,{addr:'National Hwy, Poblacion East, Moalboal, 6032 Cebu',web:'https://www.facebook.com/profile.php?id=61563793768217',tip:'Rent 4–5 days: Moalboal → White Beach → Basdaku → Badian → countryside → waterfalls.'}),
+const itinerary = [
+  { date: 'Oct 9', day: 'Friday', title: 'Arrive in Carcar', base: 'carcar', tag: 'Arrival',
+    schedule: [
+      { time: 'Afternoon', text: '<strong>Check-in</strong> at Las Terrazas de Barili' },
+      { time: 'Late', text: 'Explore resort, <strong>sunset photography</strong>' },
+      { time: 'Dinner', text: 'Local Cebuano food' }
+    ],
+    note: 'Don\'t schedule anything major. Recover from travel.'
+  },
+  { date: 'Oct 10', day: 'Saturday', title: 'Carcar + Lechon', base: 'carcar', tag: 'Food & Culture',
+    schedule: [
+      { time: 'Morning', text: '<strong>Carcar market</strong>, old town, photography' },
+      { time: 'Lunch', text: '<strong>Lechon</strong>' },
+      { time: 'Afternoon', text: 'Countryside scooter ride' },
+      { time: 'Sunset', text: 'Coastal photography' }
+    ]
+  },
+  { date: 'Oct 11', day: 'Sunday', title: 'Mantayupan Falls', base: 'carcar', tag: 'Waterfall',
+    schedule: [
+      { time: '07:00', text: '<strong>Mantayupan Falls</strong>, waterfall photography' },
+      { time: 'Afternoon', text: 'Barili countryside' },
+      { time: 'Evening', text: 'Resort dinner' }
+    ]
+  },
+  { date: 'Oct 12', day: 'Monday', title: 'Osmeña Peak Sunrise', base: 'carcar', tag: 'Photography',
+    schedule: [
+      { time: '03:30', text: '<strong>Leave for Osmeña Peak</strong>' },
+      { time: 'Sunrise', text: 'Hike, <strong>mountain silhouettes & clouds</strong>' },
+      { time: 'Late AM', text: 'Mantalongon' },
+      { time: 'Afternoon', text: 'Rest' },
+      { time: 'Evening', text: 'Sunset / photography' }
+    ]
+  },
+  { date: 'Oct 13', day: 'Tuesday', title: 'Bojo River / Flex Weather Day', base: 'carcar', tag: 'Flex Day',
+    schedule: [
+      { time: 'Good weather', text: '<strong>Bojo River</strong> eco-tour' },
+      { time: 'Bad weather', text: '<strong>Carcar, café, food, photography</strong>' }
+    ],
+    note: 'Build in flexibility. October is wet season.'
+  },
+  { date: 'Oct 14', day: 'Wednesday', title: 'Move to Moalboal + Sardine Run', base: 'moalboal', tag: 'Move + First Dive',
+    schedule: [
+      { time: 'Morning', text: 'Check out, drive to <strong>Moalboal</strong>' },
+      { time: 'Afternoon', text: '<strong>Sardine Run</strong>, first introduction' },
+      { time: 'Evening', text: 'Sunset dinner' }
+    ]
+  },
+  { date: 'Oct 15', day: 'Thursday', title: 'Freediving Course Day 1', base: 'moalboal', tag: 'Freediving',
+    schedule: [
+      { time: 'Morning', text: '<strong>Beginner freediving lesson</strong>' },
+      { time: 'Afternoon', text: 'Rest' },
+      { time: 'Late PM', text: 'Easy sardine snorkel' }
+    ]
+  },
+  { date: 'Oct 16', day: 'Friday', title: 'Freediving + Sardines', base: 'moalboal', tag: 'Freediving',
+    schedule: [
+      { time: 'Morning', text: '<strong>Freediving practice</strong>' },
+      { time: 'Afternoon', text: 'Turtles / beach' },
+      { time: 'Sunset', text: 'Underwater / surface photography' }
+    ]
+  },
+  { date: 'Oct 17', day: 'Saturday', title: 'Pescador Island', base: 'moalboal', tag: 'Boat Trip',
+    schedule: [
+      { time: 'Morning', text: '<strong>Private boat</strong> if possible' },
+      { time: 'Day', text: 'Pescador, snorkeling, turtles, sardines' },
+      { time: 'Dinner', text: "Lola Tanciang's Sutukil Seafood Paluto" }
+    ]
+  },
+  { date: 'Oct 18', day: 'Sunday', title: 'Kawasan Canyoneering', base: 'moalboal', tag: 'Adventure',
+    schedule: [
+      { time: 'Early', text: '<strong>Start canyoneering</strong>' },
+      { time: 'Mid', text: 'Kawasan Falls' },
+      { time: 'Late', text: 'Late lunch' },
+      { time: 'PM', text: 'Return to Moalboal' }
+    ],
+    note: 'No nightlife. Sleep. Don\'t put after exhausting freediving day.'
+  },
+  { date: 'Oct 19', day: 'Monday', title: 'Flex Day', base: 'moalboal', tag: 'Flex Day',
+    schedule: [
+      { time: 'Good weather', text: '<strong>White Beach, snorkeling, scooter</strong>' },
+      { time: 'Bad weather', text: '<strong>Cafés, food, massage, relaxed day</strong>' }
+    ]
+  },
+  { date: 'Oct 20', day: 'Tuesday', title: 'Oslob / South Cebu Mega-Day', base: 'moalboal', tag: 'Long Day',
+    schedule: [
+      { time: '04:30', text: 'Leave Moalboal' },
+      { time: '06:30', text: '<strong>Whale shark activity</strong>' },
+      { time: '09:30', text: 'Tumalog Falls' },
+      { time: '11:30', text: 'Lunch' },
+      { time: '12:30', text: '<strong>Sumilon</strong> if sea conditions permit' },
+      { time: '16:00', text: 'Return' }
+    ]
+  },
+  { date: 'Oct 21', day: 'Wednesday', title: 'Move to Mactan', base: 'mactan', tag: 'Move + Resort',
+    schedule: [
+      { time: 'Morning', text: 'Travel to Mactan' },
+      { time: 'Afternoon', text: 'Check in <strong>Bluewater Maribago</strong>' },
+      { time: 'PM', text: 'Pool. Beach. Massage. Sunset.' }
+    ],
+    note: 'Do almost nothing today.'
+  },
+  { date: 'Oct 22', day: 'Thursday', title: 'Resort Day', base: 'mactan', tag: 'Relax',
+    schedule: [
+      { time: 'Morning', text: 'Beach, snorkeling, pool' },
+      { time: 'Afternoon', text: 'Spa' },
+      { time: 'Evening', text: '🍷 <strong>MJ\'s Weinkeller</strong>' }
+    ]
+  },
+  { date: 'Oct 23', day: 'Friday', title: 'Mactan Island Hopping', base: 'mactan', tag: 'Boat Trip',
+    schedule: [
+      { time: 'Day', text: '<strong>Private boat, reef snorkeling, islands, photography</strong>' },
+      { time: 'PM', text: 'Return' },
+      { time: 'Sunset', text: 'At resort' }
+    ],
+    note: 'Weather permitting.'
+  },
+  { date: 'Oct 24', day: 'Saturday', title: 'Fine Dining Evening', base: 'mactan', tag: 'Special Dinner',
+    schedule: [
+      { time: 'Day', text: 'Lazy morning, beach, prep' },
+      { time: 'Evening', text: '<strong>Option A:</strong> Enye by Chele Gonzalez<br><strong>Option B:</strong> Shangri-La Cowrie Cove<br><strong>Option C:</strong> Shangri-La Acqua' }
+    ],
+    note: 'For wine-focused evening: Acqua, Cowrie Cove, or Tea of Spring.'
+  },
+  { date: 'Oct 25', day: 'Sunday', title: 'Cebu City Day Trip', base: 'mactan', tag: 'City',
+    schedule: [
+      { time: 'AM', text: '<strong>Magellan\'s Cross, Basilica, Fort San Pedro, Carbon Market</strong>' },
+      { time: 'PM', text: '<strong>National Museum</strong>, heritage district, coffee' },
+      { time: 'Evening', text: 'Dinner, rooftop drinks, shopping' }
+    ]
+  },
+  { date: 'Oct 26', day: 'Monday', title: 'Final Luxury Day', base: 'mactan', tag: 'Relax',
+    schedule: [
+      { time: 'Morning', text: 'Sleep late, breakfast, beach' },
+      { time: 'Afternoon', text: 'Spa' },
+      { time: 'Sunset', text: 'Cocktails' },
+      { time: 'Dinner', text: '<strong>Plantation Bay Palermo</strong> or <strong>Shangri-La Cowrie Cove</strong>' }
+    ],
+    note: 'Don\'t schedule an excursion.'
+  },
+  { date: 'Oct 27', day: 'Tuesday', title: 'Departure', base: 'mactan', tag: 'Fly Home',
+    schedule: [
+      { time: 'Morning', text: 'Breakfast' },
+      { time: 'Late', text: 'Last swim' },
+      { time: '—', text: 'Airport ✈️' }
+    ]
+  }
+];
 
-    P('oslob','Oslob Whale Shark Watching','South Cebu','Ocean',4,{tip:'Mornings; registration ends ~11 AM. The sharks are fed — that is the main conservation/animal-welfare criticism. Follow the rules, no touching or chasing.',dayIds:['d20']}),
-    P('tumalog','Tumalog Falls','South Cebu','Waterfall',3,{tip:'Easy to combine with Oslob.',dayIds:['d20']}),
-    P('sumilon','Sumilon Island & sandbar','South Cebu','Beach',4,{tip:'Snorkeling + sandbar — only if sea conditions permit.',dayIds:['d20']}),
-    P('dao','Dao Falls','South Cebu','Waterfall',3,{tip:'Quieter waterfall day alternative.'}),
-    P('kabutongan','Kabutongan Falls','South Cebu','Waterfall',3,{tip:'Ginatilan–Malabuyoc. Cave behind the cascade; trekking, swimming, climbing. Adventure + nature photography.'}),
+const priorityList = [
+  { name: 'Moalboal Sardine Run', stars: 5, icon: 'fa-fish' },
+  { name: 'Freediving lesson', stars: 5, icon: 'fa-water' },
+  { name: 'Moalboal turtles', stars: 5, icon: 'fa-robot' },
+  { name: 'Pescador Island', stars: 5, icon: 'fa-island-tropical' },
+  { name: 'Kawasan Canyoneering', stars: 5, icon: 'fa-mountain-sun' },
+  { name: 'Osmeña Peak sunrise', stars: 5, icon: 'fa-sun' },
+  { name: 'Mantayupan Falls', stars: 4, icon: 'fa-water' },
+  { name: 'Oslob whale sharks', stars: 4, icon: 'fa-whale' },
+  { name: 'Mactan island hopping', stars: 4, icon: 'fa-ship' },
+  { name: 'Mactan wine night', stars: 4, icon: 'fa-wine-glass' },
+  { name: 'Cowrie Cove', stars: 4, icon: 'fa-utensils' },
+  { name: 'Enye', stars: 4, icon: 'fa-utensils' },
+  { name: 'Bojo River', stars: 4, icon: 'fa-tree' },
+  { name: 'Dao/Kabutongan Falls', stars: 3, icon: 'fa-water' },
+  { name: 'Cebu City', stars: 3, icon: 'fa-city' },
+  { name: 'Cebu malls', stars: 2, icon: 'fa-bag-shopping' }
+];
 
-    P('bluewater','Bluewater Maribago Beach Resort','Mactan','Stay',0,{tip:'Your base Oct 21–27. Build in resort days.',dayIds:['d21','d22','d23','d24','d25','d26','d27']}),
-    P('spa','Spa day (Bluewater / Chi Spa / Crimson / Plantation Bay)','Mactan','Wellness',4,{tip:'After two weeks of scooters, hiking and diving — book it.',dayIds:['d22','d26']}),
-    P('mjs',"MJ's Weinkeller German Wine Bar & Lounge",'Mactan','Drinks',4,{addr:'LG, Garden Walk, Lapu-Lapu, 6015 Cebu',phone:'+639695009875',tip:'German wines, European-style food, relaxed evening.',dayIds:['d22']}),
-    P('cowrie','Cowrie Cove – Shangri-La','Mactan','Food',4,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/cowrie-cove/',tip:'Oceanfront seafood + steak (Wagyu, tuna kinilaw, octopus, seafood platter) with a dedicated bar. Book for sunset.',dayIds:['d24','d26']}),
-    P('acqua','Acqua – Shangri-La','Mactan','Food',4,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/acqua/',tip:'Contemporary Italian — Italian + wine + romantic dinner.',dayIds:['d24']}),
-    P('tea-spring','Tea of Spring – Shangri-La','Mactan','Food',3,{web:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/tea-of-spring/',tip:'Cantonese; extensive wine list incl. Chinese wines.'}),
-    P('tides','Tides – Shangri-La','Mactan','Food',3,{web:'https://www.shangri-la.com/cebu/mactanresort/dining/restaurants/tides/',tip:'International buffet incl. Cebu lechon.'}),
-    P('enye','Enye by Chele Gonzalez – Crimson','Mactan','Food',4,{web:'https://www.crimsonhotel.com/mactan/dining/enye-by-chele-gonzalez',tip:'Spanish; Crimson lists it as Michelin Selected. Special dinner — pair with wine.',dayIds:['d24']}),
-    P('azure','Azure Beach Club – Crimson','Mactan','Drinks',3,{web:'https://www.crimsonhotel.com/mactan/dining/azure-beach-club-1',tip:'Cocktails + sunset + beach + music.'}),
-    P('palermo','Palermo – Plantation Bay','Mactan','Food',4,{web:'https://plantationbay.com/dining/restaurants/',tip:'Spanish tapas, Italian pasta, steaks.',dayIds:['d26']}),
-    P('cebu-hopping','Cebu Island Hopping Tour','Mactan','Tours',4,{addr:'Baybayon, Maribago, Lapu-Lapu, 6015 Cebu',phone:'+639562784936',web:'http://www.cebuislandhoppingtour.com/',tip:'Ask for a PRIVATE boat: snorkeling + marine photography + enough time in the water, no rushing. Hilutungan, Nalusuan, Caohagan, Olango.',dayIds:['d23']}),
-    P('sanctuary','Mactan marine sanctuary snorkel','Mactan','Ocean',3,{tip:"Shangri-La's activity schedule includes marine sanctuary snorkeling (160+ species)."}),
-    P('gaisano','Gaisano Mactan Island Mall','Mactan','Shopping',2,{addr:'M.L. Quezon National Highway, Lapu-Lapu',phone:'+639153783680',web:'http://gaisanocapital.com/',tip:'Groceries, SIM/electronics, toiletries, local snacks.'}),
+// ============== STATE ==============
+let state = {
+  completed: [],
+  customActivities: [],
+  activityLinks: {},
+  activityPhotos: {},
+  stayLinks: {},
+  dayNotes: {},
+  galleryPhotos: [],
+  generalNotes: '',
+  activeFilter: 'all'
+};
 
-    P('basilica','Basilica Minore del Santo Niño','Cebu City','Culture',3,{dayIds:['d25']}),
-    P('magellan',"Magellan's Cross",'Cebu City','Culture',3,{dayIds:['d25']}),
-    P('fort','Fort San Pedro','Cebu City','Culture',3,{dayIds:['d25']}),
-    P('carbon','Carbon Market','Cebu City','Culture',3,{dayIds:['d25']}),
-    P('museum','National Museum of the Philippines – Cebu','Cebu City','Culture',3,{addr:'A. Pigafetta Street, Cebu City',phone:'+639190779877',web:'https://www.nationalmuseum.gov.ph/',hours:'9 AM–5 PM',dayIds:['d25']}),
-    P('sm-seaside','SM Seaside City Cebu','Cebu City','Shopping',2,{tip:'Huge modern mall experience.'}),
-    P('sm-city','SM City Cebu','Cebu City','Shopping',2),
-    P('ayala','Ayala Center Cebu','Cebu City','Shopping',2)
-  ];
-  places.forEach((p,i)=>p.o=i);
+let currentPhotoContext = null;
+let currentLinkContext = null;
+let saveTimeout = null;
 
-  const bucket = [['🐟 Moalboal Sardine Run',5],['🤿 Freediving lesson',5],['🐢 Moalboal turtles',5],['🏝️ Pescador Island',5],['💦 Kawasan canyoneering',5],['⛰️ Osmeña Peak sunrise',5],['🌊 Mantayupan Falls',4],['🐋 Oslob whale sharks',4],['🏝️ Mactan island hopping',4],['🍷 Mactan wine night',4],['🥩 Cowrie Cove',4],['🇪🇸 Enye',4],['🌿 Bojo River',4],['🥾 Dao / Kabutongan Falls',3],['🏙️ Cebu City',3],['🛍️ Cebu malls',2]]
-    .map(([t,p],i)=>({id:'b'+(i+1),t,prio:p,done:false,o:i}));
-
-  const packing = [
-    ['Camera','Wide-angle (sardines, turtles, reefs)'],['Camera','Macro (nudibranchs, shrimp, crabs)'],['Camera','Red/magenta filter'],['Camera','Wrist strap'],['Camera','Anti-fog inserts'],['Camera','Spare batteries'],['Camera','Spare SD cards'],['Camera','Microfiber cloth'],['Camera','Dry bag'],
-    ['Water','Mask & snorkel'],['Water','Freediving fins'],['Water','Rash guard'],['Water','Water shoes (canyoneering)'],['Water','Reef-safe sunscreen'],
-    ['Documents','ID / passport'],['Documents','Motorcycle licence / permit'],['Documents','Booking confirmations'],['Documents','Cash in small bills'],
-    ['Tech','Power bank'],['Tech','Waterproof phone pouch'],['Tech','Chargers & cables'],
-    ['Health','Personal medicines'],['Health','Insect repellent'],['Health','Basic first-aid kit'],['Health','Motion-sickness tablets (boats)'],
-    ['Clothes','Rain jacket'],['Clothes','Warm layer for Osmeña sunrise'],['Clothes','Smart outfit for fine dining'],['Clothes','Hat & sunglasses']
-  ].map(([g,t],i)=>({id:'k'+(i+1),g,t,done:false,o:i}));
-
-  const links = [
-    {id:'l1',title:'Shangri-La Mactan — all dining',url:'https://www.shangri-la.com/cebu/mactanresort/dining/',cat:'Restaurant',dayId:'d24',placeId:''},
-    {id:'l2',title:'Plantation Bay restaurants',url:'https://plantationbay.com/dining/restaurants/',cat:'Restaurant',dayId:'d26',placeId:'palermo'},
-    {id:'l3',title:'PAGASA weather (Philippines)',url:'https://www.pagasa.dost.gov.ph/',cat:'Weather',dayId:'',placeId:''}
-  ].map((l,i)=>({...l,ts:i}));
-
-  const contacts = [
-    {id:'c1',name:'Philippines emergency hotline',phone:'911',note:'Police / fire / ambulance'},
-    {id:'c2',name:'Las Terrazas de Barili',phone:'',note:'Oct 9–14 · add number from booking'},
-    {id:'c3',name:'Bluewater Maribago',phone:'',note:'Oct 21–27 · add number from booking'},
-    {id:'c4',name:'Moalboal stay',phone:'',note:'Oct 14–21 · add name + number'}
-  ];
-
-  return { days, places, photos:[], expenses:[], packing, bucket, links, contacts, notes:[], meta:[{id:'meta',budget:0}] };
+// ============== SYNC STATUS ==============
+function setSyncStatus(status) {
+  const el = document.getElementById('syncStatus');
+  const text = document.getElementById('syncText');
+  el.className = 'sync-status ' + status;
+  const icons = {
+    syncing: 'fa-cloud-arrow-up',
+    synced: 'fa-cloud',
+    error: 'fa-cloud-exclamation',
+    offline: 'fa-cloud'
+  };
+  el.querySelector('i').className = 'fas ' + (icons[status] || 'fa-cloud');
+  const labels = {
+    syncing: 'Syncing...',
+    synced: 'Synced',
+    error: 'Sync error',
+    offline: 'Local'
+  };
+  text.textContent = labels[status] || 'Local';
 }
 
-/* ---------------- helpers ---------------- */
-const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const uid = p => p + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
-const pad = n => String(n).padStart(2,'0');
-const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-const todayISO = () => iso(new Date());
-const toDate = s => new Date(s + 'T00:00:00');
-const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const fmt = s => { if(!s) return ''; const d = toDate(s); return `${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}`; };
-const daysBetween = (a,b) => Math.round((toDate(b) - toDate(a)) / 864e5);
-const peso = n => '₱' + Number(n||0).toLocaleString('en-PH',{maximumFractionDigits:2});
-const sum = arr => arr.reduce((a,x)=>a + (Number(x.amount)||0), 0);
-const baseCls = b => (b||'').startsWith('Carcar') ? 'carcar' : b === 'Moalboal' ? 'moalboal' : 'mactan';
-const mapUrl = p => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.name + ', ' + (p.addr || (p.area + ', Cebu, Philippines')));
-const telHref = ph => 'tel:' + String(ph).replace(/[^+\d]/g,'');
-const host = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch { return u; } };
-const stars = n => n ? '<span class="stars">' + '★'.repeat(n) + '</span>' : '';
-const photoSrc = p => p.src || p._url || '';
-const dayById = id => S.days.find(d=>d.id===id);
-const placeById = id => S.places.find(p=>p.id===id);
-const dayOfToday = () => S.days.find(d=>d.date===todayISO());
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2600); }
-
-/* ---------------- state + storage ---------------- */
-let S = emptyState();
-function emptyState(){ const o={}; KINDS.forEach(k=>o[k]=[]); return o; }
-function sortState(){
-  S.days.sort((a,b)=>a.date.localeCompare(b.date));
-  S.places.sort((a,b)=>(a.o??999)-(b.o??999) || (a.ts||0)-(b.ts||0));
-  S.photos.sort((a,b)=>(a.ts||0)-(b.ts||0));
-  S.bucket.sort((a,b)=>(a.o??999)-(b.o??999));
-  S.packing.sort((a,b)=>(a.o??999)-(b.o??999));
-}
-function saveLocal(){
-  try { localStorage.setItem(LS, JSON.stringify(S, (k,v)=> k==='_url' ? undefined : v)); return true; }
-  catch(e){ toast('Device storage is full — connect Supabase or export a backup.'); return false; }
-}
-function loadLocal(){
-  let data = null;
-  try { data = JSON.parse(localStorage.getItem(LS) || 'null'); } catch {}
-  S = data || seed();
-  KINDS.forEach(k=>{ if(!Array.isArray(S[k])) S[k]=[]; });
-  sortState();
-}
-const getMeta = () => { let m = S.meta.find(x=>x.id==='meta'); if(!m){ m={id:'meta',budget:0}; S.meta.push(m); } return m; };
-const clean = o => { const c={...o}; delete c._url; delete c.src; return c; };
-
-const store = {
-  sb:null, user:null, pending:{}, busy:false, lastPull:0,
-  async init(){
-    try { this.pending = JSON.parse(localStorage.getItem(LS_PENDING)||'{}'); } catch { this.pending={}; }
-    if(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && window.supabase){
-      this.sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-      const { data:{ session } } = await this.sb.auth.getSession();
-      this.user = session?.user ?? null;
-      this.sb.auth.onAuthStateChange((_e, s) => {
-        const was = this.user?.id; this.user = s?.user ?? null;
-        if(this.user && this.user.id !== was) this.pull();
-        if(!this.user) this.setStatus('Sign in to sync');
-        renderMain();
+// ============== SUPABASE SYNC ==============
+async function saveToSupabase() {
+  if (!sb) return;
+  try {
+    setSyncStatus('syncing');
+    const { error } = await sb
+      .from('cebu_trip')
+      .upsert({
+        id: 'main',
+        completed: state.completed,
+        custom_activities: state.customActivities,
+        activity_links: state.activityLinks,
+        activity_photos: state.activityPhotos,
+        stay_links: state.stayLinks,
+        day_notes: state.dayNotes,
+        gallery_photos: state.galleryPhotos,
+        general_notes: state.generalNotes,
+        active_filter: state.activeFilter,
+        updated_at: new Date().toISOString()
       });
-      if(this.user) await this.pull(); else this.setStatus('Sign in to sync');
-    } else {
-      this.setStatus('Saved on this device');
+    if (error) throw error;
+    setSyncStatus('synced');
+  } catch(e) {
+    console.warn('Supabase save failed:', e);
+    setSyncStatus('error');
+  }
+}
+
+async function loadFromSupabase() {
+  if (!sb) { setSyncStatus('offline'); return false; }
+  try {
+    setSyncStatus('syncing');
+    const { data, error } = await sb
+      .from('cebu_trip')
+      .select('*')
+      .eq('id', 'main')
+      .single();
+    if (error) throw error;
+    if (data) {
+      state.completed = data.completed || [];
+      state.customActivities = data.custom_activities || [];
+      state.activityLinks = data.activity_links || {};
+      state.activityPhotos = data.activity_photos || {};
+      state.stayLinks = data.stay_links || {};
+      state.dayNotes = data.day_notes || {};
+      state.galleryPhotos = data.gallery_photos || [];
+      state.generalNotes = data.general_notes || '';
+      state.activeFilter = data.active_filter || 'all';
+      try { localStorage.setItem('cebu-trip-state', JSON.stringify(state)); } catch(e) {}
+      setSyncStatus('synced');
+      return true;
     }
-  },
-  setStatus(t, ok){ $('#syncText').textContent=t; $('#syncPill').classList.toggle('ok', !!ok); },
-  savePending(){ try{ localStorage.setItem(LS_PENDING, JSON.stringify(this.pending)); }catch{} },
-  put(kind, obj){
-    const arr = S[kind]; const i = arr.findIndex(x=>x.id===obj.id);
-    if(i>=0) arr[i]=obj; else arr.push(obj);
-    saveLocal();
-    if(this.sb){ this.pending[obj.id]={kind}; this.savePending(); this.flushSoon(); }
-  },
-  del(kind, id){
-    const o = S[kind].find(x=>x.id===id);
-    S[kind] = S[kind].filter(x=>x.id!==id);
-    saveLocal();
-    if(this.sb){
-      if(kind==='photos' && o?.path && this.user) this.sb.storage.from(CONFIG.BUCKET).remove([o.path]).catch(()=>{});
-      this.pending[id]={kind,del:true}; this.savePending(); this.flushSoon();
-    }
-  },
-  flushSoon(){ clearTimeout(this._ft); this._ft = setTimeout(()=>this.flush(), 700); },
-  async flush(){
-    if(!this.sb || !this.user || this.busy) return;
-    this.busy = true;
+    setSyncStatus('synced');
+    return false;
+  } catch(e) {
+    console.warn('Supabase load failed:', e);
+    setSyncStatus('error');
+    return false;
+  }
+}
+
+async function forceSync() {
+  await saveToSupabase();
+  showToast('Synced to Supabase');
+}
+
+// ============== LOAD/SAVE ==============
+function saveState() {
+  try {
+    localStorage.setItem('cebu-trip-state', JSON.stringify(state));
+  } catch(e) {
+    showToast('Storage full, try removing some photos', 'warn');
+  }
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => { saveToSupabase(); }, 600);
+}
+
+async function loadState() {
+  // Try Supabase first
+  const supaOk = await loadFromSupabase();
+  if (!supaOk) {
+    // Fall back to localStorage
     try {
-      // upload photos that only exist locally
-      for(const p of S.photos){
-        if(p.src && !p.path){
-          const blob = await (await fetch(p.src)).blob();
-          const path = `${this.user.id}/${p.id}.jpg`;
-          const { error } = await this.sb.storage.from(CONFIG.BUCKET).upload(path, blob, {contentType:'image/jpeg', upsert:true});
-          if(error) throw error;
-          p.path = path; p._url = p.src; delete p.src;
-          this.pending[p.id] = {kind:'photos'};
-        }
+      const saved = localStorage.getItem('cebu-trip-state');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        state = { ...state, ...parsed };
       }
-      const ids = Object.keys(this.pending);
-      if(ids.length){
-        this.setStatus('Syncing…');
-        const ups=[], dels=[];
-        ids.forEach(id=>{ const q=this.pending[id]; if(q.del) dels.push(id); else { const o=S[q.kind]?.find(x=>x.id===id); if(o) ups.push({user_id:this.user.id, id, kind:q.kind, data:clean(o)}); } });
-        for(let i=0;i<ups.length;i+=200){
-          const { error } = await this.sb.from('trip_data').upsert(ups.slice(i,i+200), {onConflict:'user_id,id'});
-          if(error) throw error;
-        }
-        if(dels.length){ const { error } = await this.sb.from('trip_data').delete().in('id', dels); if(error) throw error; }
-        ids.forEach(id=>delete this.pending[id]);
-        this.savePending(); saveLocal();
-      }
-      this.setStatus('Synced ☁️', true);
-    } catch(e){
-      console.warn(e); this.savePending(); saveLocal();
-      this.setStatus(navigator.onLine ? 'Sync error — will retry' : 'Offline — saved on phone');
-    } finally { this.busy = false; }
-  },
-  async pull(){
-    if(!this.sb || !this.user) return;
-    this.lastPull = Date.now();
-    await this.flush();
-    this.setStatus('Syncing…');
-    const { data, error } = await this.sb.from('trip_data').select('id,kind,data');
-    if(error){ console.warn(error); this.setStatus(navigator.onLine ? 'Sync error' : 'Offline — saved on phone'); return; }
-    if(!data.length){
-      // first time: push everything on this device up
-      KINDS.forEach(k=>S[k].forEach(o=>this.pending[o.id]={kind:k}));
-      this.savePending(); await this.flush();
-    } else {
-      const local = Object.fromEntries(S.photos.map(p=>[p.id,p]));
-      const fresh = emptyState();
-      data.forEach(r=>{ if(fresh[r.kind]) fresh[r.kind].push(r.data); });
-      Object.entries(this.pending).forEach(([id,q])=>{
-        if(!fresh[q.kind]) return;
-        fresh[q.kind] = fresh[q.kind].filter(x=>x.id!==id);
-        if(!q.del){ const o=S[q.kind]?.find(x=>x.id===id); if(o) fresh[q.kind].push(o); }
-      });
-      fresh.photos.forEach(p=>{ const lp=local[p.id]; if(lp){ if(lp.src && !p.path) p.src=lp.src; if(lp._url) p._url=lp._url; } });
-      S = fresh; sortState();
+    } catch(e) {
+      console.warn('Could not load saved state', e);
     }
-    await this.refreshPhotoUrls();
-    saveLocal();
-    this.setStatus('Synced ☁️', true);
-    renderMain(); refreshSheet();
-  },
-  async refreshPhotoUrls(){
-    const ps = S.photos.filter(p=>p.path && !p.src);
-    if(!ps.length) return;
-    const { data } = await this.sb.storage.from(CONFIG.BUCKET).createSignedUrls(ps.map(p=>p.path), 60*60*24*7);
-    const byPath = {}; (data||[]).forEach(r=>{ if(r.signedUrl) byPath[r.path]=r.signedUrl; });
-    ps.forEach(p=>{ if(byPath[p.path]) p._url = byPath[p.path]; });
   }
-};
-window.addEventListener('online', ()=>store.pull());
-document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && Date.now()-store.lastPull > 60000) store.pull(); });
-
-/* ---------------- UI state ---------------- */
-let tab = 'today', dayFilter = 'All', placeArea = 'All', placeCat = 'All', placeQ = '', photoDay = 'All', moreTab = 'budget';
-let sheetCtx = null, photoCtx = {};
-
-const TABS = [['today','🌅','Today'],['days','🗓️','Days'],['places','📍','Places'],['photos','📷','Photos'],['more','🥥','More']];
-function renderTabs(){
-  $('#tabbar').innerHTML = TABS.map(([k,i,l])=>`<button class="${tab===k?'on':''}" data-act="tab" data-k="${k}"><span class="i">${i}</span>${l}</button>`).join('');
-}
-function renderMain(){
-  const v = { today:viewToday, days:viewDays, places:viewPlaces, photos:viewPhotos, more:viewMore }[tab];
-  $('#view').innerHTML = v();
-}
-function renderAll(){ renderTabs(); renderMain(); }
-
-/* ---------------- views ---------------- */
-function dayCard(d){
-  const n = S.photos.filter(p=>p.dayId===d.id).length;
-  const pl = S.places.filter(p=>p.dayIds?.includes(d.id) && p.cat!=='Stay').length;
-  const dt = toDate(d.date);
-  const prev = d.blocks.slice(0,2).map(b=>b.x).join(' · ');
-  return `<article class="card day-card ${baseCls(d.base)} ${d.date===todayISO()?'today':''} ${d.done?'done':''}" data-act="openDay" data-id="${d.id}">
-    <div class="datebox"><span class="dow">${DOW[dt.getDay()]}</span><span class="dnum">${dt.getDate()}</span><span class="mon">${MON[dt.getMonth()]}</span></div>
-    <div><div class="kicker">Day ${daysBetween(TRIP.start,d.date)+1} · ${esc(d.base)}</div>
-      <h3>${esc(d.title)}${d.flex?'<span class="flex-tag">FLEX</span>':''}</h3><p>${esc(prev)}</p>
-      <div class="meta">📍 ${pl} places · 📷 ${n}${d.notes?' · 📝':''}</div></div>
-    <button class="tick ${d.done?'on':''}" data-act="toggleDay" data-id="${d.id}" aria-label="Mark done">✓</button>
-  </article>`;
-}
-function blocksHtml(d){
-  if(!d.blocks.length) return '<div class="muted small">No plan yet.</div>';
-  return `<div class="blocks">${d.blocks.map(b=>`<div class="block"><div class="tm">${esc(b.t)}</div><div>${esc(b.x)}</div></div>`).join('')}</div>`;
 }
 
-function viewToday(){
-  const t = todayISO(); let hero = '';
-  if(t < TRIP.start){
-    const n = daysBetween(t, TRIP.start);
-    hero = `<div class="card countdown"><div class="kicker">Countdown</div><div class="row" style="align-items:end;gap:12px"><div class="big">${n}</div><div style="padding-bottom:8px;font-weight:700">day${n===1?'':'s'} until Cebu 🌴</div></div><div class="small" style="opacity:.9;margin-top:6px">First up: ${fmt(TRIP.start)} — ${esc(S.days[0]?.title||'')}</div></div>`;
-  } else if(t <= TRIP.end){
-    const d = dayOfToday();
-    hero = d ? `<div class="card"><div class="row between"><div><div class="kicker">Today · Day ${daysBetween(TRIP.start,d.date)+1} of 19 · ${esc(d.base)}</div><h2 style="margin-top:4px">${esc(d.title)}</h2></div><button class="btn sm" data-act="openDay" data-id="${d.id}">Open</button></div><div class="mt">${blocksHtml(d)}</div>${d.planB?`<div class="sec planb small"><b>🌧️ Plan B:</b> ${esc(d.planB)}</div>`:''}</div>` : '';
-  } else {
-    hero = `<div class="card countdown"><div class="kicker">Salamat, Cebu</div><h2 style="color:#fff;margin-top:6px">Trip complete 🌺</h2><div class="small" style="opacity:.9;margin-top:6px">${S.photos.length} photos saved. Relive it in the Photos tab.</div></div>`;
-  }
-  const done = S.bucket.filter(b=>b.done).length;
-  const upcoming = S.days.filter(d=>d.date >= t && d.date !== t).slice(0,3);
-  const STAYS = [['Carcar / Barili','Oct 9–14','Waterfalls · mountains · countryside · lechon','carcar','🌿'],['Moalboal','Oct 14–21','Freediving · sardines · turtles · canyoneering','moalboal','🐟'],['Mactan','Oct 21–27','Wine · fine dining · island hopping · spa','mactan','🍷']];
-  return `<div class="stack">
-    ${hero}
-    <div class="qa">
-      <button data-act="addPhoto"><span class="e">📷</span>Photo</button>
-      <button data-act="addExpense"><span class="e">💸</span>Expense</button>
-      <button data-act="addLink"><span class="e">🔗</span>Link</button>
-      <button data-act="addNote"><span class="e">📝</span>Note</button>
+// ============== RENDER ==============
+function renderPriorityList() {
+  const html = priorityList.map(item => `
+    <div class="priority-item">
+      <span class="name"><i class="fas ${item.icon}"></i> ${item.name}</span>
+      <span class="priority-stars">${'★'.repeat(item.stars)}${'☆'.repeat(5-item.stars)}</span>
     </div>
-    <div class="grid three">${STAYS.map(([b,dt,s,c,e])=>`<button class="stay ${c}" data-act="goBase" data-base="${b}"><small>${dt}</small><b>${e} ${b}</b><small>${s}</small></button>`).join('')}</div>
-    <div class="grid two">
-      <div class="card"><div class="row between"><h3>⭐ Don't-miss list</h3><span class="small muted">${done}/${S.bucket.length}</span></div>
-        <div class="progress mt"><div style="width:${S.bucket.length?done/S.bucket.length*100:0}%"></div></div>
-        <div class="mt">${S.bucket.map(b=>`<div class="checkrow ${b.done?'on':''}" data-act="toggleBucket" data-id="${b.id}"><span class="box">✓</span><span class="t">${esc(b.t)}</span>${stars(b.prio)}</div>`).join('')}</div>
-        <button class="linkbtn mt" data-act="addBucket">+ Add to list</button>
-      </div>
-      <div class="stack">
-        <div class="card weather"><h3>🌧️ October weather rule</h3>
-          <p class="small" style="margin:8px 0">October is in Cebu's wetter / typhoon season. Don't lock every boat day. Flex days: <b>Oct 13, 19, 26</b>.</p>
-          <p class="small" style="margin:6px 0"><b>Sea bad → skip:</b> Pescador, island hopping, Sumilon, long boat trips.</p>
-          <p class="small" style="margin:6px 0"><b>Do instead:</b> waterfalls (if authorities say safe), museums, food, cafés, shopping, spa, Cebu City, resort day.</p>
-          <div class="row wrapf mt"><a class="chip" href="https://www.pagasa.dost.gov.ph/" target="_blank" rel="noopener">🌦️ PAGASA</a><a class="chip" href="https://www.google.com/search?q=${encodeURIComponent((dayOfToday()?.base==='Moalboal'?'Moalboal':dayOfToday()?.base==='Mactan'?'Lapu-Lapu':'Barili')+' Cebu weather')}" target="_blank" rel="noopener">☀️ Local forecast</a></div>
+  `).join('');
+  document.getElementById('priorityList').innerHTML = html;
+}
+
+function renderTimeline() {
+  const html = itinerary.map((day, idx) => {
+    const baseClass = day.base;
+    const moveClass = day.tag.includes('Move') ? 'move' : '';
+    const tagClass = day.base;
+    const notesId = `note-${idx}`;
+    const savedNote = state.dayNotes[day.date] || '';
+    return `
+      <div class="day-card ${baseClass} ${moveClass}">
+        <div class="day-header">
+          <div>
+            <h3 class="day-date">${day.date}</h3>
+            <p class="day-title">${day.title}</p>
+          </div>
+          <span class="day-tag ${tagClass}"><i class="fas fa-tag"></i> ${day.tag}</span>
         </div>
-        ${upcoming.length?`<div><div class="sec-title" style="margin-top:4px"><h2>Coming up</h2></div><div class="stack">${upcoming.map(dayCard).join('')}</div></div>`:''}
+        <div class="day-schedule">
+          ${day.schedule.map(s => `
+            <div class="schedule-item">
+              <span class="schedule-time">${s.time}</span>
+              <span class="schedule-text">${s.text}</span>
+            </div>
+          `).join('')}
+        </div>
+        ${day.note ? `<p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--coral); font-style: italic;"><i class="fas fa-lightbulb" style="margin-right: 0.4rem;"></i>${day.note}</p>` : ''}
+        <textarea class="day-notes-input" id="${notesId}" placeholder="Your notes for this day..." onblur="saveDayNote('${day.date}', this.value)">${savedNote}</textarea>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('timeline').innerHTML = html;
+}
+
+function saveDayNote(date, val) {
+  state.dayNotes[date] = val;
+  saveState();
+}
+
+function renderFilters() {
+  const allCount = activities.length + state.customActivities.length;
+  let cats = [{ key: 'all', label: 'All', icon: 'fa-list', count: allCount }];
+  Object.keys(categories).forEach(k => {
+    const count = [...activities, ...state.customActivities].filter(a => a.category === k).length;
+    if (count > 0) cats.push({ key: k, label: categories[k].label, icon: categories[k].icon, count });
+  });
+  const html = cats.map(c => `
+    <button class="filter-chip ${state.activeFilter === c.key ? 'active' : ''}" onclick="setFilter('${c.key}')">
+      <i class="fas ${c.icon}"></i> ${c.label} <span class="count">(${c.count})</span>
+    </button>
+  `).join('');
+  document.getElementById('filters').innerHTML = html;
+}
+
+function setFilter(k) {
+  state.activeFilter = k;
+  saveState();
+  renderFilters();
+  renderActivities();
+}
+
+function renderActivities() {
+  const search = document.getElementById('activitySearch').value.toLowerCase();
+  const allActs = [...activities, ...state.customActivities];
+  let filtered = allActs.filter(a => {
+    if (state.activeFilter !== 'all' && a.category !== state.activeFilter) return false;
+    if (search) {
+      const haystack = (a.name + ' ' + (a.location || '') + ' ' + (a.description || '') + ' ' + (a.base || '')).toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+  if (filtered.length === 0) {
+    document.getElementById('activityGrid').innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--ink-soft);">No activities match. <button class="btn btn-primary" onclick="openAddActivityModal()" style="margin-left: 0.5rem;">Add one</button></p>`;
+    return;
+  }
+  const html = filtered.map(a => {
+    const cat = categories[a.category] || categories.custom;
+    const completed = state.completed.includes(a.id);
+    const stars = '★'.repeat(a.priority || 3) + '☆'.repeat(5 - (a.priority || 3));
+    const links = state.activityLinks[a.id] || [];
+    const photos = state.activityPhotos[a.id] || [];
+    return `
+      <div class="activity-card ${completed ? 'completed' : ''}" style="--cat-color: ${cat.color}">
+        <div class="activity-banner" style="background: ${cat.color}"></div>
+        <div class="activity-body">
+          <div class="activity-cat-row">
+            <span class="activity-cat"><i class="fas ${cat.icon}"></i> ${cat.label}</span>
+            <span class="priority-badge">${stars}</span>
+          </div>
+          <h3 class="activity-name">${a.name}</h3>
+          <div class="activity-location"><i class="fas fa-location-dot"></i> ${a.location || 'Cebu'}</div>
+          ${a.description ? `<p class="activity-desc">${a.description}</p>` : ''}
+          ${a.tips && a.tips.length ? `
+            <div class="activity-tips">
+              <div class="activity-tips-title"><i class="fas fa-circle-check"></i> Tips / Do</div>
+              <ul>${a.tips.map(t => `<li>${t}</li>`).join('')}</ul>
+            </div>` : ''}
+          ${a.learnList ? `
+            <div class="activity-tips">
+              <div class="activity-tips-title"><i class="fas fa-graduation-cap"></i> What you'll learn</div>
+              <ul>${a.learnList.map(t => `<li>${t}</li>`).join('')}</ul>
+            </div>` : ''}
+          ${(a.phone || a.website) ? `
+            <div class="activity-contact">
+              ${a.phone ? `<div class="activity-contact-row"><i class="fas fa-phone"></i> <a href="tel:${a.phone}">${a.phone}</a></div>` : ''}
+              ${a.website ? `<div class="activity-contact-row"><i class="fas fa-globe"></i> <a href="${a.website}" target="_blank">${a.website.replace(/^[a-z]+:\/\//, '').replace(/\/$/, '')}</a></div>` : ''}
+            </div>` : ''}
+          ${a.hours ? `<div class="activity-contact"><div class="activity-contact-row"><i class="fas fa-clock"></i> ${a.hours}</div></div>` : ''}
+          ${a.tip ? `<p style="font-size: 0.8rem; color: var(--coral); font-style: italic; margin-bottom: 0.75rem;"><i class="fas fa-lightbulb" style="margin-right: 0.3rem;"></i>${a.tip}</p>` : ''}
+          ${photos.length ? `
+            <div class="activity-photos">
+              ${photos.map((p, i) => `
+                <div class="activity-photo">
+                  <img src="${p}" alt="">
+                  <button class="photo-remove" onclick="removeActivityPhoto('${a.id}', ${i})"><i class="fas fa-times"></i></button>
+                </div>`).join('')}
+            </div>` : ''}
+          ${links.length ? `
+            <div class="activity-links">
+              ${links.map((l, i) => `
+                <a href="${l.url}" target="_blank" class="activity-link">
+                  <i class="fas fa-link"></i> ${l.label || l.url}
+                  <button class="remove-link" onclick="event.preventDefault(); event.stopPropagation(); removeActivityLink('${a.id}', ${i})"><i class="fas fa-times"></i></button>
+                </a>`).join('')}
+            </div>` : ''}
+          <div class="activity-actions">
+            <button class="activity-btn complete-btn ${completed ? 'active' : ''}" onclick="toggleComplete('${a.id}')">
+              <i class="fas ${completed ? 'fa-check' : 'fa-circle'}"></i> ${completed ? 'Done' : 'Mark done'}
+            </button>
+            <button class="activity-btn" onclick="openLinkModal('${a.id}')"><i class="fas fa-link"></i> Link</button>
+            <button class="activity-btn" onclick="openPhotoModal('${a.id}')"><i class="fas fa-image"></i> Photo</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('activityGrid').innerHTML = html;
+  updateProgress();
+}
+
+function renderFood() {
+  const html = foodSpots.map(f => `
+    <div class="food-card">
+      <span class="food-cuisine">${f.cuisine}</span>
+      <h3 class="food-name">${f.name}</h3>
+      <div class="food-area"><i class="fas fa-location-dot"></i> ${f.area}</div>
+      <div class="food-contact">
+        ${f.phone ? `<div><i class="fas fa-phone" style="color: var(--coral); margin-right: 0.3rem;"></i><a href="tel:${f.phone}">${f.phone}</a></div>` : ''}
+        ${f.website ? `<div><i class="fas fa-globe" style="color: var(--coral); margin-right: 0.3rem;"></i><a href="${f.website}" target="_blank">${f.website.replace(/^[a-z]+:\/\//, '').replace(/\/$/, '').replace(/^www\./, '')}</a></div>` : ''}
       </div>
     </div>
-  </div>`;
+  `).join('');
+  document.getElementById('foodGrid').innerHTML = html;
 }
 
-function viewDays(){
-  const opts = ['All','Carcar / Barili','Moalboal','Mactan'];
-  const list = S.days.filter(d=>dayFilter==='All' || d.base===dayFilter);
-  const done = S.days.filter(d=>d.done).length;
-  return `<div class="card"><div class="row between"><div><div class="kicker">Itinerary</div><h2>19 days in Cebu</h2></div><div class="small muted">${done} done</div></div></div>
-    <div class="chips mt">${opts.map(o=>`<button class="chip ${dayFilter===o?'on':''}" data-act="dayFilter" data-k="${o}">${o}</button>`).join('')}</div>
-    <div class="grid two">${list.map(dayCard).join('')}</div>`;
+function renderStays() {
+  const html = stays.map((s, i) => {
+    const key = String(i);
+    const links = state.stayLinks[key] || [];
+    return `
+      <div class="stay-card">
+        <span class="stay-dates"><i class="fas fa-calendar"></i> ${s.dates}</span>
+        <h3 class="stay-name">${s.name}</h3>
+        <div class="stay-area"><i class="fas fa-location-dot"></i> ${s.area}</div>
+        <p class="stay-vibe">${s.vibe}</p>
+        ${links.length ? `
+          <div class="stay-links">
+            ${links.map((l, idx) => `
+              <a href="${l.url}" target="_blank" class="stay-link">
+                <i class="fas fa-map-location-dot"></i>
+                <span>${l.label || l.url}</span>
+                <button class="remove-link" onclick="event.preventDefault(); event.stopPropagation(); removeStayLink(${i}, ${idx})"><i class="fas fa-times"></i></button>
+              </a>
+            `).join('')}
+          </div>
+        ` : ''}
+        <button class="stay-add-link" onclick="openStayLinkModal(${i})">
+          <i class="fas fa-map-location-dot"></i> Add Google Maps link
+        </button>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('staysGrid').innerHTML = html;
 }
 
-function placeCard(p){
-  const ph = S.photos.find(x=>x.placeId===p.id && photoSrc(x));
-  const bg = ph ? `style="background-image:url('${esc(photoSrc(ph))}')"` : '';
-  return `<article class="card place" data-act="openPlace" data-id="${p.id}">
-    <div class="ph" ${bg}>${ph?'':(CAT_EMOJI[p.cat]||'📍')}<span class="area">${esc(p.area)}</span><span class="flags">${p.fav?'❤️':''}${p.visited?'✅':''}</span></div>
-    <div class="pb"><div class="kicker">${esc(p.cat)}</div><h3>${esc(p.name)}</h3>
-      <div>${stars(p.prio)} ${p.status?`<span class="badge">${esc(p.status.split('—')[0].trim())}</span>`:''}</div>
-      ${p.tip?`<p class="tip">${esc(p.tip)}</p>`:''}
-      <div class="pactions">
-        ${p.phone?`<a class="chip" href="${telHref(p.phone)}">📞 Call</a>`:''}
-        <a class="chip" href="${mapUrl(p)}" target="_blank" rel="noopener">🗺️ Map</a>
-        ${p.web?`<a class="chip" href="${esc(p.web)}" target="_blank" rel="noopener">🌐 Web</a>`:''}
-        <button class="chip" data-act="toggleFav" data-id="${p.id}">${p.fav?'❤️':'🤍'}</button>
-        <button class="chip ${p.visited?'on':''}" data-act="toggleVisited" data-id="${p.id}">${p.visited?'✓ Been':'Been?'}</button>
-      </div></div></article>`;
-}
-function filteredPlaces(){
-  const q = placeQ.trim().toLowerCase();
-  return S.places.filter(p=>
-    (placeArea==='All' || (placeArea==='❤️ Saved' ? p.fav : p.area===placeArea)) &&
-    (placeCat==='All' || p.cat===placeCat) &&
-    (!q || [p.name,p.tip,p.addr,p.cat,p.area,p.notes].join(' ').toLowerCase().includes(q)));
-}
-function placesList(){
-  const list = filteredPlaces();
-  return `<div class="small muted" style="margin:0 2px 10px">${list.length} place${list.length===1?'':'s'}</div>
-    ${list.length?`<div class="grid places">${list.map(placeCard).join('')}</div>`:'<div class="card empty">Nothing here yet. Try another filter.</div>'}`;
-}
-function viewPlaces(){
-  const cats = ['All', ...CATS.filter(c=>S.places.some(p=>p.cat===c))];
-  return `<div class="row"><div class="search" style="flex:1"><span>🔎</span><input id="placeQ" placeholder="Search places, food, falls…" value="${esc(placeQ)}"></div><button class="btn coral" data-act="addPlace">＋</button></div>
-    <div class="chips mt">${['All','❤️ Saved',...AREAS].map(o=>`<button class="chip ${placeArea===o?'on':''}" data-act="placeArea" data-k="${o}">${o}</button>`).join('')}</div>
-    <div class="chips">${cats.map(o=>`<button class="chip ${placeCat===o?'sunny':''}" data-act="placeCat" data-k="${o}">${o==='All'?'All types':(CAT_EMOJI[o]+' '+o)}</button>`).join('')}</div>
-    <div id="placeList">${placesList()}</div>`;
-}
-
-function photoGrid(list, ctx={}){
-  return `<div class="pgrid">
-    <button class="ph add" data-act="addPhoto" ${ctx.day?`data-day="${ctx.day}"`:''} ${ctx.place?`data-place="${ctx.place}"`:''}>＋ Add</button>
-    ${list.slice().reverse().map(p=>{ const s=photoSrc(p); return `<button class="ph" data-act="openPhoto" data-id="${p.id}" style="${s?`background-image:url('${esc(s)}')`:''}">${p.caption?`<span>${esc(p.caption)}</span>`:''}</button>`; }).join('')}
-  </div>`;
-}
-function viewPhotos(){
-  const list = S.photos.filter(p=>photoDay==='All' || p.dayId===photoDay);
-  return `<div class="card"><div class="row between wrapf"><div><div class="kicker">Gallery</div><h2>${S.photos.length} photo${S.photos.length===1?'':'s'}</h2></div>
-    <select id="photoDaySel" style="width:auto;max-width:100%"><option value="All">All days</option>${S.days.map(d=>`<option value="${d.id}" ${photoDay===d.id?'selected':''}>${fmt(d.date)} · ${esc(d.title)}</option>`).join('')}</select></div>
-    ${!store.user?`<p class="small muted" style="margin:10px 0 0">📱 Photos are shrunk and kept on this device. Connect Supabase (More → Sync) to back them up and see them on every device.</p>`:''}
-  </div>
-  <div class="mt">${photoGrid(list, {day: photoDay!=='All'?photoDay:''})}</div>`;
-}
-
-const MORE = [['budget','💸 Budget'],['packing','🎒 Packing'],['links','🔗 Links'],['contacts','📞 Contacts'],['journal','📝 Journal'],['guide','🧭 Guide'],['sync','☁️ Sync']];
-function viewMore(){
-  const v = {budget:viewBudget,packing:viewPacking,links:viewLinks,contacts:viewContacts,journal:viewJournal,guide:viewGuide,sync:viewSync}[moreTab];
-  return `<div class="chips">${MORE.map(([k,l])=>`<button class="chip ${moreTab===k?'on':''}" data-act="moreTab" data-k="${k}">${l}</button>`).join('')}</div>${v()}`;
-}
-function viewBudget(){
-  const m = getMeta(), total = sum(S.expenses), budget = Number(m.budget)||0;
-  const pct = budget ? Math.min(100, total/budget*100) : 0;
-  const byCat = {}; S.expenses.forEach(e=>byCat[e.cat||'Other']=(byCat[e.cat||'Other']||0)+(Number(e.amount)||0));
-  const byBase = {'Carcar / Barili':0,'Moalboal':0,'Mactan':0,'Other':0};
-  S.expenses.forEach(e=>{ const d=S.days.find(x=>x.date===e.date); byBase[d?d.base:'Other'] += Number(e.amount)||0; });
-  const max = Math.max(1,...Object.values(byCat));
-  const list = S.expenses.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.ts||0)-(a.ts||0));
-  return `<div class="grid two">
-    <div class="card"><div class="kicker">Spent so far</div><div class="big" style="margin:6px 0">${peso(total)}</div>
-      <div class="progress ${pct>90?'warn':''}"><div style="width:${pct}%"></div></div>
-      <div class="field"><label>Trip budget (₱)</label><input type="number" inputmode="decimal" data-kind="meta" data-id="meta" data-field="budget" value="${budget||''}" placeholder="e.g. 150000"></div>
-      ${budget?`<div class="small muted mt">${total<=budget?`${peso(budget-total)} left`:`${peso(total-budget)} over budget`}</div>`:''}
-      <button class="btn block mt" data-act="addExpense">＋ Add expense</button>
+function renderGallery() {
+  const addCard = `
+    <button class="gallery-add" onclick="openPhotoModal('gallery')">
+      <i class="fas fa-plus"></i>
+      <span>Add photo</span>
+    </button>`;
+  const photoCards = state.galleryPhotos.map((p, i) => `
+    <div class="gallery-item">
+      <img src="${p}" alt="">
+      <button class="gallery-remove" onclick="removeGalleryPhoto(${i})"><i class="fas fa-times"></i></button>
     </div>
-    <div class="card"><h3>By category</h3>
-      ${Object.keys(byCat).length?Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([c,v])=>`<div class="bar"><span>${esc(c)}</span><div class="progress"><div style="width:${v/max*100}%"></div></div><b>${peso(v)}</b></div>`).join(''):'<div class="empty">No expenses yet.</div>'}
-      <h3 class="mt">By base</h3>
-      ${Object.entries(byBase).filter(([k,v])=>v||k!=='Other').map(([k,v])=>`<div class="row between small" style="padding:4px 0"><span>${k}</span><b>${peso(v)}</b></div>`).join('')}
-    </div>
-  </div>
-  <div class="card mt"><h3>All expenses</h3>
-    ${list.length?list.map(e=>`<div class="lrow" data-act="editExpense" data-id="${e.id}" style="cursor:pointer"><span class="lic">💸</span><div class="lmain"><span><b>${esc(e.desc||e.cat)}</b><small>${fmt(e.date)} · ${esc(e.cat)}</small></span></div><b>${peso(e.amount)}</b></div>`).join(''):'<div class="empty">Tap “Add expense” after every meal, ride and tour.</div>'}
-  </div>`;
+  `).join('');
+  document.getElementById('galleryGrid').innerHTML = addCard + photoCards;
 }
-function viewPacking(){
-  const done = S.packing.filter(p=>p.done).length;
-  const groups = PACK_GROUPS.filter(g=>S.packing.some(p=>p.g===g));
-  return `<div class="card"><div class="row between"><h3>🎒 Packing list</h3><span class="small muted">${done}/${S.packing.length}</span></div>
-    <div class="progress mt"><div style="width:${S.packing.length?done/S.packing.length*100:0}%"></div></div>
-    <div class="row mt"><button class="btn sm" data-act="addPack">＋ Add item</button><button class="btn sm ghost" data-act="resetPack">Uncheck all</button></div></div>
-  <div class="grid two mt">${groups.map(g=>`<div class="card"><h3>${esc(g)}</h3>${S.packing.filter(p=>p.g===g).map(p=>`<div class="checkrow ${p.done?'on':''}" data-act="togglePack" data-id="${p.id}"><span class="box">✓</span><span class="t">${esc(p.t)}</span><button class="linkbtn" data-act="delPack" data-id="${p.id}" aria-label="Remove">✕</button></div>`).join('')}</div>`).join('')}</div>`;
+
+// ============== INTERACTIONS ==============
+function switchSection(sectionId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden-section'));
+  document.getElementById(sectionId).classList.remove('hidden-section');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.nav-tab[data-section="${sectionId}"]`)?.classList.add('active');
 }
-function linkRow(l){
-  const where = [l.dayId&&dayById(l.dayId)?fmt(dayById(l.dayId).date):'', l.placeId&&placeById(l.placeId)?placeById(l.placeId).name:''].filter(Boolean).join(' · ');
-  return `<div class="lrow"><a class="lmain" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="lic">${LINK_ICON[l.cat]||'🔗'}</span><span style="min-width:0"><b>${esc(l.title||host(l.url))}</b><small>${esc(host(l.url))}${where?' · '+esc(where):''}</small></span></a><button class="icon-btn" data-act="editLink" data-id="${l.id}" aria-label="Edit">✎</button></div>`;
+
+function toggleComplete(activityId) {
+  const idx = state.completed.indexOf(activityId);
+  if (idx > -1) state.completed.splice(idx, 1);
+  else state.completed.push(activityId);
+  saveState();
+  renderActivities();
+  showToast(idx > -1 ? 'Marked incomplete' : 'Marked done!');
 }
-function viewLinks(){
-  const cats = LINK_CATS.filter(c=>S.links.some(l=>l.cat===c));
-  return `<div class="card"><div class="row between"><div><h3>🔗 Links & bookings</h3><div class="small muted">Booking confirmations, menus, tickets, maps, Facebook pages…</div></div><button class="btn sm" data-act="addLink">＋ Add</button></div></div>
-    ${cats.length?`<div class="grid two mt">${cats.map(c=>`<div class="card"><h3>${LINK_ICON[c]} ${c}</h3>${S.links.filter(l=>l.cat===c).map(linkRow).join('')}</div>`).join('')}</div>`:'<div class="card empty mt">No links yet.</div>'}`;
+
+function openLinkModal(activityId) {
+  currentLinkContext = { type: 'activity', id: activityId };
+  document.getElementById('linkUrl').value = '';
+  document.getElementById('linkLabel').value = '';
+  document.getElementById('linkModalTitle').textContent = 'Add a link';
+  document.getElementById('linkUrl').placeholder = 'https://...';
+  document.getElementById('linkLabel').placeholder = 'Booking page, blog post, etc.';
+  document.getElementById('linkModal').classList.add('active');
 }
-function viewContacts(){
-  const withPhones = S.places.filter(p=>p.phone);
-  return `<div class="card"><div class="row between"><h3>📞 Key contacts</h3><button class="btn sm" data-act="addContact">＋ Add</button></div>
-    ${S.contacts.map(c=>`<div class="lrow">${c.phone?`<a class="lmain" href="${telHref(c.phone)}">`:'<div class="lmain">'}<span class="lic">${c.phone==='911'?'🚨':'📞'}</span><span style="min-width:0"><b>${esc(c.name)}</b><small>${esc(c.phone||'no number yet')}${c.note?' · '+esc(c.note):''}</small></span>${c.phone?'</a>':'</div>'}<button class="icon-btn" data-act="editContact" data-id="${c.id}">✎</button></div>`).join('')}
-  </div>
-  <div class="card mt"><h3>All place phone numbers</h3>
-    ${AREAS.map(a=>{ const ps=withPhones.filter(p=>p.area===a); return ps.length?`<div class="kicker mt">${a}</div>${ps.map(p=>`<div class="lrow"><a class="lmain" href="${telHref(p.phone)}"><span class="lic">${CAT_EMOJI[p.cat]||'📍'}</span><span style="min-width:0"><b>${esc(p.name)}</b><small>${esc(p.phone)}</small></span></a></div>`).join('')}`:''; }).join('')}
-  </div>`;
+
+function openStayLinkModal(stayIdx) {
+  currentLinkContext = { type: 'stay', id: stayIdx };
+  document.getElementById('linkUrl').value = '';
+  document.getElementById('linkLabel').value = '';
+  document.getElementById('linkModalTitle').textContent = 'Add a map link';
+  document.getElementById('linkUrl').placeholder = 'https://maps.google.com/...';
+  document.getElementById('linkLabel').placeholder = 'e.g. Map to resort';
+  document.getElementById('linkModal').classList.add('active');
 }
-function viewJournal(){
-  const list = S.notes.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.ts||0)-(a.ts||0));
-  return `<div class="card"><div class="row between"><h3>📝 Travel journal</h3><button class="btn sm" data-act="addNote">＋ Write</button></div></div>
-    ${list.length?`<div class="stack mt">${list.map(n=>`<div class="card" data-act="editNote" data-id="${n.id}" style="cursor:pointer"><div class="kicker">${fmt(n.date)}</div><div style="white-space:pre-wrap;margin-top:6px">${esc(n.text)}</div></div>`).join('')}</div>`:'<div class="card empty mt">Nothing written yet. A few lines each night make great memories.</div>'}`;
-}
-function viewGuide(){
-  return `<div class="grid two guide">
-    <div class="card"><h3>🗓️ Daily rhythm</h3><ul><li><b>Morning:</b> activity</li><li><b>Afternoon:</b> beach</li><li><b>Sunset:</b> photography</li><li><b>Evening:</b> dinner</li></ul><p class="small muted">Don't make every day an expedition.</p></div>
-    <div class="card"><h3>🌧️ Bad-weather swap</h3><ul><li>Skip: Pescador, island hopping, Sumilon, long boat trips</li><li>Do: waterfalls (if authorities say safe), museums, food, cafés, shopping, spa, Cebu City, resort day</li><li>Kawasan canyoneering can be suspended after heavy rain</li></ul></div>
-    <div class="card"><h3>🐢 Turtle etiquette</h3><ul><li>Don't touch, chase or block them</li><li>Don't dive directly onto them</li><li>Don't grab coral for stability</li><li>Descend calmly; let the turtle come to you</li></ul></div>
-    <div class="card"><h3>🤿 Freediving basics to learn</h3><ul><li>Duck dive, relaxation, equalization</li><li>Neutral buoyancy, finning, body position</li><li>Breath control, safe buddy procedures</li><li>Tell the instructor you want underwater photography</li><li><b>Never</b> go to depth solo on your first sessions</li></ul></div>
-    <div class="card"><h3>🛵 Scooter rules</h3><ul><li>Carcar: rent 2–3 days · Moalboal: 4–5 days</li><li>Licence/permit + proper helmet</li><li>Not for Oslob days, bad-weather mountain roads, late nights or canyoneering days</li><li>Mactan: use Grab / hotel car / taxi — traffic is urban</li></ul></div>
-    <div class="card"><h3>📸 Photography</h3><ul><li>Landscape: Osmeña sunrise, Kawasan, Barili countryside, Bojo, Sumilon, Mactan sunset</li><li>Underwater: sardines, Pescador, turtles, Mactan reefs</li><li>Ask permission before close portraits, especially of children</li><li>Don't sacrifice diving safety for a photo</li></ul></div>
-    <div class="card"><h3>🐋 Oslob, honestly</h3><p class="small">An amazing wildlife encounter, but the sharks are fed to guarantee sightings — that's the main conservation/animal-welfare criticism. If you go, follow all local rules and don't touch or chase them.</p></div>
-    <div class="card"><h3>🍷 Mactan wine plan</h3><ul><li>MJ's Weinkeller — German wines, relaxed</li><li>Acqua — Italian + wine, romantic</li><li>Cowrie Cove — book for sunset</li><li>Tea of Spring — wide list incl. Chinese wines</li><li>Enye — special Spanish dinner</li></ul></div>
-  </div>`;
-}
-function viewSync(){
-  const configured = !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY);
-  let top;
-  if(!configured){
-    top = `<div class="card"><h3>📱 Device-only mode</h3><p class="small">Everything saves on this device right now. To sync your phone and laptop and back up photos, add your Supabase URL + anon key at the top of <code>index.html</code> (see the setup notes).</p></div>`;
-  } else if(!store.user){
-    top = `<div class="card"><h3>☁️ Sign in to sync</h3><p class="small muted">Use the account you created in Supabase → Authentication → Users.</p>
-      <div class="field"><label>Email</label><input id="sEmail" type="email" autocomplete="email"></div>
-      <div class="field"><label>Password</label><input id="sPass" type="password" autocomplete="current-password"></div>
-      <button class="btn block mt" data-act="signIn">Sign in</button></div>`;
+
+function saveLink() {
+  const url = document.getElementById('linkUrl').value.trim();
+  const label = document.getElementById('linkLabel').value.trim();
+  if (!url) { showToast('Enter a URL', 'warn'); return; }
+  
+  if (currentLinkContext.type === 'stay') {
+    const key = String(currentLinkContext.id);
+    if (!state.stayLinks[key]) state.stayLinks[key] = [];
+    state.stayLinks[key].push({ url, label });
+    saveState();
+    closeModal('linkModal');
+    renderStays();
+    showToast('Map link added');
   } else {
-    const pend = Object.keys(store.pending).length;
-    top = `<div class="card"><h3>☁️ Synced with Supabase</h3><p class="small">Signed in as <b>${esc(store.user.email)}</b>.<br>${pend?`${pend} change(s) waiting to upload.`:'Everything is uploaded.'}</p>
-      <div class="row wrapf"><button class="btn sm" data-act="syncNow">🔄 Sync now</button><button class="btn sm ghost" data-act="signOut">Sign out</button></div></div>`;
+    const key = currentLinkContext.id;
+    if (!state.activityLinks[key]) state.activityLinks[key] = [];
+    state.activityLinks[key].push({ url, label });
+    saveState();
+    closeModal('linkModal');
+    renderActivities();
+    showToast('Link added');
   }
-  return `<div class="grid two">${top}
-    <div class="card"><h3>💾 Backup</h3><p class="small muted">Download everything (itinerary, places, notes, expenses${store.user?'':', photos'}) as a file, or restore one.</p>
-      <div class="row wrapf"><button class="btn sm" data-act="exportJSON">⬇️ Export backup</button><button class="btn sm ghost" data-act="importJSON">⬆️ Import</button></div>
-      <p class="small muted mt">Tip: on your phone, use “Add to Home Screen” so this opens like an app.</p></div></div>`;
 }
 
-/* ---------------- sheets ---------------- */
-function openSheet(html){ $('#sheetBody').innerHTML = html; $('#sheet').classList.add('open'); document.body.classList.add('noscroll'); }
-function closeSheet(){ $('#sheet').classList.remove('open'); document.body.classList.remove('noscroll'); sheetCtx=null; renderMain(); }
-function keepScroll(fn){ const p=$('#panel'); const st=p.scrollTop; fn(); p.scrollTop=st; }
-function refreshSheet(){
-  if(!sheetCtx || !$('#sheet').classList.contains('open')) return;
-  const c = sheetCtx;
-  keepScroll(()=>{ if(c.type==='day') daySheet(c.id); else if(c.type==='place') placeSheet(c.id); else if(c.type==='photo') photoSheet(c.id); });
-}
-function goBack(b){ if(!b) return closeSheet(); if(b.type==='day') daySheet(b.id); else if(b.type==='place') placeSheet(b.id); else closeSheet(); renderMain(); }
-
-function daySheet(id){
-  const d = dayById(id); if(!d) return closeSheet();
-  sheetCtx = {type:'day', id};
-  const places = S.places.filter(p=>p.dayIds?.includes(id));
-  const photos = S.photos.filter(p=>p.dayId===id);
-  const links = S.links.filter(l=>l.dayId===id);
-  const spent = sum(S.expenses.filter(x=>x.date===d.date));
-  openSheet(`
-    <div class="sheet-hero bg-${baseCls(d.base)}"><div class="kicker">Day ${daysBetween(TRIP.start,d.date)+1} · ${fmt(d.date)} · ${esc(d.base)}</div>
-      <input class="title-in" data-kind="days" data-id="${id}" data-field="title" value="${esc(d.title)}">
-      <div class="row mt"><button class="btn sm sun" data-act="toggleDay" data-id="${id}">${d.done?'✅ Day done':'Mark day done'}</button>${d.flex?'<span class="flex-tag">FLEX DAY</span>':''}</div></div>
-    <div class="sec"><div class="sec-h"><h3>🗺️ Plan</h3><button class="linkbtn" data-act="editBlocks" data-id="${id}">Edit</button></div><div id="blocksBox">${blocksHtml(d)}</div></div>
-    <div class="sec planb"><h3>🌧️ Weather plan B</h3><textarea class="mt" rows="2" data-kind="days" data-id="${id}" data-field="planB" placeholder="If the weather turns…">${esc(d.planB)}</textarea></div>
-    <div class="sec"><div class="sec-h"><h3>📍 Places</h3><button class="linkbtn" data-act="pickPlaces" data-id="${id}">+ Link places</button></div>
-      <div class="row wrapf">${places.map(p=>`<button class="chip" data-act="openPlace" data-id="${p.id}">${CAT_EMOJI[p.cat]||'📍'} ${esc(p.name)}</button>`).join('') || '<span class="small muted">No places linked.</span>'}</div></div>
-    <div class="sec"><h3>📷 Photos</h3><div class="mt">${photoGrid(photos,{day:id})}</div></div>
-    <div class="sec"><div class="sec-h"><h3>🔗 Links</h3><button class="linkbtn" data-act="addLink" data-day="${id}">+ Add link</button></div>${links.map(linkRow).join('') || '<span class="small muted">Booking confirmations, menus, tour pages…</span>'}</div>
-    <div class="sec"><h3>📝 Notes</h3><textarea class="mt" rows="3" data-kind="days" data-id="${id}" data-field="notes" placeholder="Reminders, what to bring, who to call…">${esc(d.notes)}</textarea></div>
-    <div class="sec row between"><span>💸 Spent this day: <b>${peso(spent)}</b></span><button class="btn sm" data-act="addExpense" data-date="${d.date}">＋ Expense</button></div>
-  `);
-}
-function pickSheet(dayId){
-  const d = dayById(dayId); sheetCtx = {type:'pick', id:dayId};
-  openSheet(`<button class="linkbtn" data-act="openDay" data-id="${dayId}">← Back to ${esc(d.title)}</button><h2 class="mt">Link places to ${fmt(d.date)}</h2>
-    ${AREAS.map(a=>`<div class="kicker mt">${a}</div><div class="row wrapf" style="margin-top:6px">${S.places.filter(p=>p.area===a).map(p=>`<button class="chip ${p.dayIds?.includes(dayId)?'on':''}" data-act="togglePlaceDay" data-id="${p.id}" data-day="${dayId}">${CAT_EMOJI[p.cat]||'📍'} ${esc(p.name)}</button>`).join('')}</div>`).join('')}`);
-}
-function placeSheet(id){
-  const p = placeById(id); if(!p) return closeSheet();
-  sheetCtx = {type:'place', id};
-  const photos = S.photos.filter(x=>x.placeId===id);
-  const links = S.links.filter(l=>l.placeId===id);
-  openSheet(`
-    <div class="sheet-hero" style="background:linear-gradient(135deg,var(--sea),var(--sea-deep))"><div class="kicker">${esc(p.area)} · ${CAT_EMOJI[p.cat]||''} ${esc(p.cat)}</div><h2 style="color:#fff;font-size:26px;margin-top:4px">${esc(p.name)}</h2>
-      <div class="mt">${stars(p.prio)} ${p.status?`<span class="badge">${esc(p.status)}</span>`:''}</div></div>
-    <div class="row wrapf">
-      ${p.phone?`<a class="btn sm" href="${telHref(p.phone)}">📞 ${esc(p.phone)}</a>`:''}
-      <a class="btn sm" href="${mapUrl(p)}" target="_blank" rel="noopener">🗺️ Directions</a>
-      ${p.web?`<a class="btn sm ghost" href="${esc(p.web)}" target="_blank" rel="noopener">🌐 Website</a>`:''}
-      <button class="btn sm ghost" data-act="toggleFav" data-id="${id}">${p.fav?'❤️ Saved':'🤍 Save'}</button>
-      <button class="btn sm ${p.visited?'':'ghost'}" data-act="toggleVisited" data-id="${id}">${p.visited?'✅ Been here':'Mark been here'}</button>
-    </div>
-    ${p.tip||p.hours||p.addr?`<div class="sec">${p.tip?`<p style="margin:0 0 8px">💡 ${esc(p.tip)}</p>`:''}${p.hours?`<div class="small">🕒 ${esc(p.hours)}</div>`:''}${p.addr?`<div class="small muted" style="margin-top:4px">📍 ${esc(p.addr)}</div>`:''}</div>`:''}
-    <div class="sec"><h3>🗓️ Planned for</h3><div class="chips" style="margin-top:8px">${S.days.map(d=>`<button class="chip ${p.dayIds?.includes(d.id)?'on':''}" data-act="togglePlaceDay" data-id="${id}" data-day="${d.id}">${MON[toDate(d.date).getMonth()]} ${toDate(d.date).getDate()}</button>`).join('')}</div></div>
-    <div class="sec"><h3>📝 My notes</h3><textarea class="mt" rows="3" data-kind="places" data-id="${id}" data-field="notes" placeholder="What to order, prices, booking ref…">${esc(p.notes)}</textarea></div>
-    <div class="sec"><h3>📷 Photos</h3><div class="mt">${photoGrid(photos,{place:id})}</div></div>
-    <div class="sec"><div class="sec-h"><h3>🔗 Links</h3><button class="linkbtn" data-act="addLink" data-place="${id}">+ Add link</button></div>${links.map(linkRow).join('') || '<span class="small muted">Menus, FB pages, booking confirmations…</span>'}</div>
-    <div class="row mt"><button class="btn sm ghost" data-act="editPlace" data-id="${id}">✎ Edit details</button></div>
-  `);
-}
-function photoSheet(id){
-  const p = S.photos.find(x=>x.id===id); if(!p) return closeSheet();
-  sheetCtx = {type:'photo', id};
-  const s = photoSrc(p);
-  openSheet(`<div class="lightbox">${s?`<img src="${esc(s)}" alt="">`:'<div class="empty">Loading photo…</div>'}</div>
-    <div class="field"><label>Caption</label><input data-kind="photos" data-id="${id}" data-field="caption" value="${esc(p.caption)}" placeholder="Sardine ball at 8 m…"></div>
-    <div class="field"><label>Day</label><select data-kind="photos" data-id="${id}" data-field="dayId"><option value="">—</option>${S.days.map(d=>`<option value="${d.id}" ${p.dayId===d.id?'selected':''}>${fmt(d.date)} · ${esc(d.title)}</option>`).join('')}</select></div>
-    <div class="field"><label>Place</label><select data-kind="photos" data-id="${id}" data-field="placeId"><option value="">—</option>${S.places.map(x=>`<option value="${x.id}" ${p.placeId===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
-    <div class="row mt wrapf">${s?`<a class="btn sm" href="${esc(s)}" target="_blank" rel="noopener" download="cebu-${id}.jpg">⬇️ Open / save</a>`:''}<button class="btn sm ghost danger" data-act="deletePhoto" data-id="${id}">🗑️ Delete</button></div>`);
+function removeActivityLink(activityId, idx) {
+  state.activityLinks[activityId].splice(idx, 1);
+  if (state.activityLinks[activityId].length === 0) delete state.activityLinks[activityId];
+  saveState();
+  renderActivities();
+  showToast('Link removed');
 }
 
-/* generic form sheet */
-function fieldHtml(f, v){
-  const val = v ?? f.def ?? '';
-  const lab = `<label>${esc(f.label)}</label>`;
-  if(f.type==='select') return `<div class="field">${lab}<select name="${f.k}">${f.options.map(o=>{ const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${esc(ov)}" ${String(ov)===String(val)?'selected':''}>${esc(ol)}</option>`; }).join('')}</select></div>`;
-  if(f.type==='textarea') return `<div class="field">${lab}<textarea name="${f.k}" rows="${f.rows||4}" placeholder="${esc(f.ph||'')}">${esc(val)}</textarea></div>`;
-  return `<div class="field">${lab}<input name="${f.k}" type="${f.type||'text'}" ${f.type==='number'?'inputmode="decimal" step="any"':''} value="${esc(val)}" placeholder="${esc(f.ph||'')}"></div>`;
-}
-function formSheet({title, fields, values={}, onSave, onDelete}){
-  const back = sheetCtx && ['day','place'].includes(sheetCtx.type) ? {...sheetCtx} : null;
-  sheetCtx = {type:'form', onSave, onDelete, back};
-  openSheet(`${back?`<button class="linkbtn" data-act="formBack">← Back</button>`:''}<h2 class="mt">${esc(title)}</h2>
-    <form id="frm" onsubmit="return false">${fields.map(f=>fieldHtml(f, values[f.k])).join('')}
-    <div class="row mt"><button class="btn" data-act="formSave">Save</button>${onDelete?'<button class="btn ghost danger" data-act="formDelete">Delete</button>':''}</div></form>`);
-  setTimeout(()=>{ const first=$('#frm [name]'); if(first && first.tagName!=='SELECT' && window.innerWidth>760) first.focus(); }, 50);
-}
-const dayOpts = () => [['','— none —'], ...S.days.map(d=>[d.id, `${fmt(d.date)} · ${d.title}`])];
-const placeOpts = () => [['','— none —'], ...S.places.map(p=>[p.id, p.name])];
-const defaultDate = () => { const t=todayISO(); return (t>=TRIP.start && t<=TRIP.end) ? t : TRIP.start; };
-
-function expenseForm(e){
-  formSheet({ title: e ? 'Edit expense' : 'New expense',
-    fields:[{k:'desc',label:'What for',ph:'Lechon lunch, boat, Grab…'},{k:'amount',label:'Amount (₱)',type:'number'},{k:'cat',label:'Category',type:'select',options:EXP_CATS,def:'Food'},{k:'date',label:'Date',type:'date',def:photoCtx.date||defaultDate()}],
-    values: e || {},
-    onSave: v => { if(!v.amount){ toast('Enter an amount'); return false; } store.put('expenses', {...(e||{id:uid('ex'),ts:Date.now()}), ...v}); toast('Expense saved'); },
-    onDelete: e ? () => store.del('expenses', e.id) : null });
-}
-function linkForm(l, ctx={}){
-  formSheet({ title: l ? 'Edit link' : 'New link',
-    fields:[{k:'title',label:'Title',ph:'Hotel booking, menu, tour page…'},{k:'url',label:'Link (URL)',type:'url',ph:'https://…'},{k:'cat',label:'Type',type:'select',options:LINK_CATS,def:'Booking'},{k:'dayId',label:'Day',type:'select',options:dayOpts()},{k:'placeId',label:'Place',type:'select',options:placeOpts()}],
-    values: l || ctx,
-    onSave: v => { if(!v.url){ toast('Paste a link'); return false; } if(!/^[a-z]+:/i.test(v.url)) v.url='https://'+v.url; store.put('links', {...(l||{id:uid('ln'),ts:Date.now()}), ...v}); toast('Link saved'); },
-    onDelete: l ? () => store.del('links', l.id) : null });
-}
-function noteForm(n){
-  formSheet({ title: n ? 'Edit entry' : 'Journal entry',
-    fields:[{k:'date',label:'Date',type:'date',def:defaultDate()},{k:'text',label:'Entry',type:'textarea',rows:8,ph:'Best moment today…'}],
-    values: n || {},
-    onSave: v => { if(!v.text){ toast('Write something first'); return false; } store.put('notes', {...(n||{id:uid('nt'),ts:Date.now()}), ...v}); },
-    onDelete: n ? () => store.del('notes', n.id) : null });
-}
-function contactForm(c){
-  formSheet({ title: c ? 'Edit contact' : 'New contact',
-    fields:[{k:'name',label:'Name'},{k:'phone',label:'Phone',type:'tel',ph:'+639…'},{k:'note',label:'Note'}],
-    values: c || {},
-    onSave: v => { if(!v.name){ toast('Add a name'); return false; } store.put('contacts', {...(c||{id:uid('ct')}), ...v}); },
-    onDelete: c ? () => store.del('contacts', c.id) : null });
-}
-function placeForm(p){
-  formSheet({ title: p ? 'Edit place' : 'New place',
-    fields:[{k:'name',label:'Name'},{k:'area',label:'Area',type:'select',options:AREAS},{k:'cat',label:'Type',type:'select',options:CATS},{k:'prio',label:'Priority',type:'select',options:[['0','—'],['1','★'],['2','★★'],['3','★★★'],['4','★★★★'],['5','★★★★★']]},{k:'phone',label:'Phone',type:'tel'},{k:'web',label:'Website / FB page',type:'url'},{k:'addr',label:'Address'},{k:'hours',label:'Hours'},{k:'tip',label:'Tip / description',type:'textarea',rows:3},{k:'status',label:'Status (e.g. closed)'}],
-    values: p ? {...p, prio:String(p.prio||0)} : {area: placeArea!=='All'&&AREAS.includes(placeArea)?placeArea:'Moalboal', cat:'Food', prio:'3'},
-    onSave: v => { if(!v.name){ toast('Add a name'); return false; } v.prio = Number(v.prio)||0; if(v.web && !/^[a-z]+:/i.test(v.web)) v.web='https://'+v.web;
-      const obj = {...(p||{id:uid('pl'),fav:false,visited:false,notes:'',dayIds:[],o:999,ts:Date.now()}), ...v}; store.put('places', obj);
-      if(!p){ sheetCtx.back = {type:'place', id:obj.id}; } },
-    onDelete: p ? () => { store.del('places', p.id); sheetCtx.back = null; } : null });
+function removeStayLink(stayIdx, linkIdx) {
+  const key = String(stayIdx);
+  state.stayLinks[key].splice(linkIdx, 1);
+  if (state.stayLinks[key].length === 0) delete state.stayLinks[key];
+  saveState();
+  renderStays();
+  showToast('Link removed');
 }
 
-/* ---------------- photos ---------------- */
-async function compress(file, max, q){
-  const url = URL.createObjectURL(file);
-  try {
-    const img = await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=url; });
-    const s = Math.min(1, max/Math.max(img.naturalWidth, img.naturalHeight));
-    const c = document.createElement('canvas'); c.width=Math.round(img.naturalWidth*s); c.height=Math.round(img.naturalHeight*s);
-    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-    return c.toDataURL('image/jpeg', q);
-  } finally { URL.revokeObjectURL(url); }
+function openPhotoModal(contextId) {
+  currentPhotoContext = contextId;
+  document.getElementById('photoUrl').value = '';
+  document.getElementById('photoFile').value = '';
+  document.getElementById('photoModal').classList.add('active');
 }
-async function handleFiles(files){
-  const list = [...(files||[])]; if(!list.length) return;
-  const ctx = {...photoCtx};
-  toast(`Adding ${list.length} photo${list.length>1?'s':''}…`);
-  const cloud = !!store.user;
-  let added = 0;
-  for(const f of list){
+
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) {
+    showToast('Image too large (max 2MB), use URL instead', 'warn');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    savePhotoToContext(ev.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePhoto() {
+  const url = document.getElementById('photoUrl').value.trim();
+  if (url) savePhotoToContext(url);
+  else if (!document.getElementById('photoFile').files[0]) {
+    showToast('Add a file or URL', 'warn');
+  }
+}
+
+function savePhotoToContext(photoData) {
+  if (currentPhotoContext === 'gallery') {
+    state.galleryPhotos.push(photoData);
+  } else {
+    if (!state.activityPhotos[currentPhotoContext]) state.activityPhotos[currentPhotoContext] = [];
+    state.activityPhotos[currentPhotoContext].push(photoData);
+  }
+  saveState();
+  closeModal('photoModal');
+  if (currentPhotoContext === 'gallery') renderGallery();
+  else renderActivities();
+  showToast('Photo added');
+}
+
+function removeActivityPhoto(activityId, idx) {
+  state.activityPhotos[activityId].splice(idx, 1);
+  if (state.activityPhotos[activityId].length === 0) delete state.activityPhotos[activityId];
+  saveState();
+  renderActivities();
+  showToast('Photo removed');
+}
+
+function removeGalleryPhoto(idx) {
+  state.galleryPhotos.splice(idx, 1);
+  saveState();
+  renderGallery();
+  showToast('Photo removed');
+}
+
+function openAddActivityModal() {
+  document.getElementById('newActName').value = '';
+  document.getElementById('newActLocation').value = '';
+  document.getElementById('newActDesc').value = '';
+  document.getElementById('activityModal').classList.add('active');
+}
+
+function saveCustomActivity() {
+  const name = document.getElementById('newActName').value.trim();
+  if (!name) { showToast('Enter a name', 'warn'); return; }
+  const newAct = {
+    id: 'custom-' + Date.now(),
+    name,
+    location: document.getElementById('newActLocation').value.trim(),
+    category: document.getElementById('newActCategory').value,
+    description: document.getElementById('newActDesc').value.trim(),
+    priority: 3,
+    base: 'custom'
+  };
+  state.customActivities.push(newAct);
+  saveState();
+  closeModal('activityModal');
+  renderFilters();
+  renderActivities();
+  switchSection('activities');
+  showToast('Activity added');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function updateProgress() {
+  const total = activities.length + state.customActivities.length;
+  const done = state.completed.length;
+  const pct = total ? (done / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${done}/${total}`;
+}
+
+function showToast(msg, type='ok') {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.querySelector('i').className = type === 'warn' ? 'fas fa-triangle-exclamation' : 'fas fa-check-circle';
+  toast.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cebu-trip-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Data exported');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
     try {
-      const src = await compress(f, cloud?1800:1100, cloud?.82:.7);
-      const dayId = ctx.day || (ctx.place ? '' : (dayOfToday()?.id || ''));
-      store.put('photos', {id:uid('ph'), src, caption:'', dayId, placeId:ctx.place||'', ts:Date.now()+added});
-      added++;
-    } catch(e){ console.warn(e); toast('Could not read one of the photos'); }
-  }
-  toast(`${added} photo${added===1?'':'s'} added${cloud?' — uploading…':''}`);
-  renderMain(); refreshSheet();
+      const data = JSON.parse(ev.target.result);
+      state = { ...state, ...data };
+      saveState();
+      renderAll();
+      showToast('Data imported');
+    } catch(err) {
+      showToast('Invalid file', 'warn');
+    }
+  };
+  reader.readAsText(file);
 }
 
-/* ---------------- actions ---------------- */
-const ACT = {
-  tab: el => { tab = el.dataset.k; renderAll(); window.scrollTo({top:0,behavior:'smooth'}); },
-  goBase: el => { tab='days'; dayFilter=el.dataset.base; renderAll(); },
-  dayFilter: el => { dayFilter = el.dataset.k; renderMain(); },
-  placeArea: el => { placeArea = el.dataset.k; renderMain(); },
-  placeCat: el => { placeCat = el.dataset.k; renderMain(); },
-  moreTab: el => { moreTab = el.dataset.k; renderMain(); },
-  closeSheet: () => closeSheet(),
-  openDay: el => daySheet(el.dataset.id),
-  openPlace: el => placeSheet(el.dataset.id),
-  openPhoto: el => photoSheet(el.dataset.id),
-  pickPlaces: el => pickSheet(el.dataset.id),
-  toggleDay: el => { const d=dayById(el.dataset.id); d.done=!d.done; store.put('days',d); renderMain(); refreshSheet(); },
-  editBlocks: el => { const d=dayById(el.dataset.id);
-    $('#blocksBox').innerHTML = `<p class="small muted" style="margin:0 0 6px">One line per step: <b>time | what</b></p><textarea id="blocksTa" rows="${Math.max(4,d.blocks.length+1)}">${esc(d.blocks.map(b=>`${b.t} | ${b.x}`).join('\n'))}</textarea><button class="btn sm mt" data-act="saveBlocks" data-id="${d.id}">Save plan</button>`; },
-  saveBlocks: el => { const d=dayById(el.dataset.id);
-    d.blocks = $('#blocksTa').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf('|'); return i<0?{t:'',x:l}:{t:l.slice(0,i).trim(),x:l.slice(i+1).trim()}; });
-    store.put('days',d); refreshSheet(); renderMain(); },
-  togglePlaceDay: el => { const p=placeById(el.dataset.id); const day=el.dataset.day; p.dayIds=p.dayIds||[];
-    p.dayIds = p.dayIds.includes(day) ? p.dayIds.filter(x=>x!==day) : [...p.dayIds, day]; store.put('places',p); el.classList.toggle('on'); renderMain(); },
-  toggleFav: el => { const p=placeById(el.dataset.id); p.fav=!p.fav; store.put('places',p); renderMain(); refreshSheet(); },
-  toggleVisited: el => { const p=placeById(el.dataset.id); p.visited=!p.visited; store.put('places',p); renderMain(); refreshSheet(); if(p.visited) toast('Nice! ✅'); },
-  addPlace: () => placeForm(null),
-  editPlace: el => placeForm(placeById(el.dataset.id)),
-  addPhoto: el => { photoCtx = {day:el.dataset.day||'', place:el.dataset.place||''}; const fp=$('#filePick'); fp.value=''; fp.click(); },
-  deletePhoto: el => { if(confirm('Delete this photo?')){ store.del('photos', el.dataset.id); goBack(null); toast('Photo deleted'); } },
-  addExpense: el => { photoCtx = {date: el.dataset.date}; expenseForm(null); },
-  editExpense: el => expenseForm(S.expenses.find(x=>x.id===el.dataset.id)),
-  addLink: el => linkForm(null, {dayId:el.dataset.day||'', placeId:el.dataset.place||''}),
-  editLink: el => linkForm(S.links.find(x=>x.id===el.dataset.id)),
-  addNote: () => noteForm(null),
-  editNote: el => noteForm(S.notes.find(x=>x.id===el.dataset.id)),
-  addContact: () => contactForm(null),
-  editContact: el => contactForm(S.contacts.find(x=>x.id===el.dataset.id)),
-  toggleBucket: el => { const b=S.bucket.find(x=>x.id===el.dataset.id); b.done=!b.done; store.put('bucket',b); renderMain(); if(b.done) toast('Ticked off! 🎉'); },
-  addBucket: () => formSheet({title:"Add to don't-miss list", fields:[{k:'t',label:'Experience',ph:'🌅 Sunset at …'}], onSave:v=>{ if(!v.t) return false; store.put('bucket',{id:uid('bk'),t:v.t,prio:0,done:false,o:999}); }}),
-  togglePack: el => { const p=S.packing.find(x=>x.id===el.dataset.id); p.done=!p.done; store.put('packing',p); renderMain(); },
-  delPack: el => { store.del('packing', el.dataset.id); renderMain(); },
-  resetPack: () => { if(!confirm('Uncheck every packing item?')) return; S.packing.forEach(p=>{ if(p.done){ p.done=false; store.put('packing',p); } }); renderMain(); },
-  addPack: () => formSheet({title:'Add packing item', fields:[{k:'t',label:'Item'},{k:'g',label:'Group',type:'select',options:PACK_GROUPS,def:'Other'}], onSave:v=>{ if(!v.t) return false; store.put('packing',{id:uid('pk'),...v,done:false,o:999}); }}),
-  formSave: async () => { const v={}; $('#frm').querySelectorAll('[name]').forEach(i=>v[i.name]= i.type==='number' ? (parseFloat(i.value)||0) : i.value.trim());
-    const r = await sheetCtx.onSave(v); if(r===false) return; goBack(sheetCtx.back); },
-  formDelete: () => { if(!confirm('Delete this?')) return; sheetCtx.onDelete(); goBack(sheetCtx.back); },
-  formBack: () => goBack(sheetCtx.back),
-  signIn: async () => { const email=$('#sEmail').value.trim(), password=$('#sPass').value;
-    if(!email||!password) return toast('Enter email and password');
-    const { error } = await store.sb.auth.signInWithPassword({email,password});
-    toast(error ? error.message : 'Signed in — syncing…'); },
-  signOut: async () => { await store.sb.auth.signOut(); toast('Signed out. Data stays on this device.'); renderMain(); },
-  syncNow: async () => { await store.pull(); toast('Synced'); renderMain(); },
-  exportJSON: () => { const blob=new Blob([JSON.stringify(S,(k,v)=>k==='_url'?undefined:v,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`cebu-trip-backup-${todayISO()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); },
-  importJSON: () => { const f=$('#importPick'); f.value=''; f.click(); }
-};
-
-async function importJSON(file){
-  if(!file) return;
-  try {
-    const data = JSON.parse(await file.text());
-    if(!data.days || !data.places) throw new Error('Not a trip backup');
-    if(!confirm('Replace the data on this device with this backup?')) return;
-    S = emptyState(); KINDS.forEach(k=>S[k]=Array.isArray(data[k])?data[k]:[]); sortState(); saveLocal();
-    if(store.user){ KINDS.forEach(k=>S[k].forEach(o=>store.pending[o.id]={kind:k})); store.savePending(); await store.flush(); }
-    toast('Backup restored'); renderAll();
-  } catch(e){ toast('Could not import: ' + e.message); }
+function resetData() {
+  if (!confirm('Reset all data? This will clear completed activities, links, photos and notes both locally and in Supabase.')) return;
+  localStorage.removeItem('cebu-trip-state');
+  state = {
+    completed: [],
+    customActivities: [],
+    activityLinks: {},
+    activityPhotos: {},
+    stayLinks: {},
+    dayNotes: {},
+    galleryPhotos: [],
+    generalNotes: '',
+    activeFilter: 'all'
+  };
+  saveState();
+  renderAll();
+  showToast('Reset complete');
 }
 
-/* ---------------- events ---------------- */
-document.addEventListener('click', e => {
-  if(e.target.closest('a[href]')) return;              // real links just open
-  const el = e.target.closest('[data-act]'); if(!el) return;
-  const fn = ACT[el.dataset.act]; if(!fn) return;
-  e.preventDefault(); fn(el);
-});
-document.addEventListener('change', e => {
-  const el = e.target;
-  if(el.id==='filePick') return handleFiles(el.files);
-  if(el.id==='importPick') return importJSON(el.files[0]);
-  if(el.id==='photoDaySel'){ photoDay = el.value; return renderMain(); }
-  const { kind, id, field } = el.dataset; if(!kind || !field) return;
-  const o = kind==='meta' ? getMeta() : S[kind]?.find(x=>x.id===id); if(!o) return;
-  o[field] = el.type==='number' ? (parseFloat(el.value)||0) : el.value;
-  store.put(kind, o); renderMain();
-});
-document.addEventListener('input', e => {
-  if(e.target.id==='placeQ'){ placeQ = e.target.value; $('#placeList').innerHTML = placesList(); }
-});
-document.addEventListener('keydown', e => { if(e.key==='Escape' && $('#sheet').classList.contains('open')) closeSheet(); });
+function renderAll() {
+  renderPriorityList();
+  renderTimeline();
+  renderFilters();
+  renderActivities();
+  renderFood();
+  renderStays();
+  renderGallery();
+  document.getElementById('generalNotes').value = state.generalNotes;
+  updateProgress();
+}
 
-/* ---------------- start ---------------- */
-loadLocal();
-renderAll();
-store.init().then(()=>renderMain());
+// ============== INIT ==============
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadState();
+  renderAll();
+  
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.addEventListener('click', () => switchSection(t.dataset.section));
+  });
+  
+  document.getElementById('activitySearch').addEventListener('input', renderActivities);
+  
+  document.getElementById('generalNotes').addEventListener('blur', (e) => {
+    state.generalNotes = e.target.value;
+    saveState();
+    showToast('Notes saved');
+  });
+  
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', (e) => {
+      if (e.target === m) closeModal(m.id);
+    });
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
+    }
+  });
+  
+  // Hide loading overlay
+  setTimeout(() => {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }, 300);
+});
 </script>
+
 </body>
 </html>
