@@ -507,9 +507,60 @@ let currentPhotoContext=null,currentLinkContext=null,currentFlightContext=null,s
 
 function setSyncStatus(s){const el=document.getElementById('syncStatus'),t=document.getElementById('syncText');el.className='sync-status '+s;const ic={syncing:'fa-cloud-arrow-up',synced:'fa-cloud',error:'fa-cloud-exclamation',offline:'fa-cloud'};el.querySelector('i').className='fas '+(ic[s]||'fa-cloud');const lb={syncing:'Syncing...',synced:'Synced',error:'Sync error',offline:'Local'};t.textContent=lb[s]||'Local'}
 
-async function saveToSupabase(){if(!sb){setSyncStatus('offline');return}try{setSyncStatus('syncing');const p={id:'main',completed:state.completed,custom_activities:state.customActivities,custom_transport:state.customTransport,activity_links:state.activityLinks,activity_photos:state.activityPhotos,stay_links:state.stayLinks,transport_links:state.transportLinks,gallery_photos:state.galleryPhotos,general_notes:state.generalNotes,active_filter:state.activeFilter,flights:state.flights,updated_at:new Date().toISOString()};const{error}=await sb.from('cebu_trip').upsert(p);if(error)throw error;setSyncStatus('synced')}catch(e){console.warn('Save failed:',e);setSyncStatus('error')}}
+async function saveToSupabase(){
+if(!sb){setSyncStatus('offline');return}
+try{
+setSyncStatus('syncing');
+const{error}=await sb.from('cebu_trip').upsert({id:'main',data:state,updated_at:new Date().toISOString()});
+if(error)throw error;
+setSyncStatus('synced')
+}catch(e){
+console.warn('Save failed:',e);
+setSyncStatus('error');
+showToast('Sync failed, saving locally only','warn')
+}
+}
 
-async function loadFromSupabase(){if(!sb){setSyncStatus('offline');return false}try{setSyncStatus('syncing');const{data,error}=await sb.from('cebu_trip').select('*').eq('id','main').single();if(error)throw error;if(data){state.completed=data.completed||[];state.customActivities=data.custom_activities||[];state.customTransport=data.custom_transport||[];state.activityLinks=data.activity_links||{};state.activityPhotos=data.activity_photos||{};state.stayLinks=data.stay_links||{};state.transportLinks=data.transport_links||{};state.galleryPhotos=data.gallery_photos||[];state.generalNotes=data.general_notes||'';state.activeFilter=data.active_filter||'all';state.activeBaseFilter='all';state.foodBaseFilter='all';if(data.flights){state.flights={person1:{name:data.flights.person1?.name||'Person 1 (from Israel)',desc:data.flights.person1?.desc||'Flying from Israel with connecting flights',legs:data.flights.person1?.legs||[]},person2:{name:data.flights.person2?.name||'Person 2 (local flight)',desc:data.flights.person2?.desc||'Local flight to Cebu',legs:data.flights.person2?.legs||[]}}}try{localStorage.setItem('cebu-trip-state',JSON.stringify(state))}catch(e){}setSyncStatus('synced');return true}setSyncStatus('synced');return false}catch(e){console.warn('Load failed:',e);setSyncStatus('error');return false}}
+async function loadFromSupabase(){
+if(!sb){setSyncStatus('offline');return false}
+try{
+setSyncStatus('syncing');
+const{data:row,error}=await sb.from('cebu_trip').select('*').eq('id','main').single();
+if(error)throw error;
+if(row){
+let needMigrate=false;
+if(row.data&&Object.keys(row.data).length>0){
+state={...state,...row.data}
+}else{
+needMigrate=true;
+state.completed=row.completed||[];
+state.customActivities=row.custom_activities||[];
+state.customTransport=row.custom_transport||[];
+state.activityLinks=row.activity_links||{};
+state.activityPhotos=row.activity_photos||{};
+state.stayLinks=row.stay_links||{};
+state.transportLinks=row.transport_links||{};
+state.galleryPhotos=row.gallery_photos||[];
+state.generalNotes=row.general_notes||'';
+state.activeFilter=row.active_filter||'all';
+if(row.flights)state.flights=row.flights
+}
+if(!state.flights)state.flights={person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with connecting flights',legs:[]},person2:{name:'Person 2 (local flight)',desc:'Local flight to Cebu',legs:[]}};
+if(!state.activeBaseFilter)state.activeBaseFilter='all';
+if(!state.foodBaseFilter)state.foodBaseFilter='all';
+try{localStorage.setItem('cebu-trip-state',JSON.stringify(state))}catch(e){}
+setSyncStatus('synced');
+if(needMigrate){console.log('Migrating old data to data column');await saveToSupabase()}
+return true
+}
+setSyncStatus('synced');
+return false
+}catch(e){
+console.warn('Load failed:',e);
+setSyncStatus('error');
+return false
+}
+}
 
 async function forceSync(){await saveToSupabase();showToast('Synced to cloud')}
 
