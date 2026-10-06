@@ -323,7 +323,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 <button class="nav-tab" data-section="photos"><i class="fas fa-camera"></i> Photos</button>
 <button class="nav-tab" data-section="notes"><i class="fas fa-pen-fancy"></i> Notes</button>
 </nav>
-<div class="nav-right"><div class="sync-status offline" id="syncStatus"><i class="fas fa-cloud"></i><span id="syncText">Local</span></div><div class="progress-wrap"><span id="progressText">0/40</span><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div></div>
+<div class="nav-right"><div class="sync-status offline" id="syncStatus" onclick="forceSync()" style="cursor:pointer" title="Tap to sync now"><i class="fas fa-cloud"></i><span id="syncText">Loading...</span></div><div class="progress-wrap"><span id="progressText">0/40</span><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div></div>
 </div></div>
 
 <section class="section" id="overview">
@@ -438,7 +438,7 @@ const activities=[
 {id:'oslob-whale-sharks',name:'Oslob Whale Sharks',base:'moalboal',category:'marine',priority:4,location:'Oslob, Cebu',description:'Whale-shark encounters operate year-round, concentrated in the morning. The animals are fed, which is why sightings are so reliable. That is also the central conservation criticism.',tips:['Follow all local rules','Do not touch or chase the animals','Amazing wildlife encounter plus legitimate conservation debate'],tip:'Oslob mega-day: 4:30 leave Moalboal, 6:00 to 9:00 whale sharks, breakfast, 10:30 Tumalog, 12:00 lunch, 13:00 Sumilon if sea permits, 16:00 home.'},
 {id:'sumilon',name:'Sumilon Island',base:'moalboal',category:'marine',priority:4,location:'Bangcogon, Oslob',description:'Combine with Oslob if the sea is good. Sandbar and snorkeling.',tip:'Only if sea conditions permit.'},
 {id:'tumalog',name:'Tumalog Falls',base:'moalboal',category:'waterfall',priority:3,location:'Oslob, Cebu',description:'Very easy to combine with Oslob whale sharks.'},
-{id:'mjs-weinkeller',name:"MJ's Weinkeller German Wine Bar",base:'mactan',category:'food',priority:4,location:'LG, Garden Walk, Lapu-Lapu',phone:'+69695009875',description:'Exactly the type of place for a wine-focused evening in Mactan. German wines, European-style food, relaxed evening.'},
+{id:'mjs-weinkeller',name:"MJ's Weinkeller German Wine Bar",base:'mactan',category:'food',priority:4,location:'LG, Garden Walk, Lapu-Lapu',phone:'+639695009875',description:'Exactly the type of place for a wine-focused evening in Mactan. German wines, European-style food, relaxed evening.'},
 {id:'cowrie-cove',name:'Shangri-La Cowrie Cove',base:'mactan',category:'food',priority:4,location:'Shangri-La Mactan Resort',website:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/cowrie-cove/',description:'Seafood, steak, oceanfront dining. Wagyu, tuna kinilaw, octopus, seafood platter, steaks. Book for sunset.',tip:'Special-occasion dinner.'},
 {id:'acqua',name:'Shangri-La Acqua',base:'mactan',category:'food',priority:4,location:'Shangri-La Mactan Resort',website:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/acqua/',description:'Contemporary Italian. Italian, wine, romantic dinner.'},
 {id:'tea-of-spring',name:'Shangri-La Tea of Spring',base:'mactan',category:'food',priority:3,location:'Shangri-La Mactan Resort',website:'https://www.shangri-la.com/restaurants-bars/cebu/mactanresort/tea-of-spring/',description:'Cantonese / Chinese. Extensive wine selection including Chinese wines.'},
@@ -489,7 +489,7 @@ const stays=[
 ];
 
 const priorityList=[
-{name:'Moalboal Sardine Run',stars:5,icon:'fa-fish'},{name:'Freediving lesson',stars:5,icon:'fa-water'},{name:'Moalboal turtles',stars:5,icon:'fa-robot'},{name:'Pescador Island',stars:5,icon:'fa-island-tropical'},{name:'Kawasan Canyoneering',stars:5,icon:'fa-mountain-sun'},{name:'Osmeña Peak sunrise',stars:5,icon:'fa-sun'},{name:'Mantayupan Falls',stars:4,icon:'fa-water'},{name:'Barili ATV Adventure',stars:4,icon:'fa-car'},{name:'Oslob whale sharks',stars:4,icon:'fa-whale'},{name:'Mactan island hopping',stars:4,icon:'fa-ship'},{name:'Mactan wine night',stars:4,icon:'fa-wine-glass'},{name:'Cowrie Cove',stars:4,icon:'fa-utensils'},{name:'Enye',stars:4,icon:'fa-utensils'},{name:'Bojo River',stars:4,icon:'fa-tree'},{name:'Dao/Kabutongan Falls',stars:3,icon:'fa-water'},{name:'Cebu City',stars:3,icon:'fa-city'},{name:'Cebu malls',stars:2,icon:'fa-bag-shopping'}
+{name:'Moalboal Sardine Run',stars:5,icon:'fa-fish'},{name:'Freediving lesson',stars:5,icon:'fa-water'},{name:'Moalboal turtles',stars:5,icon:'fa-shield-heart'},{name:'Pescador Island',stars:5,icon:'fa-umbrella-beach'},{name:'Kawasan Canyoneering',stars:5,icon:'fa-mountain-sun'},{name:'Osmeña Peak sunrise',stars:5,icon:'fa-sun'},{name:'Mantayupan Falls',stars:4,icon:'fa-water'},{name:'Barili ATV Adventure',stars:4,icon:'fa-car'},{name:'Oslob whale sharks',stars:4,icon:'fa-whale'},{name:'Mactan island hopping',stars:4,icon:'fa-ship'},{name:'Mactan wine night',stars:4,icon:'fa-wine-glass'},{name:'Cowrie Cove',stars:4,icon:'fa-utensils'},{name:'Enye',stars:4,icon:'fa-utensils'},{name:'Bojo River',stars:4,icon:'fa-tree'},{name:'Dao/Kabutongan Falls',stars:3,icon:'fa-water'},{name:'Cebu City',stars:3,icon:'fa-city'},{name:'Cebu malls',stars:2,icon:'fa-bag-shopping'}
 ];
 
 let state={
@@ -501,42 +501,88 @@ flights:{person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with co
 };
 let currentPhotoContext=null,currentLinkContext=null,currentFlightContext=null,saveTimeout=null;
 
-function setSyncStatus(s){const el=document.getElementById('syncStatus'),t=document.getElementById('syncText');el.className='sync-status '+s;const ic={syncing:'fa-cloud-arrow-up',synced:'fa-cloud',error:'fa-cloud-exclamation',offline:'fa-cloud'};el.querySelector('i').className='fas '+(ic[s]||'fa-cloud');const lb={syncing:'Syncing...',synced:'Synced',error:'Sync error',offline:'Local'};t.textContent=lb[s]||'Local'}
+function setSyncStatus(s){const el=document.getElementById('syncStatus'),t=document.getElementById('syncText');el.className='sync-status '+s;const ic={syncing:'fa-cloud-arrow-up',synced:'fa-cloud',error:'fa-triangle-exclamation',offline:'fa-mobile-screen'};el.querySelector('i').className='fas '+(ic[s]||'fa-cloud');const lb={syncing:'Syncing...',synced:'Synced',error:'Sync issue',offline:'Saved on device'};t.textContent=lb[s]||'Saved on device'}
+
+/* ---------- cloud sync (safe when Supabase is down or the signal drops) ---------- */
+let cloudOk=false;            // did we read the cloud copy at least once this session?
+let syncing=false, retryTimer=null, retryDelay=15000, warnedOutage=false;
+const DIRTY_KEY='cebu-trip-dirty';
+const isDirty=()=>{try{return localStorage.getItem(DIRTY_KEY)==='1'}catch(e){return false}};
+const setDirty=v=>{try{v?localStorage.setItem(DIRTY_KEY,'1'):localStorage.removeItem(DIRTY_KEY)}catch(e){}};
+
+function fetchT(url,opts={},ms=15000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(t))}
+
+function cloudDown(httpStatus){
+  // one calm message per outage, then quietly retry in the background
+  setSyncStatus(httpStatus?'error':'offline');
+  if(!warnedOutage){
+    warnedOutage=true;
+    if(!httpStatus) showToast(navigator.onLine?"Cloud can't be reached right now. Your changes are saved on this device and will sync later":"You're offline. Changes are saved on this device",'warn');
+    else if(httpStatus===401||httpStatus===403) showToast('Cloud permission problem. Check the Supabase table policy','warn');
+    else if(httpStatus===404) showToast('Cloud table not found. Run the Supabase SQL setup','warn');
+    else if(httpStatus===413) showToast('Too many photos for the cloud. Remove some photos','warn');
+    else showToast('Cloud sync problem ('+httpStatus+'). Saved on this device','warn');
+  }
+  scheduleRetry();
+}
+function cloudBack(){
+  clearTimeout(retryTimer);retryTimer=null;retryDelay=15000;
+  if(warnedOutage){warnedOutage=false;showToast('Back online. Everything synced')}
+  setSyncStatus('synced');
+}
+function scheduleRetry(){
+  clearTimeout(retryTimer);
+  retryTimer=setTimeout(reconnect,retryDelay);
+  retryDelay=Math.min(retryDelay*2,120000);
+}
+
+/* Reconnect: if you changed something while offline, upload it.
+   Otherwise download the latest cloud copy (so your partner's edits show up
+   and an old copy on this phone never overwrites the cloud). */
+async function reconnect(){
+  if(syncing)return;
+  if(isDirty()&&cloudOk){await saveToSupabase();return}
+  const ok=await loadFromSupabase();
+  if(ok===null)return;                 // still unreachable, retry already scheduled
+  if(isDirty())await saveToSupabase(); // had offline edits but never saw the cloud: keep them
+  renderAll();
+}
 
 async function saveToSupabase(){
-if(!navigator.onLine){setSyncStatus('offline');return}
+if(syncing){scheduleRetry();return}
+if(!navigator.onLine){cloudDown(0);return}
+syncing=true;
 try{
 setSyncStatus('syncing');
-const payload=JSON.stringify({id:'main',data:state,updated_at:new Date().toISOString()});
+let payload=JSON.stringify({id:'main',data:state,updated_at:new Date().toISOString()});
+let liteOnly=false;
 if(payload.length>4000000){
-const lite={...state,activityPhotos:{},galleryPhotos:[]};
-const litePayload=JSON.stringify({id:'main',data:lite,updated_at:new Date().toISOString()});
-const resp=await fetch(REST_URL,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates'},body:litePayload});
-if(resp.ok){setSyncStatus('synced');showToast('Synced (photos stay on this device only due to size)','warn');return}
+payload=JSON.stringify({id:'main',data:{...state,activityPhotos:{},galleryPhotos:[]},updated_at:new Date().toISOString()});
+liteOnly=true;
 }
-const resp=await fetch(REST_URL,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates'},body:payload});
-if(resp.ok){setSyncStatus('synced');return}
-setSyncStatus('error');
+const resp=await fetchT(REST_URL,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates'},body:payload},30000);
+if(resp.ok){setDirty(false);cloudOk=true;cloudBack();if(liteOnly)showToast('Synced (photos stay on this device only due to size)','warn');return}
 const errText=await resp.text().catch(()=>'');
 console.error('Sync error:',resp.status,errText);
-if(resp.status===401||resp.status===403){showToast('Permission denied. Run the SQL with RLS policy','warn')}
-else if(resp.status===404){showToast('Table not found. Run the SQL setup first','warn')}
-else if(resp.status===400&&errText.includes('data')){showToast('Run this SQL: alter table cebu_trip add column data jsonb','warn')}
-else if(resp.status===413){showToast('Data too large for cloud. Remove some photos','warn')}
-else{showToast('Sync error '+resp.status+'. Check console for details','warn')}
-}catch(e){setSyncStatus('error');console.error('Network error:',e);showToast('Cannot reach Supabase. Check your connection','warn')}
+if(resp.status===400&&errText.includes('data')){setSyncStatus('error');showToast('Run this SQL: alter table cebu_trip add column data jsonb','warn');scheduleRetry();return}
+cloudDown(resp.status);
+}catch(e){console.warn('Cloud unreachable:',e);cloudDown(0)}
+finally{syncing=false}
 }
 
+/* returns true = loaded cloud copy, false = cloud reachable but empty, null = unreachable */
 async function loadFromSupabase(){
-if(!navigator.onLine){setSyncStatus('offline');return false}
+if(!navigator.onLine){cloudDown(0);return null}
 try{
 setSyncStatus('syncing');
-const resp=await fetch(REST_URL+'?id=eq.main&select=*',{headers:HEADERS});
-if(!resp.ok){setSyncStatus('error');console.error('Load error:',resp.status);return false}
+const resp=await fetchT(REST_URL+'?id=eq.main&select=*',{headers:HEADERS});
+if(!resp.ok){console.error('Load error:',resp.status);cloudDown(resp.status);return null}
 const rows=await resp.json();
+cloudOk=true;
 if(rows&&rows.length>0){
 const row=rows[0];
 let needMigrate=false;
+if(!isDirty()){
 if(row.data&&Object.keys(row.data).length>0){
 state={...state,...row.data}
 }else{
@@ -553,28 +599,30 @@ state.generalNotes=row.general_notes||'';
 state.activeFilter=row.active_filter||'all';
 if(row.flights)state.flights=row.flights
 }
-if(!state.flights)state.flights={person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with connecting flights',legs:[]},person2:{name:'Person 2 (local flight)',desc:'Local flight to Cebu',legs:[]}};
-if(!state.activeBaseFilter)state.activeBaseFilter='all';
-if(!state.foodBaseFilter)state.foodBaseFilter='all';
+fixState();
 try{localStorage.setItem('cebu-trip-state',JSON.stringify(state))}catch(e){}
-setSyncStatus('synced');
+}
+cloudBack();
 if(needMigrate){console.log('Migrating to data column');await saveToSupabase()}
 return true
 }
-setSyncStatus('synced');
+cloudBack();
 return false
-}catch(e){setSyncStatus('error');console.error('Load failed:',e);return false}
+}catch(e){console.warn('Cloud unreachable:',e);cloudDown(0);return null}
 }
 
-async function forceSync(){await saveToSupabase()}
+async function forceSync(){warnedOutage=false;if(isDirty()||cloudOk)await saveToSupabase();else await reconnect()}
+
+function fixState(){if(!state.flights)state.flights={person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with connecting flights',legs:[]},person2:{name:'Person 2 (local flight)',desc:'Local flight to Cebu',legs:[]}};if(!state.activeBaseFilter)state.activeBaseFilter='all';if(!state.foodBaseFilter)state.foodBaseFilter='all'}
 
 function compressImage(d,mw,q){return new Promise(r=>{const i=new Image();i.onload=function(){let w=i.width,h=i.height;if(w>mw){h=Math.round(mw/w*h);w=mw}const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(i,0,0,w,h);r(c.toDataURL('image/jpeg',q))};i.onerror=function(){r(d)};i.src=d})}
 
 async function compressAndSavePhoto(d){try{const c=await compressImage(d,1200,0.85);savePhotoToContext(c)}catch(e){savePhotoToContext(d)}}
 
-function saveState(){try{localStorage.setItem('cebu-trip-state',JSON.stringify(state))}catch(e){showToast('Storage full','warn')}if(saveTimeout)clearTimeout(saveTimeout);saveTimeout=setTimeout(saveToSupabase,400)}
+function saveState(){try{localStorage.setItem('cebu-trip-state',JSON.stringify(state))}catch(e){showToast('Storage full','warn')}setDirty(true);if(saveTimeout)clearTimeout(saveTimeout);saveTimeout=setTimeout(()=>{saveTimeout=null;if(cloudOk)saveToSupabase();else reconnect()},400)}
 
-async function loadState(){const ok=await loadFromSupabase();if(!ok){try{const sv=localStorage.getItem('cebu-trip-state');if(sv){const p=JSON.parse(sv);state={...state,...p};if(!state.flights)state.flights={person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with connecting flights',legs:[]},person2:{name:'Person 2 (local flight)',desc:'Local flight to Cebu',legs:[]}};if(!state.activeBaseFilter)state.activeBaseFilter='all';if(!state.foodBaseFilter)state.foodBaseFilter='all'}}catch(e){}}}
+function loadLocal(){try{const sv=localStorage.getItem('cebu-trip-state');if(sv){state={...state,...JSON.parse(sv)}}}catch(e){}fixState()}
+async function loadCloudOnStart(){const ok=await loadFromSupabase();if(ok!==null&&isDirty())await saveToSupabase()}
 
 function handlePasteEvent(e){const it=(e.clipboardData||window.clipboardData);if(!it)return;for(let i of it.items){if(i.type&&i.type.startsWith('image/')){const f=i.getAsFile();if(f){const r=new FileReader();r.onload=async function(ev){const z=document.getElementById('pasteZone');if(z){z.classList.add('paste-active');setTimeout(()=>z.classList.remove('paste-active'),800)}await compressAndSavePhoto(ev.target.result)};r.readAsDataURL(f);e.preventDefault();break}}}}
 
@@ -669,12 +717,14 @@ function showToast(m,t='ok'){const el=document.getElementById('toast');document.
 
 function exportData(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='cebu-trip-data.json';a.click();URL.revokeObjectURL(u);showToast('Data exported')}
 
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const d=JSON.parse(ev.target.result);state={...state,...d};if(!state.flights)state.flights={person1:{name:'Person 1 (from Israel)',desc:'Flying from Israel with connecting flights',legs:[]},person2:{name:'Person 2 (local flight)',desc:'Local flight to Cebu',legs:[]}};if(!state.activeBaseFilter)state.activeBaseFilter='all';if(!state.foodBaseFilter)state.foodBaseFilter='all';saveState();renderAll();showToast('Data imported')}catch(err){showToast('Invalid file','warn')}};r.readAsText(f)}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const d=JSON.parse(ev.target.result);state={...state,...d};fixState();saveState();renderAll();showToast('Data imported')}catch(err){showToast('Invalid file','warn')}};r.readAsText(f)}
 
-function renderAll(){renderPriorityList();renderFilters();renderBaseFilters();renderActivities();renderFlights();renderTransport();renderFoodFilters();renderFood();renderStays();renderGallery();document.getElementById('generalNotes').value=state.generalNotes;updateProgress()}
+function renderAll(){renderPriorityList();renderFilters();renderBaseFilters();renderActivities();renderFlights();renderTransport();renderFoodFilters();renderFood();renderStays();renderGallery();const gn=document.getElementById('generalNotes');if(document.activeElement!==gn)gn.value=state.generalNotes||'';updateProgress()}
 
 document.addEventListener('DOMContentLoaded',async()=>{
-await loadState();renderAll();
+loadLocal();renderAll();
+setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),300);
+loadCloudOnStart().then(()=>renderAll());
 document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>switchSection(t.dataset.section)));
 document.getElementById('activitySearch').addEventListener('input',renderActivities);
 document.getElementById('generalNotes').addEventListener('blur',e=>{state.generalNotes=e.target.value;saveState();showToast('Notes saved')});
@@ -684,10 +734,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelec
 const pz=document.getElementById('pasteZone');
 if(pz){pz.addEventListener('click',()=>pz.focus());pz.addEventListener('paste',handlePasteEvent)}
 document.addEventListener('paste',e=>{const m=document.getElementById('photoModal');if(m.classList.contains('active'))handlePasteEvent(e)});
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&saveTimeout){clearTimeout(saveTimeout);saveTimeout=null;saveToSupabase()}});
-window.addEventListener('online',()=>{setSyncStatus('syncing');saveToSupabase()});
-setInterval(()=>{const el=document.getElementById('syncStatus');if(el.classList.contains('error'))saveToSupabase()},15000);
-setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),300);
+document.addEventListener('visibilitychange',()=>{
+if(document.visibilityState==='hidden'){if(saveTimeout&&cloudOk){clearTimeout(saveTimeout);saveTimeout=null;saveToSupabase()}}
+else{const typing=document.activeElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);const modalOpen=document.querySelector('.modal-overlay.active');if(!typing&&!modalOpen&&!saveTimeout)reconnect()}
+});
+window.addEventListener('online',()=>{retryDelay=15000;reconnect()});
+window.addEventListener('offline',()=>setSyncStatus('offline'));
 });
 </script>
 </body>
