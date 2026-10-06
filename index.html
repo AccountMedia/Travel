@@ -287,6 +287,99 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 @media(max-width:768px){.nav-inner{flex-wrap:wrap;gap:0.5rem}.nav-brand{font-size:0.9rem}.nav-right{width:100%;justify-content:space-between}.progress-wrap{font-size:0.75rem}.progress-bar{width:60px}}
 @media(max-width:640px){.section{padding:3rem 1rem 2rem}.nav-inner{padding:0.5rem 1rem}.nav-brand{font-size:0.85rem}.nav-right{gap:0.4rem}.sync-status{font-size:0.7rem;padding:0.25rem 0.5rem}.progress-wrap{display:none}.hero-content{padding:3rem 1rem 6rem}.fab{bottom:1rem;right:1rem}.footer-title{font-size:1.5rem}.paste-zone{padding:1.5rem 1rem}.section-title-row{flex-direction:column;align-items:flex-start}}
 .hidden-section{display:none}
+.itin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:-1.5rem 0 1.5rem}
+.itin-switch{display:inline-flex;background:var(--sand-deep);border-radius:999px;padding:4px}
+.itin-switch button{border:none;background:transparent;font-family:inherit;font-weight:600;font-size:0.85rem;color:var(--ink-soft);padding:0.5rem 1.1rem;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem}
+.itin-switch button.on{background:var(--palm);color:var(--sand);box-shadow:0 4px 12px -4px rgba(10,61,46,0.4)}
+.itin-legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:0.8rem;color:var(--ink-soft)}
+.itin-day{scroll-margin-top:120px}
+.itin-back{display:inline-flex;align-items:center;gap:0.45rem;margin:0 0 0.85rem;padding:0.5rem 1rem 0.5rem 0.8rem;border:none;border-radius:999px;background:var(--palm);color:var(--sand);font-family:inherit;font-weight:600;font-size:0.85rem;cursor:pointer;box-shadow:0 6px 16px -6px rgba(10,61,46,0.45)}
+.itin-back:hover{background:var(--palm-light)}
+
+.cal{background:var(--sand-card);border:1px solid var(--border);border-radius:24px;padding:1.25rem;overflow:hidden}
+.cal-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem;gap:0.5rem;flex-wrap:wrap}
+.cal-title h3{font-family:'Fraunces',serif;font-weight:800;color:var(--palm);font-size:1.6rem;margin:0}
+.cal-title h3 em{font-style:italic;font-weight:400;color:var(--coral)}
+.cal-title span{font-size:0.8rem;color:var(--ink-soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cal-dow{text-align:center;font-size:0.7rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em;padding:0.25rem 0}
+.cal-dow.we{color:var(--coral)}
+.cal-cell{min-height:104px;border-radius:14px;padding:0.45rem 0.5rem;background:rgba(245,230,211,0.35);display:flex;flex-direction:column;gap:0.25rem;text-align:left;border:none;font-family:inherit;color:inherit;position:relative;overflow:hidden}
+.cal-cell.out{opacity:0.45}
+.cal-cell.empty{background:transparent}
+.cal-cell.trip{cursor:pointer;background:#fff;border:1px solid var(--border);border-top:4px solid var(--base-c);transition:transform 0.2s,box-shadow 0.2s}
+.cal-cell.trip:hover{transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(45,24,16,0.25)}
+.cal-cell.trip.activity,.cal-cell.trip.easy{background:linear-gradient(160deg,#FFF1EC 0%,#fff 70%)}
+.cal-cell.trip.work{background:#FBF6EE}
+.cal-cell.trip.move{background:linear-gradient(160deg,#E6F5F3 0%,#fff 70%)}
+.cal-cell.today{outline:3px solid var(--gold);outline-offset:1px}
+.cal-cell.done::after{content:'\2713';position:absolute;top:0.35rem;right:0.45rem;font-size:0.75rem;font-weight:700;color:var(--palm-mid)}
+.cal-num{font-family:'Fraunces',serif;font-weight:800;font-size:1.05rem;color:var(--palm);line-height:1}
+.cal-ic{font-size:0.95rem;line-height:1}
+.cal-cell.work .cal-ic{opacity:0.55}
+.cal-lbl{font-size:0.72rem;line-height:1.25;color:var(--ink);font-weight:500;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cal-cell.work .cal-lbl{color:var(--ink-soft);font-weight:400}
+.cal-base{font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--base-c);margin-top:auto}
+.cal-keys{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;font-size:0.78rem;color:var(--ink-soft)}
+.cal-keys span{display:inline-flex;align-items:center;gap:0.4rem}
+.cal-keys i.bar{width:16px;height:4px;border-radius:2px;display:inline-block}
+.cal-hint{text-align:center;font-size:0.8rem;color:var(--ink-soft);margin-top:0.9rem}
+@media(max-width:640px){.cal{padding:0.75rem;border-radius:18px}.cal-grid{gap:4px}.cal-cell{min-height:66px;padding:0.35rem 0.3rem;border-radius:10px;align-items:center;text-align:center}.cal-cell.trip{border-top-width:3px}.cal-lbl,.cal-base{display:none}.cal-ic{font-size:1.05rem;margin-top:0.15rem}.cal-num{font-size:0.95rem}.cal-title h3{font-size:1.3rem}.cal-cell.done::after{top:0.15rem;right:0.25rem;font-size:0.65rem}.itin-switch button{padding:0.45rem 0.9rem}}
+.itin-legend span{display:inline-flex;align-items:center;gap:0.4rem}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.act{background:var(--coral)}.dot.work{background:#B8A894}.dot.move{background:var(--ocean)}
+.itin-week{margin-bottom:2.25rem}
+.itin-week-head{display:flex;align-items:baseline;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.85rem;padding-bottom:0.6rem;border-bottom:2px dashed var(--sand-deep)}
+.itin-week-head h3{font-family:'Fraunces',serif;font-weight:800;color:var(--palm);font-size:1.4rem;margin:0}
+.itin-week-head h3 em{font-style:italic;font-weight:400;color:var(--coral)}
+.itin-week-head .meta{font-size:0.8rem;color:var(--ink-soft);display:flex;align-items:center;gap:0.4rem}
+.itin-week-head .meta b{color:var(--coral)}
+.itin-days{display:flex;flex-direction:column;gap:0.6rem}
+.itin-day{background:var(--sand-card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:box-shadow 0.25s,transform 0.25s;border-left:5px solid var(--base-c,var(--coral))}
+.itin-day.open{box-shadow:0 18px 40px -18px rgba(45,24,16,0.22)}
+.itin-day.today{outline:3px solid var(--gold);outline-offset:2px}
+.itin-day.work{background:#FBF6EE}
+.itin-day.done .itin-title{text-decoration:line-through;text-decoration-color:rgba(45,24,16,0.35)}
+.itin-head{width:100%;display:grid;grid-template-columns:58px 1fr auto;gap:0.9rem;align-items:center;padding:0.85rem 1rem;background:none;border:none;text-align:left;font-family:inherit;color:inherit;cursor:pointer}
+.itin-date{text-align:center;border-radius:14px;padding:0.4rem 0;background:var(--base-bg,rgba(255,107,92,0.1));color:var(--base-c,var(--coral));line-height:1.05}
+.itin-date .dow{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em}
+.itin-date .num{font-family:'Fraunces',serif;font-weight:800;font-size:1.6rem;display:block}
+.itin-main{min-width:0}
+.itin-tags{display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.2rem}
+.itin-tag{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:0.15rem 0.5rem;border-radius:999px}
+.itin-tag.activity{background:var(--coral);color:#fff}
+.itin-tag.easy{background:rgba(255,107,92,0.12);color:var(--coral)}
+.itin-tag.work{background:#EDE3D3;color:var(--ink-soft)}
+.itin-tag.move{background:rgba(0,137,123,0.12);color:var(--ocean)}
+.itin-tag.base{background:transparent;color:var(--ink-soft);padding-left:0}
+.itin-tag.today-tag{background:var(--gold);color:var(--palm)}
+.itin-title{font-family:'Fraunces',serif;font-weight:700;color:var(--palm);font-size:1.08rem;margin:0;line-height:1.2}
+.itin-sum{font-size:0.82rem;color:var(--ink-soft);margin-top:0.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.itin-day.open .itin-sum{white-space:normal}
+.itin-chev{width:32px;height:32px;border-radius:50%;background:var(--sand);display:grid;place-items:center;color:var(--ink-soft);transition:transform 0.3s}
+.itin-day.open .itin-chev{transform:rotate(180deg);background:var(--palm);color:var(--sand)}
+.itin-body{display:none;padding:0.25rem 1.1rem 1.2rem 1.1rem}
+.itin-day.open .itin-body{display:block;animation:fadeIn 0.25s ease}
+.itin-tl{position:relative;margin:0.25rem 0 1rem 0.35rem;padding-left:1.25rem;border-left:2px solid var(--sand-deep)}
+.itin-step{position:relative;padding:0.35rem 0}
+.itin-step::before{content:'';position:absolute;left:calc(-1.25rem - 6px);top:0.75rem;width:10px;height:10px;border-radius:50%;background:var(--base-c,var(--coral));box-shadow:0 0 0 3px var(--sand-card)}
+.itin-step .t{font-size:0.7rem;font-weight:700;color:var(--base-c,var(--coral));text-transform:uppercase;letter-spacing:0.06em}
+.itin-step .x{font-size:0.9rem;color:var(--ink)}
+.itin-box{border-radius:14px;padding:0.75rem 0.9rem;font-size:0.85rem;margin-bottom:0.7rem;display:flex;gap:0.6rem;align-items:flex-start;line-height:1.5}
+.itin-box i{margin-top:0.2rem}
+.itin-box.eve{background:rgba(244,184,96,0.15);color:var(--ink)}.itin-box.eve i{color:var(--sunset-deep)}
+.itin-box.rain{background:#EEF6FB;color:var(--ink)}.itin-box.rain i{color:var(--sky)}
+.itin-box.tip{background:rgba(74,139,92,0.1);color:var(--ink)}.itin-box.tip i{color:var(--palm-mid)}
+.itin-rel{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem}
+.itin-rel button{font-family:inherit;font-size:0.78rem;padding:0.35rem 0.75rem;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ocean);cursor:pointer;display:inline-flex;align-items:center;gap:0.35rem}
+.itin-rel button:hover{border-color:var(--coral);color:var(--coral)}
+.itin-notes{width:100%;min-height:64px;padding:0.65rem 0.8rem;border:1px solid var(--border);border-radius:12px;background:var(--sand);font-family:inherit;font-size:0.9rem;color:var(--ink);resize:vertical;margin-bottom:0.7rem}
+.itin-notes:focus{outline:none;border-color:var(--coral)}
+.itin-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+.itin-extras{background:var(--sand-card);border:1px dashed var(--coral-light);border-radius:20px;padding:1.25rem 1.4rem;margin-top:0.5rem}
+.itin-extras h4{font-family:'Fraunces',serif;color:var(--palm);margin:0 0 0.4rem;font-size:1.1rem}
+.itin-extras p{margin:0 0 0.6rem;font-size:0.88rem;color:var(--ink-soft)}
+@media(max-width:640px){.itin-head{grid-template-columns:50px 1fr auto;gap:0.7rem;padding:0.75rem 0.8rem}.itin-date .num{font-size:1.35rem}.itin-body{padding:0.25rem 0.85rem 1rem}.itin-week-head h3{font-size:1.2rem}}
 .loading-overlay{position:fixed;inset:0;background:var(--sand);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;transition:opacity 0.5s ease}
 .loading-overlay.hidden{opacity:0;pointer-events:none}
 .loading-overlay .sun-mini{width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,#FFD271,#FFB347);animation:sunPulse 1.5s ease-in-out infinite}
@@ -315,7 +408,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 <div class="nav-brand"><i class="fas fa-sun"></i> Cebu Travel Guide</div>
 <nav class="nav-tabs" id="navTabs">
 <button class="nav-tab active" data-section="overview"><i class="fas fa-compass"></i> Overview</button>
-<button class="nav-tab" data-section="flights"><i class="fas fa-plane"></i> Flights</button>
+<button class="nav-tab" data-section="itinerary"><i class="fas fa-calendar-days"></i> Itinerary</button>
 <button class="nav-tab" data-section="activities"><i class="fas fa-star"></i> Activities</button>
 <button class="nav-tab" data-section="transport"><i class="fas fa-motorcycle"></i> Transport</button>
 <button class="nav-tab" data-section="food"><i class="fas fa-utensils"></i> Food</button>
@@ -336,7 +429,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 <div class="stat-card"><i class="fas fa-utensils"></i><div class="num">20+</div><div class="label">Restaurants</div></div>
 <div class="stat-card"><i class="fas fa-camera-retro"></i><div class="num">40</div><div class="label">Photo spots</div></div>
 </div>
-<div class="weather-banner"><i class="fas fa-cloud-showers-heavy"></i><div><h4>October is within Cebu's wetter season</h4><p>The sea can be perfectly beautiful for several days and then turn rough. Don't lock every boat day too tightly in advance. Days 11 (Bojo), 19 and 26 are kept flexible on purpose, use them as weather swaps.</p></div></div>
+<div class="weather-banner"><i class="fas fa-cloud-showers-heavy"></i><div><h4>October is within Cebu's wetter season</h4><p>The sea can be perfectly beautiful for several days and then turn rough. Don't lock every boat day too tightly in advance. Because most weekdays are work days, any rained-out activity can simply swap with the nearest work day. Each day in the Itinerary has a rain plan.</p></div></div>
 <div class="base-grid">
 <button class="base-card" style="--base-color:var(--coral);--base-bg:rgba(255,107,92,0.1);" onclick="switchSection('activities')"><div class="icon-circle"><i class="fas fa-mountain"></i></div><h3>Carcar / Barili</h3><div class="dates">Oct 9 to 14</div><p class="character">Waterfalls, mountains, countryside, photography, food. Base at Las Terrazas de Barili.</p></button>
 <button class="base-card" style="--base-color:var(--ocean);--base-bg:rgba(0,137,123,0.1);" onclick="switchSection('activities')"><div class="icon-circle"><i class="fas fa-fish"></i></div><h3>Moalboal</h3><div class="dates">Oct 14 to 21</div><p class="character">Freediving, sardines, turtles, Pescador Island, canyoneering at Kawasan Falls.</p></button>
@@ -345,9 +438,10 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 <div class="priority-list"><h4><i class="fas fa-star"></i> The Don't-Miss List</h4><div id="priorityList"></div></div>
 </section>
 
-<section class="section hidden-section" id="flights">
-<div class="section-header"><div class="section-eyebrow">Flight Schedule</div><h2 class="section-title"><em>Flights</em></h2><p class="section-desc">Track each person's flight legs. Click a name to edit it. Add, edit, or delete legs anytime. Everything syncs to the cloud.</p></div>
-<div class="flight-persons" id="flightsGrid"></div>
+<section class="section hidden-section" id="itinerary">
+<div class="section-header"><div class="section-eyebrow">Day by Day</div><h2 class="section-title">Your <em>itinerary</em></h2><p class="section-desc">A chill plan: 3 activities a week, mostly on weekends. Weekdays are free for working from the hotel, with an easy dinner idea each evening. Tap a day to open it.</p></div>
+<div class="itin-toolbar"><div class="itin-switch" role="tablist"><button id="viewListBtn" onclick="setItinView('list')"><i class="fas fa-list"></i> List</button><button id="viewCalBtn" onclick="setItinView('cal')"><i class="fas fa-calendar"></i> Calendar</button></div><div class="itin-legend"><span><i class="dot act"></i> Activity</span><span><i class="dot work"></i> Work day</span><span><i class="dot move"></i> Travel day</span></div></div>
+<div id="itineraryList"></div>
 </section>
 
 <section class="section hidden-section" id="activities">
@@ -435,7 +529,7 @@ const activities=[
 {id:'osmena-from-moalboal',name:'Osmeña Peak from Moalboal',base:'moalboal',category:'photo',priority:4,location:'Mantalongon',description:'Can also do Osmeña Peak from Moalboal side. Pattern: Sunrise hike, then breakfast, then return to Moalboal, then sardine run.'},
 {id:'bojo-river',name:'Bojo River Eco-Tour',base:'moalboal',category:'relax',priority:4,location:'Alegria, Cebu',description:'Community-based eco-tourism river experience through mangroves. Excellent as a bad-weather alternative to a sea day.',tips:['Mangroves','Birds','Reflections','Limestone cliffs','River landscapes','Local boats','Environmental photography'],tip:'Useful as a bad-weather alternative to a sea day.'},
 {id:'white-beach',name:'White Beach / Basdaku',base:'moalboal',category:'relax',priority:3,location:'Basdaku, Moalboal',description:'Slower afternoon. Don\'t make every day an expedition.'},
-{id:'oslob-whale-sharks',name:'Oslob Whale Sharks',base:'moalboal',category:'marine',priority:4,location:'Oslob, Cebu',description:'Whale-shark encounters operate year-round, concentrated in the morning. The animals are fed, which is why sightings are so reliable. That is also the central conservation criticism.',tips:['Follow all local rules','Do not touch or chase the animals','Amazing wildlife encounter plus legitimate conservation debate'],tip:'Oslob mega-day: 4:30 leave Moalboal, 6:00 to 9:00 whale sharks, breakfast, 10:30 Tumalog, 12:00 lunch, 13:00 Sumilon if sea permits, 16:00 home.'},
+{id:'oslob-whale-sharks',name:'Oslob Whale Sharks',base:'moalboal',category:'marine',priority:5,location:'Oslob, Cebu',description:'Whale-shark encounters operate year-round, concentrated in the morning. The animals are fed, which is why sightings are so reliable. That is also the central conservation criticism.',tips:['Follow all local rules','Do not touch or chase the animals','Amazing wildlife encounter plus legitimate conservation debate'],tip:'Oslob mega-day: 4:30 leave Moalboal, 6:00 to 9:00 whale sharks, breakfast, 10:30 Tumalog, 12:00 lunch, 13:00 Sumilon if sea permits, 16:00 home.'},
 {id:'sumilon',name:'Sumilon Island',base:'moalboal',category:'marine',priority:4,location:'Bangcogon, Oslob',description:'Combine with Oslob if the sea is good. Sandbar and snorkeling.',tip:'Only if sea conditions permit.'},
 {id:'tumalog',name:'Tumalog Falls',base:'moalboal',category:'waterfall',priority:3,location:'Oslob, Cebu',description:'Very easy to combine with Oslob whale sharks.'},
 {id:'mjs-weinkeller',name:"MJ's Weinkeller German Wine Bar",base:'mactan',category:'food',priority:4,location:'LG, Garden Walk, Lapu-Lapu',phone:'+639695009875',description:'Exactly the type of place for a wine-focused evening in Mactan. German wines, European-style food, relaxed evening.'},
@@ -489,7 +583,7 @@ const stays=[
 ];
 
 const priorityList=[
-{name:'Moalboal Sardine Run',stars:5,icon:'fa-fish'},{name:'Freediving lesson',stars:5,icon:'fa-water'},{name:'Moalboal turtles',stars:5,icon:'fa-shield-heart'},{name:'Pescador Island',stars:5,icon:'fa-umbrella-beach'},{name:'Kawasan Canyoneering',stars:5,icon:'fa-mountain-sun'},{name:'Osmeña Peak sunrise',stars:5,icon:'fa-sun'},{name:'Mantayupan Falls',stars:4,icon:'fa-water'},{name:'Barili ATV Adventure',stars:4,icon:'fa-car'},{name:'Oslob whale sharks',stars:4,icon:'fa-whale'},{name:'Mactan island hopping',stars:4,icon:'fa-ship'},{name:'Mactan wine night',stars:4,icon:'fa-wine-glass'},{name:'Cowrie Cove',stars:4,icon:'fa-utensils'},{name:'Enye',stars:4,icon:'fa-utensils'},{name:'Bojo River',stars:4,icon:'fa-tree'},{name:'Dao/Kabutongan Falls',stars:3,icon:'fa-water'},{name:'Cebu City',stars:3,icon:'fa-city'},{name:'Cebu malls',stars:2,icon:'fa-bag-shopping'}
+{name:'Moalboal Sardine Run (#1 priority)',stars:5,icon:'fa-fish'},{name:'Oslob whale sharks (#1 priority)',stars:5,icon:'fa-water'},{name:'Freediving lesson',stars:5,icon:'fa-water'},{name:'Moalboal turtles',stars:5,icon:'fa-shield-heart'},{name:'Pescador Island',stars:5,icon:'fa-umbrella-beach'},{name:'Kawasan Canyoneering',stars:5,icon:'fa-mountain-sun'},{name:'Osmeña Peak sunrise',stars:5,icon:'fa-sun'},{name:'Mantayupan Falls',stars:4,icon:'fa-water'},{name:'Barili ATV Adventure',stars:4,icon:'fa-car'},{name:'Mactan island hopping',stars:4,icon:'fa-ship'},{name:'Mactan wine night',stars:4,icon:'fa-wine-glass'},{name:'Cowrie Cove',stars:4,icon:'fa-utensils'},{name:'Enye',stars:4,icon:'fa-utensils'},{name:'Bojo River',stars:4,icon:'fa-tree'},{name:'Dao/Kabutongan Falls',stars:3,icon:'fa-water'},{name:'Cebu City',stars:3,icon:'fa-city'},{name:'Cebu malls',stars:2,icon:'fa-bag-shopping'}
 ];
 
 let state={
@@ -719,9 +813,141 @@ function exportData(){const b=new Blob([JSON.stringify(state,null,2)],{type:'app
 
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const d=JSON.parse(ev.target.result);state={...state,...d};fixState();saveState();renderAll();showToast('Data imported')}catch(err){showToast('Invalid file','warn')}};r.readAsText(f)}
 
-function renderAll(){renderPriorityList();renderFilters();renderBaseFilters();renderActivities();renderFlights();renderTransport();renderFoodFilters();renderFood();renderStays();renderGallery();const gn=document.getElementById('generalNotes');if(document.activeElement!==gn)gn.value=state.generalNotes||'';updateProgress()}
+
+/* ================= ITINERARY (chill plan: 3 activities per trip week) ================= */
+const BASES={carcar:{label:'Carcar / Barili',c:'var(--coral)',bg:'rgba(255,107,92,0.1)'},moalboal:{label:'Moalboal',c:'var(--ocean)',bg:'rgba(0,137,123,0.1)'},mactan:{label:'Mactan',c:'var(--sunset-deep)',bg:'rgba(244,184,96,0.18)'}};
+const TYPE_LABEL={activity:'Activity',easy:'Easy activity',work:'Work day',move:'Travel day'};
+const itinerary=[
+{d:'2026-10-09',base:'carcar',type:'move',title:'Arrive & settle in',sum:'Check in at Las Terrazas de Barili and do nothing else.',
+ plan:[['Afternoon','Arrive and check in at Las Terrazas de Barili'],['Late afternoon','Unpack, test the Wi-Fi and find your work spot for the week'],['Sunset','Watch it from the resort']],
+ eve:'Easy dinner nearby: Acacia Grill & Restaurant (Filipino).',tip:'Ask the front desk to recommend a driver for Saturday and Sunday. You will need one for Osmeña Peak.'},
+{d:'2026-10-10',base:'carcar',type:'activity',title:'Mantayupan Falls + lechon lunch',sum:'Morning waterfall swim, then the famous Carcar lechon.',
+ plan:[['07:00','Leave the resort; Mantayupan is close by in Barili'],['07:30 to 10:00','Swim and take photos at Mantayupan Falls before the crowds'],['Optional','Barili ATV ride (1 to 2 hrs, you will get muddy)'],['12:30','Lechon lunch in Carcar town'],['Afternoon','Nap or pool time']],
+ eve:'Early night, because tomorrow starts at 3:30 AM.',rain:'If it pours, skip the falls and do a slow Carcar day: lechon, Oakleaf Coffee, old-town photos.',acts:['mantayupan','barili-atv','carcar-lechon']},
+{d:'2026-10-11',base:'carcar',type:'activity',title:'Osmeña Peak sunrise',sum:"Cebu's highest point at sunrise. Short hike, huge views.",
+ plan:[['03:30','Driver picks you up (about 1.5 to 2 hrs to Mantalongon)'],['05:30','Short 20 to 30 min hike to the summit and watch the sunrise'],['07:30','Breakfast in Mantalongon'],['10:00','Back at the resort, then a long nap'],['Afternoon','Pool, read, do nothing']],
+ eve:'Slow dinner at the resort.',rain:'If the forecast is cloudy, the view disappears. Sleep in and try Monday at sunrise instead, starting work a little later.',acts:['osmena-peak']},
+{d:'2026-10-12',base:'carcar',type:'work',title:'Work day at Las Terrazas',sum:'Work from the resort.',
+ plan:[['Day','Work from the resort'],['Sunset','Short walk or swim to switch off']],eve:"Dinner at Dianne's Seafood House in Carcar."},
+{d:'2026-10-13',base:'carcar',type:'work',title:'Work day + pack',sum:'Last day in Carcar.',
+ plan:[['Day','Work from the resort'],['Evening','Pack for Moalboal']],eve:'Coffee or a light dinner at Bean Rocks Cafe or Pabukid.',tip:'Book your freediving lesson (Sat 17) and Kawasan canyoneering (Sun 18) tonight.'},
+{d:'2026-10-14',base:'moalboal',type:'easy',title:'Move to Moalboal + first Sardine Run',sum:'Coastal drive, then your first swim with millions of sardines, right off the beach.',
+ plan:[['Morning','Check out and drive about 1.5 hrs along the coast to Moalboal'],['Midday','Check in near Panagsama Beach, work in the afternoon if needed'],['16:00','First Sardine Run snorkel straight from the beach (no boat; the shoal is a few metres out over the drop-off)']],
+ eve:"Dinner at Lola Tanciang's Sutukil, for Filipino seafood.",rain:'If the sea is rough, skip the swim. The sardines are there every day, so you have lots more chances this week.',
+ tip:'Rent or bring a mask, snorkel and fins today. You will use them almost every day in Moalboal.',acts:['sardine-run']},
+{d:'2026-10-15',base:'moalboal',type:'work',title:'Work day + after-work sardines',sum:'Work, then an optional 30-minute sardine swim.',
+ plan:[['Day','Work from the hotel'],['16:30 (optional)','Quick Sardine Run snorkel off Panagsama, about 30 minutes in the water']],eve:'Dinner at Ristorante Sapori Di Napoli (Italian).',acts:['sardine-run']},
+{d:'2026-10-16',base:'moalboal',type:'work',title:'Work day + book Oslob',sum:'Work, then lock in tomorrow\'s early whale shark trip.',
+ plan:[['Day','Work from the hotel'],['Evening','Confirm the private driver for 4:00 AM tomorrow, check the sea forecast for Oslob, pack swimwear, towel, cash and a dry bag']],
+ eve:'Early dinner at Kraken Restaurant and Bar, then early bed.',tip:'Book a private car or van through your hotel. It is about 2.5 to 3 hrs each way. Whale shark registration closes around 11 AM, so you have to start early.'},
+{d:'2026-10-17',base:'moalboal',type:'activity',title:'🐋 Oslob whale sharks',sum:'The big one: swim with whale sharks, then Tumalog Falls and a Kawasan swim on the way home.',
+ plan:[['04:00','Private driver picks you up in Moalboal'],['06:30','Arrive in Tan-awan, Oslob, register and attend the short briefing'],['07:00','Snorkel with the whale sharks (about 30 min in the water); go early for calmer water and fewer people'],['08:30','Breakfast in Oslob'],['09:30','Tumalog Falls, a short ride away, for a curtain waterfall and swim'],['12:30','Stop at Kawasan Falls in Badian on the way back: lunch and a swim in the turquoise pools'],['15:30','Back in Moalboal for a nap']],
+ eve:'Easy dinner close to the hotel, then sleep. It was a long, amazing day.',
+ tip:'Rules: stay about 4 m from the sharks, no touching, no flash, no sunscreen in the water, and no feeding. The sharks are fed by the local operators, which is the main conservation criticism; be respectful.',
+ rain:'If the sea is rough, operators may stop the boats. Check on Friday night; if it looks bad, swap with Sunday and do the freediving today, or move Oslob to Tue 20.',acts:['oslob-whale-sharks','tumalog','kawasan']},
+{d:'2026-10-18',base:'moalboal',type:'activity',title:'🐟 Sardine Run day + freediving lesson',sum:'Learn to freedive, then dive down into the sardine shoal. Turtles too.',
+ plan:[['08:00','Intro freediving lesson at Freediving Planet (breathing, equalizing, duck dives)'],['11:00','Guided freedive into the Sardine Run with your instructor, which is the best way to see the shoal from inside'],['Lunch','Back at the hotel, rest'],['16:00','Sunset session at the sardines and look for turtles off Panagsama'],['Evening','Relax']],
+ eve:'Early, easy dinner at Seoul Kitchen (Korean).',rain:'If the sea is rough, do the theory and pool part today and the open-water sardine dive on Mon 19 or Tue 20 at sunset.',
+ tip:'Tell the instructor you want underwater photos of the sardines. Never freedive alone.',acts:['sardine-run','freediving-planet','turtles']},
+{d:'2026-10-19',base:'moalboal',type:'work',title:'Work day + sunset sardines',sum:'Work, then an optional sunset sardine swim to practise your new freediving skills.',
+ plan:[['Day','Work from the hotel'],['16:30 (optional)','Practise freediving at the Sardine Run'],['Evening','Book the Pescador boat for tomorrow morning']],eve:'Dinner at Kugita Seafood & Charcoal Grill.',acts:['sardine-run']},
+{d:'2026-10-20',base:'moalboal',type:'activity',title:'Pescador Island + last sardines',sum:'A half-day boat to Pescador, then one last sardine swim before leaving.',
+ plan:[['07:00','Private boat to Pescador Island'],['07:30 to 10:30','Snorkel the reef wall, turtles and sardines (often around Pescador too)'],['11:30','Back at the hotel'],['Afternoon','Work'],['16:30','Goodbye swim at the Panagsama Sardine Run']],
+ eve:"Last Moalboal night: dinner at Lola Tanciang's or Kraken, then pack.",rain:"If the sea is rough, don't go out by boat. Do a last sardine snorkel from the beach if it's calm enough near shore.",
+ tip:'Ask for a private boat with more time in the water and no rushing between spots.',acts:['pescador','sardine-run']},
+{d:'2026-10-21',base:'mactan',type:'move',title:'Move to Mactan',sum:'About 3 hours by car, then pool and sunset at Bluewater.',
+ plan:[['08:00','Leave Moalboal (about 3 hrs via Cebu City)'],['11:30','Optional lunch stop in Cebu City'],['Afternoon','Check in at Bluewater Maribago, pool and beach'],['Sunset','From the resort']],eve:'Dinner at the resort.'},
+{d:'2026-10-22',base:'mactan',type:'work',title:'Work day at Bluewater',sum:'Work from the resort.',
+ plan:[['Day','Work from the resort'],['Late afternoon','Swim or snorkel in front of the resort']],eve:'Dinner at the resort.'},
+{d:'2026-10-23',base:'mactan',type:'work',title:'Work day + wine night',sum:'Work, then German wine in the evening.',
+ plan:[['Day','Work from the resort'],['Evening','Wine night']],eve:"MJ's Weinkeller German Wine Bar & Lounge, Garden Walk.",tip:'Book Saturday\'s private island-hopping boat today, and check the weather first.'},
+{d:'2026-10-24',base:'mactan',type:'activity',title:'Mactan island hopping',sum:'Private boat, reef snorkeling and lazy island stops.',
+ plan:[['08:00','Private boat from Maribago'],['Day','Snorkel the reefs at Hilutungan and Nalusuan; stop at Caohagan or Olango'],['15:00','Back at the resort'],['Sunset','From the resort']],
+ eve:'Cocktails at Azure Beach Club (Crimson).',rain:'If the sea is rough, swap with Sunday. If both days are rough, do a Cebu City day trip instead (museum, Basilica, shopping).',acts:['mactan-island-hopping']},
+{d:'2026-10-25',base:'mactan',type:'activity',title:'Spa day + sunset dinner',sum:'The big treat: a long spa afternoon, then oceanfront dinner.',
+ plan:[['Morning','Sleep late, long breakfast, beach'],['14:00','Spa (Bluewater, Shangri-La Chi, Crimson or Plantation Bay)'],['17:30','Sunset dinner at Cowrie Cove, Shangri-La']],
+ eve:'Cowrie Cove at sunset, with seafood, steak and wine. Book ahead.',rain:'Rain is fine for a spa day. Ask Cowrie Cove for an indoor table.',acts:['spa-day','cowrie-cove']},
+{d:'2026-10-26',base:'mactan',type:'work',title:'Last work day + farewell dinner',sum:'Wrap up work, then a special last dinner.',
+ plan:[['Day','Work from the resort'],['Evening','Pack, then a farewell dinner']],eve:'Farewell dinner at Enye by Chele Gonzalez (Spanish, Michelin Selected) or Acqua (Italian).'},
+{d:'2026-10-27',base:'mactan',type:'move',title:'Departure',sum:'Breakfast, last swim, airport.',
+ plan:[['Morning','Breakfast and a last swim'],['Then','Check out; the airport is about 20 to 30 min from Maribago']]}
+];
+const itinOpen=new Set();
+let itinView=(()=>{try{return localStorage.getItem('cebu-itin-view')||'list'}catch(e){return 'list'}})();
+let fromCalDay=null;
+function setItinView(v){fromCalDay=null;itinView=v;try{localStorage.setItem('cebu-itin-view',v)}catch(e){}renderItinerary()}
+function calIcon(day){const t=day.title.toLowerCase();if(t.includes('whale'))return '🐋';if(t.includes('sardine')&&day.type!=='work')return '🐟';if(day.type==='work')return '💻';if(day.type==='move')return day.d===itinerary[0].d||day.d===itinerary[itinerary.length-1].d?'✈️':'🚗';if(t.includes('falls'))return '💦';if(t.includes('peak'))return '⛰️';if(t.includes('island'))return '⛵';if(t.includes('spa'))return '💆';return '⭐'}
+function calLabel(day){return day.title.replace(/^[^A-Za-z0-9]+\s*/,'')}
+function renderCalendar(){
+ const el=document.getElementById('itineraryList');
+ const byDate=Object.fromEntries(itinerary.map(d=>[d.d,d]));
+ const today=localISO();
+ const year=2026,month=9; // October
+ const first=new Date(year,month,1);const offset=(first.getDay()+6)%7; // Monday-first
+ const daysIn=new Date(year,month+1,0).getDate();
+ const dows=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+ let cells=dows.map((d,i)=>`<div class="cal-dow ${i>4?'we':''}">${d}</div>`).join('');
+ for(let i=0;i<offset;i++)cells+='<div class="cal-cell empty"></div>';
+ for(let n=1;n<=daysIn;n++){
+  const iso=`${year}-10-${String(n).padStart(2,'0')}`;const day=byDate[iso];
+  if(!day){cells+=`<div class="cal-cell out ${iso===today?'today':''}"><span class="cal-num">${n}</span></div>`;continue}
+  const b=BASES[day.base];const done=(state.daysDone||[]).includes(iso);
+  cells+=`<button class="cal-cell trip ${day.type} ${iso===today?'today':''} ${done?'done':''}" style="--base-c:${b.c}" onclick="openDayFromCalendar('${iso}')" title="${esc(day.title)}"><span class="cal-num">${n}</span><span class="cal-ic">${calIcon(day)}</span><span class="cal-lbl">${esc(calLabel(day))}</span><span class="cal-base">${b.label.split(' /')[0]}</span></button>`;
+ }
+ const acts=itinerary.filter(d=>d.type==='activity'||d.type==='easy').length;
+ el.innerHTML=`<div class="cal"><div class="cal-title"><h3>October <em>2026</em></h3><span>Oct 9 to 27 · ${acts} activities · ${itinerary.filter(d=>d.type==='work').length} work days</span></div><div class="cal-grid">${cells}</div>
+ <div class="cal-keys"><span><i class="bar" style="background:var(--coral)"></i> Carcar / Barili</span><span><i class="bar" style="background:var(--ocean)"></i> Moalboal</span><span><i class="bar" style="background:var(--sunset-deep)"></i> Mactan</span><span>⭐ Activity</span><span>💻 Work</span><span>🚗 Travel</span><span>🐋 Whale sharks</span><span>🐟 Sardines</span></div>
+ <p class="cal-hint">Tap any day to open its full plan.</p></div>`;
+}
+function backToCalendar(){const iso=fromCalDay;setItinView('cal');const t=document.querySelector('.cal');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}
+function openDayFromCalendar(iso){fromCalDay=iso;itinView='list';try{localStorage.setItem('cebu-itin-view','list')}catch(e){}itinOpen.add(iso);renderItinerary();const c=document.getElementById('day-'+iso);if(c)c.scrollIntoView({behavior:'smooth',block:'start'})}
+
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function localISO(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
+function fmtShort(d){const x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-US',{month:'short',day:'numeric'})}
+function renderItinerary(){
+const el=document.getElementById('itineraryList');if(!el)return;if(document.activeElement&&document.activeElement.classList&&document.activeElement.classList.contains('itin-notes'))return;
+const lb=document.getElementById('viewListBtn'),cb=document.getElementById('viewCalBtn');if(lb){lb.classList.toggle('on',itinView!=='cal');cb.classList.toggle('on',itinView==='cal')}
+if(itinView==='cal'){renderCalendar();return}
+if(!state.dayNotes)state.dayNotes={};if(!state.daysDone)state.daysDone=[];
+const today=localISO();
+const weeks=[];itinerary.forEach((day,i)=>{const w=Math.floor(i/7);(weeks[w]=weeks[w]||[]).push(day)});
+const weekNames=['Mountains & waterfalls','Whale sharks & sardines','Slow luxury'];
+const allActs=[...activities,...state.customActivities];
+el.innerHTML=weeks.map((days,wi)=>{
+ const n=days.filter(d=>d.type==='activity'||d.type==='easy').length;
+ return `<div class="itin-week"><div class="itin-week-head"><h3>Week ${wi+1} · <em>${weekNames[wi]||''}</em></h3><span class="meta"><i class="fas fa-calendar"></i> ${fmtShort(days[0].d)} to ${fmtShort(days[days.length-1].d)} · <b>${n} activities</b></span></div><div class="itin-days">${days.map(day=>{
+  const b=BASES[day.base];const x=new Date(day.d+'T00:00:00');const open=itinOpen.has(day.d);const isToday=day.d===today;const done=state.daysDone.includes(day.d);
+  const typeCls=day.type==='move'?'move':day.type;
+  const rel=(day.acts||[]).map(id=>allActs.find(a=>a.id===id)).filter(Boolean);
+  return `<div id="day-${day.d}" class="itin-day ${open?'open':''} ${isToday?'today':''} ${day.type==='work'?'work':''} ${done?'done':''}" style="--base-c:${b.c};--base-bg:${b.bg}">
+  <button class="itin-head" onclick="toggleItinDay('${day.d}')" aria-expanded="${open}">
+   <div class="itin-date"><span class="dow">${x.toLocaleDateString('en-US',{weekday:'short'})}</span><span class="num">${x.getDate()}</span></div>
+   <div class="itin-main"><div class="itin-tags">${isToday?'<span class="itin-tag today-tag">Today</span>':''}<span class="itin-tag ${typeCls}">${TYPE_LABEL[day.type]}</span><span class="itin-tag base">${b.label}</span>${done?'<span class="itin-tag base"><i class="fas fa-check"></i> done</span>':''}</div>
+   <h4 class="itin-title">${day.title}</h4><div class="itin-sum">${day.sum}</div></div>
+   <span class="itin-chev"><i class="fas fa-chevron-down"></i></span>
+  </button>
+  <div class="itin-body">
+   ${fromCalDay===day.d?`<button class="itin-back" onclick="backToCalendar()"><span style="font-size:1.15rem;line-height:1">‹</span> Back to calendar</button>`:''}
+   <div class="itin-tl">${day.plan.map(([t,txt])=>`<div class="itin-step"><div class="t">${t}</div><div class="x">${txt}</div></div>`).join('')}</div>
+   ${day.eve?`<div class="itin-box eve"><i class="fas fa-moon"></i><div><b>Evening:</b> ${day.eve}</div></div>`:''}
+   ${day.tip?`<div class="itin-box tip"><i class="fas fa-lightbulb"></i><div>${day.tip}</div></div>`:''}
+   ${day.rain?`<div class="itin-box rain"><i class="fas fa-cloud-rain"></i><div><b>If it rains:</b> ${day.rain}</div></div>`:''}
+   ${rel.length?`<div class="itin-rel">${rel.map(a=>`<button onclick="openActivityFromDay('${a.id}')"><i class="fas fa-up-right-from-square"></i> ${a.name}</button>`).join('')}</div>`:''}
+   <textarea class="itin-notes" placeholder="Our notes for this day (bookings, times, who to call)..." onblur="saveDayNote('${day.d}',this.value)">${esc(state.dayNotes[day.d]||'')}</textarea>
+   <div class="itin-actions"><button class="activity-btn complete-btn ${done?'active':''}" style="flex:0 0 auto;padding:0.55rem 1rem" onclick="toggleDayDone('${day.d}')"><i class="fas ${done?'fa-check':'fa-circle'}"></i> ${done?'Day done':'Mark day done'}</button></div>
+  </div></div>`}).join('')}</div></div>`}).join('')+
+ `<div class="itin-extras"><h4><i class="fas fa-plus" style="color:var(--coral)"></i> Want more?</h4><p>Optional extras if you feel like doing more:</p><ul style="margin:0;padding-left:1.1rem;font-size:0.88rem;color:var(--ink-soft)"><li><b>Kawasan canyoneering</b>: jumps and slides down the canyon (half day). Easy to add on a work day morning in Moalboal, e.g. Mon 19 from 7 to 11 AM.</li><li><b>Cebu City day</b>: Magellan's Cross, Basilica, Fort San Pedro, National Museum, malls. A good rainy-day swap in Mactan.</li><li><b>Bojo River mangrove tour</b>: a calm half-day near Moalboal.</li></ul></div>`;
+}
+function toggleItinDay(d){itinOpen.has(d)?itinOpen.delete(d):itinOpen.add(d);renderItinerary()}
+function saveDayNote(d,v){if(!state.dayNotes)state.dayNotes={};if((state.dayNotes[d]||'')===v)return;if(v)state.dayNotes[d]=v;else delete state.dayNotes[d];saveState();showToast('Note saved')}
+function toggleDayDone(d){if(!state.daysDone)state.daysDone=[];const i=state.daysDone.indexOf(d);if(i>-1)state.daysDone.splice(i,1);else state.daysDone.push(d);saveState();renderItinerary();if(i<0)showToast('Nice! Day done')}
+function openActivityFromDay(id){const a=[...activities,...state.customActivities].find(x=>x.id===id);if(!a)return;state.activeFilter='all';state.activeBaseFilter='all';const sb=document.getElementById('activitySearch');sb.value=a.name;renderFilters();renderBaseFilters();renderActivities();switchSection('activities');document.getElementById('activities').scrollIntoView({behavior:'smooth'})}
+
+function renderAll(){renderPriorityList();renderFilters();renderBaseFilters();renderActivities();renderItinerary();renderTransport();renderFoodFilters();renderFood();renderStays();renderGallery();const gn=document.getElementById('generalNotes');if(document.activeElement!==gn)gn.value=state.generalNotes||'';updateProgress()}
 
 document.addEventListener('DOMContentLoaded',async()=>{
+if(itinerary.some(d=>d.d===localISO()))itinOpen.add(localISO());
 loadLocal();renderAll();
 setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),300);
 loadCloudOnStart().then(()=>renderAll());
