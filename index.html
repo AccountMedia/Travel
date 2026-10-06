@@ -407,8 +407,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;bac
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Saved</span></div>
 
 <script>
-const SUPABASE_URL='https://tkzmpqspndahrmijircl.supabase.co';
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrem1wcXNwbmRhaHJtaWppcmNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzczMDEsImV4cCI6MjEwNjMxMzMwMX0.fP1YAFuRlWO-wjcleklMVVRvm1zjxQYXGVJGbwuEX58';
+const SUPABASE_URL='https://jmiusslbnuakcfqpakmr.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptaXVzc2xibnVha2NmcXBha21yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MzI5NDMsImV4cCI6MjEwNjMwODk0M30.nCpIK6MfPjR5QlfrL7s0JwifvwbeyTNBRp6ewiPNYL4';
 const REST_URL=SUPABASE_URL+'/rest/v1/cebu_trip';
 const HEADERS={'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY};
 
@@ -510,7 +510,7 @@ const DIRTY_KEY='cebu-trip-dirty';
 const isDirty=()=>{try{return localStorage.getItem(DIRTY_KEY)==='1'}catch(e){return false}};
 const setDirty=v=>{try{v?localStorage.setItem(DIRTY_KEY,'1'):localStorage.removeItem(DIRTY_KEY)}catch(e){}};
 
-function fetchT(url,opts={},ms=15000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(t))}
+function fetchT(url,opts={},ms=15000){let t;const timeout=new Promise((_,rej)=>{t=setTimeout(()=>rej(new Error('timeout')),ms)});return Promise.race([fetch(url,opts),timeout]).finally(()=>clearTimeout(t))}
 
 function cloudDown(httpStatus){
   // one calm message per outage, then quietly retry in the background
